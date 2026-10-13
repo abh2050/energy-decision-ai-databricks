@@ -1,0 +1,45 @@
+# Databricks Asset Bundle for EDIP. The workspace host is never committed: it comes from
+# the Databricks CLI profile (`--profile edip` or DATABRICKS_CONFIG_PROFILE).
+bundle:
+  name: edip
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog for all EDIP tables.
+    default: edip
+  fm_endpoint:
+    description: Foundation Model API endpoint used by the agents.
+    default: databricks-meta-llama-3-3-70b-instruct
+
+artifacts:
+  edip_wheel:
+    type: whl
+    build: uv build --wheel
+    path: .
+
+sync:
+  exclude:
+    - frontend/**
+    - explainer/**
+    - tests/**
+
+targets:
+  dev:
+    default: true
+    mode: development
+    # Keep resource names exact (schemas raw/curated/ml/eval, app edip-hello) in the one
+    # demo workspace; development mode still pauses schedules and scopes deploy paths.
+    presets:
+      name_prefix: ""
+      tags:
+        project: edip
+        env: dev
+  prod:
+    mode: production
+    presets:
+      tags:
+        project: edip
+        env: prod

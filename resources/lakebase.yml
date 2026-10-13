@@ -1,0 +1,6 @@
+# Smallest Lakebase capacity. Stop it after each session (scripts/stop_all.py).
+resources:
+  database_instances:
+    edip_lakebase:
+      name: edip-lakebase
+      capacity: CU_1

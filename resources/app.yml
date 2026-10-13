@@ -1,0 +1,6 @@
+resources:
+  apps:
+    edip_hello:
+      name: edip-hello
+      description: EDIP Gate 0 hello world (FastAPI behind Databricks Apps OAuth).
+      source_code_path: ../src

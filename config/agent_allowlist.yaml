@@ -1,0 +1,7 @@
+# Fields the planning agent may propose changes to (rule 5, FR25).
+# Empty until Gate 5. Anything not listed here is rejected in code.
+version: 0
+planning_agent:
+  allowed_fields: []
+risk_agent:
+  allowed_stress_tests: []

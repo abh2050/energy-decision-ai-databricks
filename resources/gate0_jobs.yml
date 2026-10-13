@@ -1,0 +1,17 @@
+# Gate 0 preflight as a bundle job (serverless compute, no schedule).
+resources:
+  jobs:
+    gate0_preflight:
+      name: edip-gate0-preflight
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: preflight
+          spark_python_task:
+            python_file: ../scripts/preflight.py
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "2"
+            dependencies:
+              - ../dist/*.whl

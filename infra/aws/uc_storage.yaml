@@ -1,0 +1,136 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  EDIP Gate 0 storage for Unity Catalog: one versioned S3 bucket and the IAM role a
+  Unity Catalog storage credential assumes. Deploy twice: first with the placeholder
+  external ID, then again with the external ID shown by the storage credential.
+  Deleting the stack (Gate 7) removes the role; empty the bucket first.
+
+Parameters:
+  ExternalId:
+    Type: String
+    Default: pending
+    Description: External ID from the Unity Catalog storage credential (step 2 of setup).
+  UnityCatalogMasterRoleArn:
+    Type: String
+    # Databricks-published Unity Catalog master role for AWS commercial regions.
+    # Confirm against the value shown in the Databricks storage credential dialog.
+    Default: arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL
+  NoncurrentVersionDays:
+    Type: Number
+    Default: 30
+    Description: Days before noncurrent object versions expire (cost control).
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub edip-uc-${AWS::AccountId}-${AWS::Region}
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+            BucketKeyEnabled: true
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-noncurrent-versions
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NoncurrentDays: !Ref NoncurrentVersionDays
+          - Id: abort-incomplete-uploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 1
+      Tags:
+        - Key: project
+          Value: edip
+
+  BucketTlsOnly:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: "*"
+            Action: "s3:*"
+            Resource:
+              - !GetAtt Bucket.Arn
+              - !Sub "${Bucket.Arn}/*"
+            Condition:
+              Bool:
+                aws:SecureTransport: "false"
+
+  UnityCatalogRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: edip-uc-storage
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: UnityCatalogMaster
+            Effect: Allow
+            Principal:
+              AWS: !Ref UnityCatalogMasterRoleArn
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: !Ref ExternalId
+          # Unity Catalog requires the role to be self-assuming. A literal self principal
+          # fails at creation, so the account root is scoped to this exact role ARN.
+          - Sid: SelfAssume
+            Effect: Allow
+            Principal:
+              AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+            Action: sts:AssumeRole
+            Condition:
+              ArnEquals:
+                aws:PrincipalArn: !Sub arn:aws:iam::${AWS::AccountId}:role/edip-uc-storage
+              StringEquals:
+                sts:ExternalId: !Ref ExternalId
+      Policies:
+        - PolicyName: edip-uc-bucket-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: ObjectAccess
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: !Sub "${Bucket.Arn}/*"
+              - Sid: BucketAccess
+                Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                  - s3:GetLifecycleConfiguration
+                  - s3:PutLifecycleConfiguration
+                Resource: !GetAtt Bucket.Arn
+              - Sid: SelfAssume
+                Effect: Allow
+                Action: sts:AssumeRole
+                Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/edip-uc-storage
+      Tags:
+        - Key: project
+          Value: edip
+
+Outputs:
+  BucketName:
+    Value: !Ref Bucket
+  RoleArn:
+    Value: !GetAtt UnityCatalogRole.Arn

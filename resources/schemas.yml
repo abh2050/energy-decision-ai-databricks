@@ -1,0 +1,19 @@
+# Catalog `edip` is created by scripts/setup_uc.sql because it needs the external location.
+resources:
+  schemas:
+    raw:
+      catalog_name: ${var.catalog}
+      name: raw
+      comment: Immutable source snapshots (UCI load data, tariff documents).
+    curated:
+      catalog_name: ${var.catalog}
+      name: curated
+      comment: Cleaned load observations, forecasts, dispatch and settlement outcomes.
+    ml:
+      catalog_name: ${var.catalog}
+      name: ml
+      comment: Registered forecasting models and features.
+    eval:
+      catalog_name: ${var.catalog}
+      name: eval
+      comment: Sensitivity grid and agent evaluations.

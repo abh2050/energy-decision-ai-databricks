@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+playwright-report/
+test-results/
+
+# Databricks and secrets (rule 7)
+.databricks/
+.env
+.env.*
+*.pem
+scripts/setup_uc.local.sql
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
