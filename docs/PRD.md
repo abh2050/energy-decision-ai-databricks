@@ -51,8 +51,8 @@ Every numerical result is computed deterministically and persisted before any ag
 3. FR3. Convert each 15 minute reading (average kW) to interval energy by dividing by 4, then aggregate to hourly kW and kWh.
 4. FR4. Remove zero placeholder rows on March daylight saving days, handle the collapsed October hour, and exclude pre activation zeros.
 5. FR5. Split chronologically into train, validation, and test partitions. No feature may use information after its decision time.
-6. FR6. Load one published US commercial time of use tariff with its source document and effective date, plus one labeled synthetic high spread stress tariff.
-7. FR7. Display that the load comes from Portuguese clients between 2011 and 2014 and the tariff is American.
+6. FR6. Load three tariffs. Primary anchored tariff: PG&E Schedule B-19, secondary voltage. Low spread case: Portland General Electric's current medium commercial time of use schedule. Stress case: one labeled synthetic high spread tariff. For each real tariff, record from the official tariff sheet the source URL, effective date, advice letter number, seasons, period definitions, energy rates, and demand charges. Savings calculations exclude fixed charges, riders, and taxes, and the provenance panel states that exclusion.
+7. FR7. Display that the load comes from Portuguese clients between 2011 and 2014 and the tariffs are American.
 
 ### 3.2 Forecasting
 

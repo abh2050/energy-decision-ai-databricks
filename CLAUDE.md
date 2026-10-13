@@ -38,7 +38,8 @@ The product helps a facility energy manager decide when a battery should charge,
 │   ├── agent_allowlist.yaml
 │   ├── battery.yaml
 │   ├── tariffs/
-│   │   ├── anchored_tou.yaml
+│   │   ├── anchored_tou.yaml         # PG&E B-19, secondary voltage
+│   │   ├── low_spread_tou.yaml       # Portland General Electric medium commercial TOU
 │   │   └── synthetic_high_spread.yaml
 │   └── sensitivity_grid.yaml
 ├── databricks.yml                # Databricks Asset Bundle
@@ -119,7 +120,7 @@ Tasks:
 4. Detect and remove the zero placeholder rows on the March daylight saving days. Handle the collapsed October hour. Exclude each client's leading zeros before activation.
 5. Select one client using a written completeness rule over the training period and record the rule and result.
 6. Write chronological train, validation, and test partitions to Delta and record the boundary dates.
-7. Encode the anchored tariff in `config/tariffs/anchored_tou.yaml` with the utility name, schedule name, effective date, source URL, energy rates by period, and demand charge. Encode the synthetic tariff and label it `synthetic: true`.
+7. Pull both official tariff sheets (FR6). Encode PG&E B-19, secondary voltage, in `config/tariffs/anchored_tou.yaml` as the primary anchored tariff, and Portland General Electric's current medium commercial time of use schedule in `config/tariffs/low_spread_tou.yaml` as the low spread case. For each, record the utility name, schedule name, source URL, effective date, advice letter number, seasons, period definitions, energy rates by period, and demand charges. Exclude fixed charges, riders, and taxes from savings and record that exclusion in each file. Encode the synthetic tariff as the stress case and label it `synthetic: true`.
 
 Required tests:
 1. A unit test proves that four readings of 100 kW produce 100 kWh for the hour.

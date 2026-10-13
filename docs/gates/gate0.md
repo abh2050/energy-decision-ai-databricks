@@ -63,8 +63,9 @@ None yet. The preflight valid rate, latency, and tokens will be in
 2. **Region**: us-east-1 assumed. Confirm, or name another region where Apps, Lakebase,
    and the Llama 3.3 70B pay-per-token endpoint are all available.
 3. **GitHub repo name** (public, for Pages at Gate 7).
-4. **Anchored tariff for Gate 1**: which published US commercial time of use tariff
-   should be used? If you have no preference, I'll propose one with its source document.
+4. **Tariffs for Gate 1**: resolved. PG&E B-19 secondary voltage (anchored), Portland
+   General Electric medium commercial TOU (low spread), synthetic high spread (stress). FR6
+   updated in `docs/PRD.md`; Gate 1 task 7 updated in `CLAUDE.md`.
 5. **Unity Catalog master role ARN** in the template is the Databricks-published default;
    confirm it matches the value in the storage credential dialog.
 
