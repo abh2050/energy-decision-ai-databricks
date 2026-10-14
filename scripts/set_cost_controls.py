@@ -17,6 +17,7 @@ import argparse
 import os
 
 from databricks.sdk import AccountClient, WorkspaceClient
+from databricks.sdk.errors import PermissionDenied
 from databricks.sdk.service import billing, compute
 
 POLICY_NAME = "edip"
@@ -100,9 +101,17 @@ def main() -> int:
         parser.error("set BUDGET_ALERT_EMAIL in the environment (never commit it)")
     acct = AccountClient(profile=args.account_profile)
     workspace_id = ws.get_workspace_id()
-    ensure_budget_policy(acct, workspace_id)
     ensure_budget(acct, workspace_id, args.monthly_usd, email)
-    print(f"budget policy '{POLICY_NAME}' and budget '{BUDGET_NAME}' in place")
+    print(f"budget '{BUDGET_NAME}' in place")
+    try:
+        ensure_budget_policy(acct, workspace_id)
+    except PermissionDenied:
+        print(
+            f"budget policy '{POLICY_NAME}' not created: needs the account billing admin "
+            "role (account console > User management > your user > Roles)"
+        )
+        return 1
+    print(f"budget policy '{POLICY_NAME}' in place")
     return 0
 
 

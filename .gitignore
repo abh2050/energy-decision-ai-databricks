@@ -19,7 +19,7 @@ test-results/
 .env
 .env.*
 *.pem
-scripts/setup_uc.local.sql
+
 
 # OS / editors
 .DS_Store

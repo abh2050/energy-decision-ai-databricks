@@ -1,0 +1,185 @@
+{
+  "summary": {
+    "endpoint": "databricks-meta-llama-3-3-70b-instruct",
+    "prompt_version": "preflight-v2",
+    "config_hash": "750d96617a006637",
+    "calls": 20,
+    "valid_calls": 20,
+    "valid_rate": 1.0,
+    "median_latency_s": 1.1029839999973774,
+    "p90_latency_s": 1.306373716687085,
+    "prompt_tokens": 8060,
+    "completion_tokens": 1047,
+    "outcomes": {
+      "valid": 20,
+      "invalid_json": 0,
+      "schema_mismatch": 0,
+      "timeout": 0,
+      "error": 0
+    },
+    "passed": true,
+    "required_valid_calls": 19
+  },
+  "calls": [
+    {
+      "index": 0,
+      "outcome": "valid",
+      "latency_s": 6.661851832992397,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 1,
+      "outcome": "valid",
+      "latency_s": 1.3964510419755243,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 2,
+      "outcome": "valid",
+      "latency_s": 1.0305123750003986,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 3,
+      "outcome": "valid",
+      "latency_s": 1.1071070829639211,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 4,
+      "outcome": "valid",
+      "latency_s": 1.2963651249883696,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 5,
+      "outcome": "valid",
+      "latency_s": 1.1335534999961965,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 6,
+      "outcome": "valid",
+      "latency_s": 1.2456148329656571,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 7,
+      "outcome": "valid",
+      "latency_s": 1.0704284589737654,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 8,
+      "outcome": "valid",
+      "latency_s": 0.8918756669736467,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 9,
+      "outcome": "valid",
+      "latency_s": 0.8556729170377366,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 10,
+      "outcome": "valid",
+      "latency_s": 1.1389431660063565,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 11,
+      "outcome": "valid",
+      "latency_s": 1.1822655419819057,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 12,
+      "outcome": "valid",
+      "latency_s": 1.092513042036444,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 13,
+      "outcome": "valid",
+      "latency_s": 1.2718298339750618,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 14,
+      "outcome": "valid",
+      "latency_s": 1.0213776670279913,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 15,
+      "outcome": "valid",
+      "latency_s": 1.1357710000011139,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 16,
+      "outcome": "valid",
+      "latency_s": 0.9291739999898709,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    },
+    {
+      "index": 17,
+      "outcome": "valid",
+      "latency_s": 0.8865092499763705,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 18,
+      "outcome": "valid",
+      "latency_s": 0.8212547090370208,
+      "prompt_tokens": 403,
+      "completion_tokens": 52,
+      "error_type": null
+    },
+    {
+      "index": 19,
+      "outcome": "valid",
+      "latency_s": 1.0988609170308337,
+      "prompt_tokens": 403,
+      "completion_tokens": 53,
+      "error_type": null
+    }
+  ]
+}

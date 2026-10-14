@@ -5,8 +5,7 @@ def _snapshot(**overrides):
     base = dict(
         catalog_exists=True,
         schemas={"raw", "curated", "ml", "eval", "default"},
-        storage_credential_exists=True,
-        external_location_exists=True,
+        raw_volume_exists=True,
         lakebase_instance_exists=True,
         lakebase_tables={"scenarios", "decision_runs", "checkpoints", "approvals", "agent_calls"},
         app_exists=True,
@@ -43,3 +42,7 @@ def test_missing_lakebase_instance_fails_tables_too():
 
 def test_app_not_deployed_fails():
     assert _failed(_snapshot(app_deployed=False)) == ["app deployed"]
+
+
+def test_missing_raw_volume_fails():
+    assert _failed(_snapshot(raw_volume_exists=False)) == ["volume raw.snapshots"]

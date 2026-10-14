@@ -23,17 +23,17 @@ artifacts:
 sync:
   exclude:
     - frontend/**
-    - explainer/**
     - tests/**
 
 targets:
   dev:
     default: true
-    mode: development
-    # Keep resource names exact (schemas raw/curated/ml/eval, app edip-hello) in the one
-    # demo workspace; development mode still pauses schedules and scopes deploy paths.
+    # No development mode: it prefixes schema names with the user name, and the PRD needs
+    # exact names (raw/curated/ml/eval) in this single demo workspace. Jobs have no
+    # schedules, so nothing runs unattended.
+    workspace:
+      root_path: ~/.bundle/${bundle.name}/${bundle.target}
     presets:
-      name_prefix: ""
       tags:
         project: edip
         env: dev

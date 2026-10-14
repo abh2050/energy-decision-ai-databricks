@@ -22,11 +22,15 @@ def main() -> int:
     args = parser.parse_args()
     ws = WorkspaceClient(profile=args.profile)
 
-    existing_apps = {a.name for a in ws.apps.list()}
+    apps = {a.name: a for a in ws.apps.list()}
     for name in APPS:
-        if name in existing_apps:
+        app = apps.get(name)
+        state = app.compute_status.state.value if app and app.compute_status else None
+        if state in ("ACTIVE", "STARTING", "UPDATING"):
             ws.apps.stop(name)
             print(f"app {name}: stop requested")
+        else:
+            print(f"app {name}: {state or 'not found'}")
 
     # Lakebase Autoscaling suspends itself after 5 idle minutes; report its state only.
     try:

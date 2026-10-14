@@ -1,4 +1,4 @@
-# Catalog `edip` is created by scripts/setup_uc.sql because it needs the external location.
+# Catalog `edip` uses Databricks-managed storage; scripts/create_catalog.py creates it once.
 resources:
   schemas:
     raw:
@@ -17,3 +17,11 @@ resources:
       catalog_name: ${var.catalog}
       name: eval
       comment: Sensitivity grid and agent evaluations.
+
+  volumes:
+    raw_snapshots:
+      catalog_name: ${var.catalog}
+      schema_name: ${resources.schemas.raw.name}
+      name: snapshots
+      volume_type: MANAGED
+      comment: Dated, hashed source file snapshots (FR1).

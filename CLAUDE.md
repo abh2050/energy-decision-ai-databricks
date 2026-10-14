@@ -99,7 +99,7 @@ Each gate lists its tasks, its required tests, and its exit checklist. Complete 
 Tasks:
 1. Create the Databricks Asset Bundle with dev and prod targets.
 2. Create the Unity Catalog catalog `edip` with schemas `raw`, `curated`, `ml`, and `eval`.
-3. Create an S3 bucket with versioning on, an IAM role, and a Unity Catalog storage credential and external location.
+3. Use Databricks-managed storage for the catalog. No customer S3 bucket, IAM role, storage credential, or external location (owner decision, 2026-10-14).
 4. Provision a Lakebase instance and create the tables `scenarios`, `decision_runs`, `checkpoints`, `approvals`, and `agent_calls`.
 5. Write `scripts/preflight.py`. The script calls the Foundation Model API endpoint `databricks-meta-llama-3-3-70b-instruct` with a sample Pydantic schema 20 times and records the valid JSON rate, median latency, and tokens.
 6. Deploy a hello world Databricks App with FastAPI and OAuth and confirm that an authenticated request reaches it.
@@ -114,7 +114,7 @@ Exit checklist:
 ### Gate 1: Data (FR1 to FR7)
 
 Tasks:
-1. Download the UCI ElectricityLoadDiagrams20112014 file, store it in S3 under a dated prefix, and record its SHA256 hash and attribution.
+1. Download the UCI ElectricityLoadDiagrams20112014 file, store it in the Unity Catalog volume `edip.raw.snapshots` under a dated path, and record its SHA256 hash and attribution.
 2. Parse the semicolon separated file with comma decimals.
 3. In `core/units.py`, convert each 15 minute reading (average kW) to interval kWh by dividing by 4. Aggregate to hourly mean kW and hourly kWh.
 4. Detect and remove the zero placeholder rows on the March daylight saving days. Handle the collapsed October hour. Exclude each client's leading zeros before activation.
@@ -229,7 +229,7 @@ Tasks:
 4. Build the explainer page with the video, clickable architecture diagram, animated decision walkthrough, screenshots, trace excerpts, results, sensitivity map, and recommendation.
 5. Add a CI job that fails the build if any public bundle contains a workspace URL, token pattern, or email address.
 6. Deploy both pages to GitHub Pages at separate paths.
-7. Export all results, then tear down the app, Lakebase, jobs, warehouses, and S3 resources that cost money. Keep the final exports in the repository or a release asset.
+7. Export all results, then tear down the app, Lakebase, jobs, warehouses, and any other Databricks resources that cost money. Keep the final exports in the repository or a release asset.
 8. Open both pages after teardown and confirm every feature still works.
 
 Required tests:

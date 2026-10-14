@@ -23,7 +23,7 @@ Goals
 1. Measure the incremental value of optimization, ML forecasting, and uncertainty aware planning separately.
 2. Locate the tariff and battery conditions under which forecast driven dispatch pays off.
 3. Show that bounded agents improve recommendation quality on a scripted evaluation set without inventing evidence.
-4. Ship an authenticated Databricks App plus two public GitHub Pages experiences that keep working after AWS teardown.
+4. Ship an authenticated Databricks App plus two public GitHub Pages experiences that keep working after the cloud resources are torn down.
 
 Non goals
 
@@ -46,7 +46,7 @@ Every numerical result is computed deterministically and persisted before any ag
 
 ### 3.1 Data
 
-1. FR1. Ingest UCI ElectricityLoadDiagrams20112014 into a versioned S3 snapshot with attribution and SHA256 hashes.
+1. FR1. Ingest UCI ElectricityLoadDiagrams20112014 into a dated snapshot in a Unity Catalog volume (Databricks-managed storage) with attribution and SHA256 hashes; Delta versioning keeps every table version.
 2. FR2. Select one client by training period completeness and record the selection rule.
 3. FR3. Convert each 15 minute reading (average kW) to interval energy by dividing by 4, then aggregate to hourly kW and kWh.
 4. FR4. Remove zero placeholder rows on March daylight saving days, handle the collapsed October hour, and exclude pre activation zeros.
@@ -132,13 +132,13 @@ The sandbox runs the real forecasting and optimization in the browser with no ba
 
 ## 5. Architecture and technology stack
 
-Databricks on AWS hosts the data, models, agents, and live app; GitHub Pages hosts the two public pages that outlive the AWS resources.
+A serverless Databricks workspace on AWS (us-east-1) hosts the data, models, agents, and live app, using Databricks-managed storage only; GitHub Pages hosts the two public pages that outlive the cloud resources.
 
 | Layer | Selection |
 |---|---|
-| Cloud and storage | AWS, Amazon S3 (versioned snapshots and exports) |
-| Access | AWS IAM with Unity Catalog storage credentials |
-| Data platform | Databricks on AWS, Databricks Jobs |
+| Cloud and storage | Databricks serverless on AWS; Databricks-managed storage (Unity Catalog volumes and Delta tables) |
+| Access | Unity Catalog permissions and Databricks OAuth; no customer AWS account |
+| Data platform | Databricks serverless on AWS, Databricks Jobs |
 | Analytical storage | Delta Lake with Unity Catalog |
 | Forecasting | Python 3.12, LightGBM, pandas, NumPy, scikit-learn, onnxmltools |
 | Optimization | SciPy optimize.milp with HiGHS |
@@ -157,7 +157,7 @@ Delta tables: load_observations, forecast_features, forecast_predictions, dispat
 
 Lakebase tables: scenarios, decision_runs, checkpoints, approvals, agent_calls.
 
-Each decision links the dataset hash, model version, tariff and battery assumptions, optimizer settings, prompt versions, and MLflow run and trace IDs. No Kubernetes, vector database, separate AWS web hosting, or agent framework is used.
+Each decision links the dataset hash, model version, tariff and battery assumptions, optimizer settings, prompt versions, and MLflow run and trace IDs. No Kubernetes, vector database, separate web hosting, or agent framework is used.
 
 ## 6. Evaluation and pilot acceptance criteria
 
@@ -197,11 +197,11 @@ The build moves through eight gates, and no gate opens until the previous gate's
 
 | Gate | Name | Exit evidence |
 |---|---|---|
-| 0 | Platform preflight | Workspace, Unity Catalog S3 credential, Lakebase, model structured output, and Apps verified; lockfiles committed |
+| 0 | Platform preflight | Workspace, Unity Catalog catalog and schemas, Lakebase, model structured output, and Apps verified; lockfiles committed |
 | 1 | Data | Governed Delta tables, unit and daylight saving tests passing, chronological splits |
 | 2 | Forecasting | Three forecasters compared in MLflow, ONNX parity passed, model version pinned |
 | 3 | Dispatch and settlement | Six strategies, constraint tests, settlement tests, rolling replay complete |
 | 4 | Sensitivity | sensitivity_grid populated, flip boundary chart produced |
 | 5 | Agents | Tracing, fallback, allowlist tests, 30 scenario evaluation scored |
 | 6 | Live app | Authenticated app, operator approval flow persisted in Lakebase, Playwright suite passing |
-| 7 | Public delivery | Sandbox and explainer live, video recorded, AWS torn down, both pages verified after teardown |
+| 7 | Public delivery | Sandbox and explainer live, video recorded, cloud resources torn down, both pages verified after teardown |

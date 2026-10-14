@@ -14,6 +14,7 @@ import hashlib
 import json
 import time
 from pathlib import Path
+from typing import Literal
 
 import openai
 from databricks.sdk import WorkspaceClient
@@ -27,18 +28,21 @@ from edip.core.preflight_stats import (
     PreflightSummary,
     summarize,
 )
+from edip.core.wire_schema import wire_schema
 
 ENDPOINT = "databricks-meta-llama-3-3-70b-instruct"
-PROMPT_VERSION = "preflight-v1"
+PROMPT_VERSION = "preflight-v2"
 TIMEOUT_S = 30.0
 MAX_TOKENS = 300
+# Seconds between calls; the trial account returned 429 when calls were back to back.
+CALL_SPACING_S = 2.0
 OUTPUT = Path(__file__).resolve().parents[1] / "docs" / "gates" / "gate0_preflight.json"
 
 
 class SampleScheduleNote(BaseModel):
     """Sample schema shaped like a small agent response with an evidence reference."""
 
-    action: str = Field(pattern="^(charge|discharge|hold)$")
+    action: Literal["charge", "discharge", "hold"]
     hour: int = Field(ge=0, le=23)
     reason: str = Field(max_length=200)
     evidence_table: str
@@ -65,7 +69,8 @@ def config_hash() -> str:
             "prompt_version": PROMPT_VERSION,
             "timeout_s": TIMEOUT_S,
             "max_tokens": MAX_TOKENS,
-            "schema": SampleScheduleNote.model_json_schema(),
+            "schema": wire_schema(SampleScheduleNote),
+            "spacing_s": CALL_SPACING_S,
             "system": SYSTEM,
             "user": USER_TEMPLATES,
         },
@@ -88,7 +93,7 @@ def one_call(client: openai.OpenAI, index: int) -> PreflightCall:
                 "type": "json_schema",
                 "json_schema": {
                     "name": "SampleScheduleNote",
-                    "schema": SampleScheduleNote.model_json_schema(),
+                    "schema": wire_schema(SampleScheduleNote),
                     "strict": True,
                 },
             },
@@ -134,6 +139,7 @@ def log_to_mlflow(summary: PreflightSummary) -> None:
     import mlflow
 
     mlflow.set_tracking_uri("databricks")
+    WorkspaceClient().workspace.mkdirs("/Shared/edip")
     mlflow.set_experiment("/Shared/edip/gate0_preflight")
     with mlflow.start_run(run_name="gate0-preflight"):
         mlflow.set_tags(
@@ -169,7 +175,11 @@ def main() -> int:
 
     ws = WorkspaceClient(profile=args.profile) if args.profile else WorkspaceClient()
     client = DatabricksOpenAI(workspace_client=ws, timeout=TIMEOUT_S, max_retries=0)
-    calls = [one_call(client, i) for i in range(EXPECTED_CALLS)]
+    calls = []
+    for i in range(EXPECTED_CALLS):
+        if i:
+            time.sleep(CALL_SPACING_S)
+        calls.append(one_call(client, i))
     summary = summarize(
         calls, endpoint=ENDPOINT, prompt_version=PROMPT_VERSION, config_hash=config_hash()
     )

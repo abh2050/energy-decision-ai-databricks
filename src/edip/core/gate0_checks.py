@@ -15,8 +15,7 @@ class Gate0Snapshot(BaseModel):
 
     catalog_exists: bool
     schemas: set[str]
-    storage_credential_exists: bool
-    external_location_exists: bool
+    raw_volume_exists: bool
     lakebase_instance_exists: bool
     lakebase_tables: set[str]
     app_exists: bool
@@ -46,8 +45,7 @@ def evaluate(s: Gate0Snapshot) -> list[CheckItem]:
             passed=not missing_schemas,
             detail=f"missing {missing_schemas}" if missing_schemas else "",
         ),
-        CheckItem(name="storage credential", passed=s.storage_credential_exists),
-        CheckItem(name="external location", passed=s.external_location_exists),
+        CheckItem(name="volume raw.snapshots", passed=s.raw_volume_exists),
         CheckItem(name="lakebase instance", passed=s.lakebase_instance_exists),
         CheckItem(
             name="lakebase tables",

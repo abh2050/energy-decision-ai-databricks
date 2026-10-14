@@ -6,7 +6,7 @@ resources:
       project_id: edip-lakebase
       display_name: edip-lakebase
       pg_version: 17
-      history_retention_duration: 86400s
+      history_retention_duration: 172800s
       default_endpoint_settings:
         autoscaling_limit_min_cu: 0.5
         autoscaling_limit_max_cu: 1

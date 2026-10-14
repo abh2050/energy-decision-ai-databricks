@@ -19,8 +19,7 @@ from edip.store.lakebase import PROJECT as LAKEBASE
 from edip.store.lakebase import connect
 
 CATALOG = "edip"
-CREDENTIAL = "edip_s3"
-LOCATION = "edip_root"
+RAW_VOLUME = f"{CATALOG}.raw.snapshots"
 APP = "edip-hello"
 OUTPUT = Path(__file__).resolve().parents[1] / "docs" / "gates" / "gate0_resources.json"
 
@@ -57,16 +56,20 @@ def main() -> int:
     schemas = {s.name for s in ws.schemas.list(CATALOG)} if catalog_exists else set()
     lakebase_exists, tables = _lakebase_tables(ws)
     try:
-        app = ws.apps.get(APP)
-        app_exists, app_deployed = True, app.active_deployment is not None
+        ws.apps.get(APP)
+        # A stopped app hides active_deployment, so check the deployment history.
+        app_exists = True
+        app_deployed = any(
+            d.status and d.status.state and d.status.state.value == "SUCCEEDED"
+            for d in ws.apps.list_deployments(APP)
+        )
     except NotFound:
         app_exists, app_deployed = False, False
 
     snapshot = Gate0Snapshot(
         catalog_exists=catalog_exists,
         schemas=schemas,
-        storage_credential_exists=_exists(ws.storage_credentials.get, CREDENTIAL),
-        external_location_exists=_exists(ws.external_locations.get, LOCATION),
+        raw_volume_exists=_exists(ws.volumes.read, RAW_VOLUME),
         lakebase_instance_exists=lakebase_exists,
         lakebase_tables=tables,
         app_exists=app_exists,

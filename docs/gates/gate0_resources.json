@@ -1,0 +1,67 @@
+{
+  "all_passed": true,
+  "checked_at": "2026-10-14T20:07:10+00:00",
+  "checks": [
+    {
+      "detail": "",
+      "name": "catalog edip",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "schemas raw/curated/ml/eval",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "volume raw.snapshots",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "lakebase instance",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "lakebase tables",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "app deployed",
+      "passed": true
+    },
+    {
+      "detail": "",
+      "name": "warehouse auto stop",
+      "passed": true
+    }
+  ],
+  "snapshot": {
+    "app_deployed": true,
+    "app_exists": true,
+    "catalog_exists": true,
+    "lakebase_instance_exists": true,
+    "lakebase_tables": [
+      "decision_runs",
+      "agent_calls",
+      "approvals",
+      "checkpoints",
+      "scenarios"
+    ],
+    "max_auto_stop_mins": 10,
+    "raw_volume_exists": true,
+    "schemas": [
+      "curated",
+      "eval",
+      "information_schema",
+      "ml",
+      "raw",
+      "default"
+    ],
+    "warehouse_auto_stop_mins": {
+      "Serverless Starter Warehouse": 5
+    }
+  }
+}
