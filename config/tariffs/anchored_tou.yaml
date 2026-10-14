@@ -1,7 +1,7 @@
 # Primary anchored tariff (FR6): PG&E B-19, secondary voltage. Every rate is copied from
 # the official PDF in `sources`; its SHA256 identifies the exact copy that was read.
 # Rule: include every per kWh and per kW charge; exclude only fixed monthly customer
-# charges and percentage taxes or franchise fees.
+# charges and percentage taxes or franchise fees. Savings are reported before tax.
 id: pge_b19_secondary
 role: anchored
 synthetic: false

@@ -85,11 +85,33 @@ def snapshot(cfg: dict[str, Any], snapshot_date: str) -> tuple[Path, dict[str, A
     return target, manifest
 
 
-def write_delta(spark: Any, pdf: Any, table: str, cfg_hash: str, sha: str) -> None:  # noqa: ANN401
+INTERVAL_TABLE_COMMENT = (
+    "15 minute load for the same client as load_observations, UTC, after DST correction. "
+    "Used to bill demand on 15 minute (PG&E B-19) and 30 minute (PGE Schedule 85) averages. "
+    "Source: Trindade (2015), UCI Machine Learning Repository, CC BY 4.0."
+)
+INTERVAL_COLUMN_COMMENTS = {
+    "client_id": COLUMN_COMMENTS["client_id"],
+    "interval_end": "End of the 15 minute interval, UTC",
+    "kw": "Average demand over the 15 minute interval, kW",
+    "split": "Partition of the hour that contains the interval",
+    "dataset_sha256": COLUMN_COMMENTS["dataset_sha256"],
+}
+
+
+def write_delta(
+    spark: Any,  # noqa: ANN401
+    pdf: Any,  # noqa: ANN401
+    table: str,
+    cfg_hash: str,
+    sha: str,
+    comment: str = TABLE_COMMENT,
+    columns: dict[str, str] = COLUMN_COMMENTS,
+) -> None:
     df = spark.createDataFrame(pdf)
     (df.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(table))
-    spark.sql(f"COMMENT ON TABLE {table} IS '{TABLE_COMMENT}'")
-    for col, text in COLUMN_COMMENTS.items():
+    spark.sql(f"COMMENT ON TABLE {table} IS '{comment}'")
+    for col, text in columns.items():
         spark.sql(f"ALTER TABLE {table} ALTER COLUMN {col} COMMENT '{text}'")
     spark.sql(
         f"ALTER TABLE {table} SET TBLPROPERTIES ("
@@ -112,7 +134,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp, zipfile.ZipFile(zip_path) as zf:
         member = zf.extract(cfg["dataset"]["member"], tmp)
         wide = read_uci(member)
-    table_pdf, report = build(wide, cfg, manifest["sha256"])
+    table_pdf, intervals_pdf, report = build(wide, cfg, manifest["sha256"])
 
     from pyspark.sql import SparkSession
 
@@ -120,12 +142,24 @@ def main() -> int:
     table = f"{args.catalog}.curated.load_observations"
     write_delta(spark, table_pdf, table, cfg_hash, manifest["sha256"])
     version = spark.sql(f"DESCRIBE HISTORY {table} LIMIT 1").collect()[0]["version"]
+    interval_table = f"{args.catalog}.curated.load_intervals_15min"
+    write_delta(
+        spark,
+        intervals_pdf,
+        interval_table,
+        cfg_hash,
+        manifest["sha256"],
+        INTERVAL_TABLE_COMMENT,
+        INTERVAL_COLUMN_COMMENTS,
+    )
 
     result = {
         "manifest": manifest,
         "config_hash": cfg_hash,
         "table": table,
         "delta_version": int(version),
+        "interval_table": interval_table,
+        "interval_rows": len(intervals_pdf),
         "report": report.model_dump(mode="json"),
     }
     report_path = zip_path.parent / "gate1_data_quality.json"

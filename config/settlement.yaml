@@ -1,0 +1,23 @@
+# Settlement rules (FR18 to FR21), fixed before Gate 3 by owner decision on 2026-10-14.
+horizon:
+  steps: 24  # hourly UTC steps per planning day
+  clock_for_tariff_periods: Europe/Lisbon
+battery_within_hour: flat  # hourly planned power applied equally to the four 15 minute readings
+billing_demand:
+  source: 15 minute actual load minus hourly battery output, floored at zero (no export)
+  interval_minutes_from: tariff  # demand_charges[].tariff_interval_minutes
+  pge_b19_secondary: 15
+  pgn_sched85_secondary: 30
+energy:
+  basis: hourly kWh from the hourly plan settled against hourly actual load
+facility_capacity:
+  # PGE Rule B: average of the two greatest non-zero monthly Demands in the 12 months
+  # that include and end with the billing month.
+  history: seed_with_no_battery
+  seed_months: 11  # the 11 months before the first billed month
+  seed_source: actual load without a battery (validation and training months)
+  reason: >-
+    Bills every test month (2014-01 to 2014-12) instead of losing 11 to a delayed start.
+    Seeding with no-battery Demand can only make Facility Capacity higher, so it is
+    conservative for battery savings.
+savings_basis: before_tax

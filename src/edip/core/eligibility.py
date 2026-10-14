@@ -5,21 +5,12 @@ from __future__ import annotations
 import pandas as pd
 from pydantic import BaseModel
 
-from edip.core.units import INTERVAL
+from edip.core.billing_demand import interval_demand, monthly_demand_all_hours
 
 
 def monthly_max_demand(kw15: pd.Series, interval_minutes: int, clock: str) -> pd.Series:
-    """Highest average kW over the utility's demand interval, per local calendar month.
-
-    Readings are 15 minute averages labelled by interval end (UTC). A 30 minute demand is
-    the mean of two consecutive readings within one aligned half hour.
-    """
-    start = (kw15.index - INTERVAL).tz_localize("UTC")
-    blocks = kw15.groupby(start.floor(f"{interval_minutes}min"))
-    need = interval_minutes // 15
-    demand = blocks.mean()[blocks.count() == need]
-    local_month = demand.index.tz_convert(clock).tz_localize(None).to_period("M")
-    return demand.groupby(local_month).max()
+    """Highest average kW over the utility's demand interval, per local calendar month."""
+    return monthly_demand_all_hours(interval_demand(kw15, interval_minutes), clock)
 
 
 class WindowCheck(BaseModel):

@@ -92,14 +92,31 @@ def test_pgn_periods_weekdays_and_sunday(pgn):
     assert _cls(pgn, "2014-07-13 15:00")["period"] == "off_peak"  # Sunday
 
 
-def test_pgn_energy_rate_sums_all_components(pgn):
+def test_pgn_energy_rate_sums_all_components_times_schedule_108(pgn):
     on = pgn.energy_rate(pd.DatetimeIndex([pd.Timestamp("2014-07-14 15:00")])).iloc[0]
     off = pgn.energy_rate(pd.DatetimeIndex([pd.Timestamp("2014-07-13 15:00")])).iloc[0]
     flat_cents = sum(c.cents_per_kwh for c in pgn.energy_components if c.cents_per_kwh is not None)
-    assert on == pytest.approx((5.808 + flat_cents) / 100)
-    assert on - off == pytest.approx((5.808 - 3.901) / 100)
+    assert pgn.multiplier == 1.015
+    assert pgn.variable_charge_multiplier.source == "pge_108"
+    assert on == pytest.approx(1.015 * (5.808 + flat_cents) / 100)
+    assert on - off == pytest.approx(1.015 * (5.808 - 3.901) / 100)
     cited = {c.source for c in pgn.energy_components}
     assert {"pge_85", "pge_125", "pge_109", "pge_151"} <= cited
+
+
+def test_pgn_provenance_labels(pgn):
+    status = {s.id: s.status for s in pgn.sources}
+    assert status["pge_85_periods_2026_01"] == "superseded"
+    assert status["pge_38_corroborating"] == "corroborating"
+    assert status["pge_85"] == "current"
+    s126 = next(c for c in pgn.energy_components if c.source == "pge_126")
+    assert "Schedule 100" in s126.applicability_note
+    assert all(e.source != "pge_108" for e in pgn.excluded)
+    assert pgn.savings_basis == "before_tax"
+
+
+def test_b19_has_no_multiplier(b19):
+    assert b19.multiplier == 1.0
 
 
 def test_pgn_facility_capacity_tiers(pgn):
@@ -116,7 +133,7 @@ def test_pgn_peak_demand_window_monday_to_saturday(pgn):
     assert list(monday[pgn.in_demand_window(charge, monday)].hour) == list(range(5, 21))
 
 
-def test_synthetic_sweep(b19):
+def test_synthetic_sweep_widens_peak_and_part_peak_in_both_seasons(b19):
     sweep = load_tariffs(TARIFFS / "synthetic_high_spread.yaml")
     assert [t.id for t in sweep] == [
         "synthetic_high_spread_m1",
@@ -124,13 +141,28 @@ def test_synthetic_sweep(b19):
         "synthetic_high_spread_m2",
         "synthetic_high_spread_m3",
     ]
-    summer_peak = pd.DatetimeIndex([pd.Timestamp("2014-07-15 16:00")])
-    summer_off = pd.DatetimeIndex([pd.Timestamp("2014-07-15 02:00")])
-    winter_peak = pd.DatetimeIndex([pd.Timestamp("2014-01-15 17:00")])
-    base_gap = b19.energy_rate(summer_peak).iloc[0] - b19.energy_rate(summer_off).iloc[0]
+    hours = {  # UTC hours; July is UTC+1 in Lisbon, January UTC+0, April UTC+1
+        ("summer", "peak"): "2014-07-15 16:00",
+        ("summer", "part_peak"): "2014-07-15 14:00",
+        ("summer", "off_peak"): "2014-07-15 02:00",
+        ("winter", "peak"): "2014-01-15 17:00",
+        ("winter", "off_peak"): "2014-01-15 02:00",
+        ("winter", "super_off_peak"): "2014-04-15 10:00",
+    }
+
+    def rate(t, key):
+        return t.energy_rate(pd.DatetimeIndex([pd.Timestamp(hours[key])])).iloc[0]
+
     for t, m in zip(sweep, [1.0, 1.5, 2.0, 3.0], strict=True):
         assert t.synthetic and t.role == "stress"
-        assert t.energy_rate(summer_off).iloc[0] == b19.energy_rate(summer_off).iloc[0]
-        gap = t.energy_rate(summer_peak).iloc[0] - t.energy_rate(summer_off).iloc[0]
-        assert gap == pytest.approx(m * base_gap)
-        assert t.energy_rate(winter_peak).iloc[0] == b19.energy_rate(winter_peak).iloc[0]
+        for season in ("summer", "winter"):
+            off = (season, "off_peak")
+            assert rate(t, off) == rate(b19, off)  # off-peak held fixed
+            peak = (season, "peak")
+            assert rate(t, peak) - rate(t, off) == pytest.approx(
+                m * (rate(b19, peak) - rate(b19, off))
+            )
+        pp, off = ("summer", "part_peak"), ("summer", "off_peak")
+        assert rate(t, pp) - rate(t, off) == pytest.approx(m * (rate(b19, pp) - rate(b19, off)))
+        sop = ("winter", "super_off_peak")
+        assert rate(t, sop) == rate(b19, sop)  # not widened

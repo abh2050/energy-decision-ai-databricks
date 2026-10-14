@@ -84,7 +84,8 @@ def bounds_from_config(cfg: dict[str, Any]) -> SplitBounds:
 
 def build(
     wide: pd.DataFrame, cfg: dict[str, Any], dataset_sha256: str
-) -> tuple[pd.DataFrame, QualityReport]:
+) -> tuple[pd.DataFrame, pd.DataFrame, QualityReport]:
+    """Return (hourly load_observations, 15 minute load_intervals_15min, quality report)."""
     rule = rule_from_config(cfg)
     bounds = bounds_from_config(cfg)
     years: list[int] = cfg["timezone"]["dst_years"]
@@ -116,6 +117,18 @@ def build(
             "kwh": hourly["kwh"].to_numpy(),
             "n_intervals": hourly["n_intervals"].astype("int32").to_numpy(),
             "split": split[split.notna()].to_numpy(),
+            "dataset_sha256": dataset_sha256,
+        }
+    )
+    interval_hour = (std.index - pd.Timedelta(minutes=15)).floor("h")
+    interval_split = assign_split(pd.DatetimeIndex(interval_hour), bounds)
+    keep = interval_split.notna().to_numpy() & interval_hour.isin(hourly.index)
+    intervals = pd.DataFrame(
+        {
+            "client_id": client,
+            "interval_end": std.index[keep],
+            "kw": std.to_numpy()[keep],
+            "split": interval_split.to_numpy()[keep],
             "dataset_sha256": dataset_sha256,
         }
     )
@@ -153,4 +166,4 @@ def build(
         eligibility=[b19, pgn],
         b19_longest_run_months_above_499_kw=b19_run,
     )
-    return out, report
+    return out, intervals, report

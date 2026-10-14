@@ -20,7 +20,7 @@ Gate 1, 2026-10-14 (revised the same day after the owner's tariff and time-basis
 
 ## 3. Test results
 
-- pytest: **64 passed, 0 failed, 0 warnings**. Gate 1 tests: units 5, cleaning 8, splits
+- pytest: **64 passed, 0 failed, 0 warnings** at first review (73 after the decisions in section 6). Gate 1 tests: units 5, cleaning 8, splits
   and selection 5, tariffs 16, eligibility 4.
 - Required tests:
   1. Four readings of 100 kW produce 100 kWh for the hour: `test_four_readings_of_100_kw_make_100_kwh`, **pass**.
@@ -91,17 +91,34 @@ next to the snapshot) and table `edip.curated.load_observations` (Delta version 
 9. **Dependencies.** Core dependencies (numpy 2.3.5, pandas 2.3.3, pydantic, pyyaml) are
    separate from a `platform` extra so Databricks jobs install less.
 
-## 6. Open questions for the owner
+## 6. Owner decisions after review (2026-10-14)
 
-1. **Schedule 108 Public Purpose Charge (1.5 percent of revenue).** It is a percentage
-   charge but not a tax or franchise fee, so it falls outside both halves of the rule.
-   I excluded it, which slightly understates savings. Include it?
-2. **Schedule 126 footnote.** Its rate table marks 85/585 with "not applicable to
-   Customers where service was received for the entire calendar year". Schedule 100
-   applies that limit only to 5xx schedules, so I included 0.214 cents per kWh for
-   Schedule 85. Confirm.
-3. **Synthetic sweep scope.** Only the summer peak energy rate is widened; summer
-   part-peak and all winter rates stay at B-19. Confirm.
+Gate 1 was approved with these changes, all applied before Gate 2:
+
+1. **Schedule 108** is modelled as a 1.015 multiplier on every modelled variable charge
+   (energy, demand, Facility Capacity) for PGE; all savings are reported before tax
+   (`variable_charge_multiplier`, `savings_basis` in the tariff files).
+2. **Schedule 126** stays included; the Schedule 100 reasoning is recorded on the
+   component (`applicability_note`).
+3. **Synthetic sweep**: in both summer and winter, off-peak fixed, peak and part-peak
+   gaps to off-peak multiplied by m (1.0, 1.5, 2.0, 3.0); super off-peak unchanged.
+4. **PGE period hours**: PGE Rules A to N (all 14 downloaded) and the current Schedules
+   83, 85, 89, and 125 contain no definition of the energy period hours. The hours are
+   labelled as coming from a **superseded revision** (Schedule 85 Third Revision,
+   effective 2026-01-01). The current Schedule 38 (effective 2026-07-08) states the same
+   hours for its own energy periods and is recorded as corroboration only.
+5. **Settlement billing demand** (`src/edip/core/billing_demand.py`,
+   `config/settlement.yaml`): 15 minute actual load minus the hourly battery output held
+   flat within the hour, floored at zero, averaged over 15 minutes for B-19 and 30 minutes
+   for PGE. New table `edip.curated.load_intervals_15min` (105,216 rows, four per hourly
+   row; the 15 minute values average back to `load_observations` exactly).
+6. **Facility Capacity history**: seeded with the 11 months of no-battery Demand before
+   the first billed month, so every test month is billed. Seeding with no-battery Demand
+   can only raise Facility Capacity, which is conservative for battery savings.
+
+Tests added: billing demand 7 (15 minute B-19 rule, 30 minute PGE rule, interval
+alignment, charging and the no-export floor, PGE Sunday window, Facility Capacity
+seeding and missing history). Suite: **73 passed**.
 
 ## 7. Exit checklist
 

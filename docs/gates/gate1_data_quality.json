@@ -9,11 +9,13 @@
     "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
     "snapshot_date": "2026-10-14",
     "retrieval": "uploaded via the Files API from a local download of source_url",
-    "recorded_at": "2026-10-14T20:48:33+00:00"
+    "recorded_at": "2026-10-14T20:56:43+00:00"
   },
   "config_hash": "a7cd838d21c33062",
   "table": "edip.curated.load_observations",
-  "delta_version": 39,
+  "delta_version": 49,
+  "interval_table": "edip.curated.load_intervals_15min",
+  "interval_rows": 105216,
   "report": {
     "dataset_sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
     "raw_rows": 140256,

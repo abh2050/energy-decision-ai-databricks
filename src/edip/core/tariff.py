@@ -5,8 +5,9 @@ the wall-clock time in `clock` (Europe/Lisbon, where the load was metered), so D
 transition days map 24 UTC hours onto 23 or 25 local clock hours.
 
 Included: every per kWh and per kW charge of the schedule and of every adjustment
-schedule that applies. Excluded: fixed monthly customer charges and percentage taxes or
-franchise fees. Each file lists its exclusions with the reason and source.
+schedule that applies, plus any percentage charge the owner chose to model as a multiplier
+on variable charges (PGE Schedule 108). Excluded: fixed monthly customer charges and
+percentage taxes or franchise fees. All savings are reported before tax.
 """
 
 from __future__ import annotations
@@ -32,6 +33,8 @@ class SourceDoc(BaseModel):
     advice_letter: str
     effective_date: date
     retrieved: date
+    status: Literal["current", "superseded", "corroborating", "synthetic"] = "current"
+    note: str | None = None
 
 
 class PeriodRule(BaseModel):
@@ -53,6 +56,7 @@ class EnergyComponent(BaseModel):
     usd_per_kwh: float | None = None
     by_period_usd_per_kwh: dict[str, dict[str, float]] | None = None
     by_period_cents_per_kwh: dict[str, dict[str, float]] | None = None
+    applicability_note: str | None = None
 
     @model_validator(mode="after")
     def _one_form(self) -> EnergyComponent:
@@ -110,6 +114,15 @@ class FacilityCapacityCharge(BaseModel):
         return charge
 
 
+class VariableChargeMultiplier(BaseModel):
+    """A percentage charge applied as a factor to every modelled variable charge
+    (energy, demand, and facility capacity)."""
+
+    name: str
+    source: str
+    factor: float = Field(gt=1)
+
+
 class Exclusion(BaseModel):
     name: str
     source: str
@@ -133,6 +146,8 @@ class Tariff(BaseModel):
     energy_components: list[EnergyComponent]
     demand_charges: list[DemandCharge]
     facility_capacity: FacilityCapacityCharge | None = None
+    variable_charge_multiplier: VariableChargeMultiplier | None = None
+    savings_basis: Literal["before_tax"] = "before_tax"
     excluded: list[Exclusion]
     not_modelled: list[Exclusion] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
@@ -148,12 +163,20 @@ class Tariff(BaseModel):
         cited += [e.source for e in self.excluded + self.not_modelled]
         if self.facility_capacity:
             cited += [self.facility_capacity.source, self.facility_capacity.definition_source]
+        if self.variable_charge_multiplier:
+            cited.append(self.variable_charge_multiplier.source)
         unknown = sorted(set(cited) - ids)
         if unknown:
             raise ValueError(f"charges cite unknown sources: {unknown}")
         if not self.synthetic and not self.sources:
             raise ValueError("a real tariff needs its source documents")
         return self
+
+    @property
+    def multiplier(self) -> float:
+        """Factor on all modelled variable charges (1.0 when none applies)."""
+        m = self.variable_charge_multiplier
+        return m.factor if m else 1.0
 
     def season_of(self, month: int) -> str:
         return next(s for s, ms in self.seasons.items() if month in ms)
@@ -182,10 +205,10 @@ class Tariff(BaseModel):
         )
 
     def energy_rate(self, hour_start_utc: pd.DatetimeIndex) -> pd.Series:
-        """Total $ per kWh for each UTC hour, summed over all included components."""
+        """Total $ per kWh for each UTC hour: all components times the multiplier."""
         cls = self.classify(hour_start_utc)
         rates = [
-            sum(c.usd(s, p) for c in self.energy_components)
+            self.multiplier * sum(c.usd(s, p) for c in self.energy_components)
             for s, p in zip(cls["season"], cls["period"], strict=True)
         ]
         return pd.Series(rates, index=hour_start_utc, name="usd_per_kwh")
@@ -204,43 +227,51 @@ class Tariff(BaseModel):
 
 
 class StressSweep(BaseModel):
-    """Labelled synthetic tariffs: base off-peak fixed, summer peak gap multiplied."""
+    """Labelled synthetic tariffs from a base: off-peak fixed, chosen period gaps multiplied."""
 
     id_prefix: str
     role: Literal["stress"] = "stress"
     synthetic: Literal[True] = True
     derived_from: str
-    season: str = "summer"
-    peak_period: str = "peak"
+    widened_periods: list[str]
     reference_period: str = "off_peak"
     gap_multipliers: list[float]
     assumption: str
 
 
 def expand_sweep(base: Tariff, sweep: StressSweep) -> list[Tariff]:
-    """One tariff per multiplier m: summer peak = off_peak + m x (peak - off_peak).
+    """One tariff per multiplier m. In every season, for each widened period p:
+    rate(p) = off_peak + m x (rate(p) - off_peak). Other rates and charges unchanged.
 
-    Adds a synthetic uplift component on summer peak hours only; every other rate,
-    period, and demand charge stays as in the base tariff.
+    Implemented as a synthetic uplift component so the base components stay intact.
     """
-    peak = sum(c.usd(sweep.season, sweep.peak_period) for c in base.energy_components)
-    off = sum(c.usd(sweep.season, sweep.reference_period) for c in base.energy_components)
+    synthetic_src = SourceDoc(
+        id="synthetic",
+        title=f"Synthetic stress tariff derived from {base.id}",
+        url="config/tariffs/synthetic_high_spread.yaml",
+        sha256="n/a",
+        sheet="n/a",
+        advice_letter="n/a",
+        effective_date=date(1970, 1, 1),
+        retrieved=date(1970, 1, 1),
+        status="synthetic",
+    )
+    gaps: dict[str, dict[str, float]] = {}
+    for season in base.seasons:
+        ref = sum(c.usd(season, sweep.reference_period) for c in base.energy_components)
+        for period in sweep.widened_periods:
+            names = {r.name for r in base.period_rules if r.season == season}
+            if period in names:
+                rate = sum(c.usd(season, period) for c in base.energy_components)
+                gaps.setdefault(season, {})[period] = rate - ref
     out = []
     for m in sweep.gap_multipliers:
         uplift = EnergyComponent(
-            name=f"synthetic summer peak gap x{m:g}",
+            name=f"synthetic gap x{m:g} on {', '.join(sweep.widened_periods)}",
             source="synthetic",
-            by_period_usd_per_kwh={sweep.season: {sweep.peak_period: (m - 1) * (peak - off)}},
-        )
-        synthetic_src = SourceDoc(
-            id="synthetic",
-            title=f"Synthetic stress tariff derived from {base.id}",
-            url="config/tariffs/synthetic_high_spread.yaml",
-            sha256="n/a",
-            sheet="n/a",
-            advice_letter="n/a",
-            effective_date=date(1970, 1, 1),
-            retrieved=date(1970, 1, 1),
+            by_period_usd_per_kwh={
+                s: {p: (m - 1) * g for p, g in per.items()} for s, per in gaps.items()
+            },
         )
         out.append(
             base.model_copy(

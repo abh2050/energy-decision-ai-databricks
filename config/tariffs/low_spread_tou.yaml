@@ -1,8 +1,8 @@
 # Low spread case (FR6): Portland General Electric Schedule 85, secondary, Cost of Service.
 # Generated from the downloaded official PDFs; each charge cites its source schedule.
 # Rule: include every per kWh and per kW charge, including all Schedule 100 adjustments
-# that apply to Schedule 85; exclude only fixed monthly customer charges and percentage
-# taxes or franchise fees.
+# that apply to Schedule 85, and Schedule 108 as a 1.015 multiplier on variable charges;
+# exclude only fixed monthly customer charges and percentage taxes or franchise fees.
 id: pgn_sched85_secondary
 role: low_spread
 synthetic: false
@@ -37,6 +37,10 @@ sources:
   advice_letter: 25-38
   effective_date: '2026-01-01'
   retrieved: '2026-10-14'
+  status: superseded
+  note: SUPERSEDED REVISION. Energy period hours come from this Third Revision because the current Schedule
+    85 (Fourth Revision, effective 2026-07-08) and Schedule 125 do not state them, and PGE Rules A to
+    N (checked 2026-10-14) contain no time-of-use period definitions.
 - id: pge_rule_b
   title: Rule B - Definitions (Demand, Facility Capacity)
   url: https://assets.ctfassets.net/416ywc1laqmd/3o9FdGSkloIraCHhLxPzwA/850d3137b3d56f5a7dddcceed8ef33e1/Rule_B.pdf
@@ -253,6 +257,17 @@ sources:
   advice_letter: 23-40
   effective_date: '2024-01-01'
   retrieved: '2026-10-14'
+- id: pge_38_corroborating
+  title: Schedule 38, Fourth Revision of Sheet No. 38-1 (energy period footnote)
+  url: https://assets.ctfassets.net/416ywc1laqmd/1vyIdMnhNoz3ctE4FNKGRM/6bd69bb9d5c905a6836135439b14e41c/Sched_038.pdf
+  sha256: 2de124341f9fdcea172daeeee187c1d2b314d0b1a96ee4e273711e70d91dd4e2
+  sheet: Fourth Revision of Sheet No. 38-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+  status: corroborating
+  note: Current schedule whose footnote states the same on-, mid-, and off-peak hours for its own energy
+    periods. Corroboration only; not the source for Schedule 85.
 seasons:
   all_year:
   - 1
@@ -331,6 +346,12 @@ energy_components:
 - name: Annual Power Cost Variance Mechanism
   source: pge_126
   cents_per_kwh: 0.214
+  applicability_note: Schedule 126's rate table marks the 85/585 line with footnote (2), 'Not applicable
+    to Customers where service was received for the entire calendar year that the Annual Power Cost Variance
+    accrued'. Schedule 100 (Fourth Revision of Sheet 100-1) marks Schedule 85 under 126 without a footnote
+    and applies the matching footnote (5) only to Schedules 485, 489, 515, 532, 538, 549, 583, 585, 589,
+    591, 592, and 595, so the limit is read as applying to the direct access 585 customers. Included for
+    Schedule 85 (owner confirmed 2026-10-14).
 - name: Demand Response Cost Recovery Mechanism
   source: pge_135
   cents_per_kwh: 0.075
@@ -434,9 +455,6 @@ excluded:
 - name: Schedule 106 Multnomah County business income tax recovery (0.000% of bill)
   source: pge_106
   reason: percentage tax
-- name: Schedule 108 Public Purpose Charge (1.5% of revenue)
-  source: pge_108
-  reason: percentage charge on the bill, not per kWh or per kW; excluded pending owner decision
 - name: Schedule 102 Federal Columbia River Benefits credit
   source: pge_102
   reason: applies only to Residential and Farm service
@@ -454,9 +472,9 @@ not_modelled:
 notes:
 - 'Schedule 85''s July 8, 2026 revision moved energy pricing to Schedule 125 and removed the energy period
   footnote; Schedule 125 lists on-, mid-, and off-peak rates without restating hours. Periods use the
-  most recent published definition (Third Revision of Sheet 85-1, effective January 1, 2026): on-peak
-  Monday-Saturday 4-10 p.m., mid-peak Monday-Saturday 6 a.m.-4 p.m., off-peak Monday-Saturday 10 p.m.-6
-  a.m. and all day Sunday.'
+  hours from a SUPERSEDED revision (Third Revision of Sheet 85-1, effective January 1, 2026), the latest
+  published definition: on-peak Monday-Saturday 4-10 p.m., mid-peak Monday-Saturday 6 a.m.-4 p.m., off-peak
+  Monday-Saturday 10 p.m.-6 a.m. and all day Sunday.'
 - Peak Demand hours are Monday-Saturday 6 a.m.-10 p.m. (Sheet 85-1). PGE measures Demand over 30 minute
   intervals (Rule B); this project bills hourly mean kW.
 - Facility Capacity is the average of the two greatest non-zero monthly Demands in the 12 months ending
@@ -464,6 +482,9 @@ notes:
 - Schedule 109 rate is the 85/485/585 secondary line, not the >1 aMW line; MT_189 averages below 1 aMW.
 - Schedule 115 caps the charge at $1,000 per month per site; MT_189's monthly kWh keeps it below the cap
   (checked at Gate 3).
-- 'Schedule 126 footnote (2) excludes customers served the entire calendar year in which the variance
-  accrued; Schedule 100 applies that exclusion only to 5xx schedules, so it is included here (conservative:
-  more cost).'
+- Schedule 108 is modelled as a 1.015 multiplier on every modelled variable charge (energy, demand, facility
+  capacity) by owner decision on 2026-10-14. All savings are reported before tax.
+variable_charge_multiplier:
+  name: Schedule 108 Public Purpose Charge (1.5% of revenue billed)
+  source: pge_108
+  factor: 1.015
