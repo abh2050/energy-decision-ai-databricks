@@ -13,3 +13,7 @@ must carry into it:
 3. **Forecast uncertainty.** The P10 to P90 band is calibrated with conformalized
    quantile regression on October to December 2013, months that were also used to tune
    the models (model version 2).
+4. **Gate 3 result (strategies as first specified).** On PG&E B-19, every forecast-driven
+   strategy and the fixed schedule lost 56,000 to 65,000 USD per year against no battery,
+   because day-ahead charging set new demand peaks; perfect hindsight saved 35,980 USD.
+   Any revised strategy must be reported next to this result.
