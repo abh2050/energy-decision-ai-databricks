@@ -1,0 +1,11 @@
+# Gate 4 sensitivity grid (FR22). Dimensions recorded now; values marked "to set at Gate 4"
+# are proposed then. Every cell reruns the full replay.
+tariffs:
+  real: [pge_b19_secondary, pgn_sched85_secondary]
+  synthetic_gap_multipliers: [1.0, 1.5, 2.0, 3.0]  # peak and part-peak gaps, both seasons
+battery_power_fraction_of_observed_peak: [0.25, 0.50, 1.00]
+duration_hours: [2, 4]
+round_trip_efficiency: [0.85, 0.90]  # owner decision 2026-10-14
+degradation_cost_usd_per_kwh_discharged: [0.02, 0.03, 0.05]  # owner decision 2026-10-14
+operating_cost_annual_usd: [assumed]  # config/battery.yaml#operating_cost (assumed)
+demand_charge_rate_multiplier: to set at Gate 4

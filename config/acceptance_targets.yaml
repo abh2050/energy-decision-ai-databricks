@@ -1,7 +1,8 @@
 # Acceptance targets (PRD sections 2 and 6), written before any Gate 3 test run.
-# STATUS: proposed, awaiting owner approval. Once approved, `status` becomes `frozen`
-# and nothing in this file may change (CLAUDE.md rule 3).
-status: proposed
+# FROZEN on 2026-10-14 after owner approval, before any Gate 3 run. Nothing in this file
+# may change (CLAUDE.md rule 3); a target that looks wrong is reported, not edited.
+status: frozen
+frozen: 2026-10-14
 version: 1
 written: 2026-10-14
 evaluation:
@@ -9,7 +10,10 @@ evaluation:
   client: MT_189
   forecaster: edip.ml.load_forecaster version 2 (config/model_versions.yaml)
   battery_base_case: config/battery.yaml#base_case
-  savings_basis: before tax; net benefit = no-battery bill - strategy bill - degradation cost
+  savings_basis: >-
+    before tax; net benefit = no-battery bill - strategy bill - degradation cost; for ML
+    and robust dispatch also minus the assumed annual operating cost
+    (config/battery.yaml#operating_cost); the fixed schedule needs no forecast or review
   settlement: config/settlement.yaml
 
 physical:
@@ -19,28 +23,33 @@ forecasting:
   p10_p90_coverage_pct: {target: 80, tolerance: 5}  # PRD target, kept at Gate 2
 
 dispatch_economics:
-  # Pilot criterion 1: ML or robust dispatch beats fixed scheduling by a preset margin
-  # under the anchored real tariff (PG&E B-19 secondary), base-case battery.
+  # Pilot criterion 1. ML dispatch and robust dispatch are evaluated SEPARATELY against
+  # the same target, and both results are reported. A strategy passes on a tariff when:
+  #   incremental = net_benefit(strategy) - net_benefit(fixed_schedule)
+  #   incremental >= 0.10 x net_benefit(fixed_schedule)  AND
+  #   incremental > operating cost (config/battery.yaml#operating_cost, assumed)
+  strategies: [ml_forecast, robust_quantile]
+  baseline: fixed_schedule
+  min_incremental_pct_of_fixed_net_benefit: 10
+  incremental_must_exceed: operating_cost_annual_usd
   anchored_tariff: pge_b19_secondary
-  compare: max(ml_forecast, robust_quantile) vs fixed_schedule, annual net benefit
-  margin_relative_to_fixed_net_benefit_pct: 10  # proposed
-  margin_absolute_usd_per_year: 1000  # proposed; both margins must be met
-  report_also: [pgn_sched85_secondary, synthetic_high_spread_m1, synthetic_high_spread_m1_5, synthetic_high_spread_m2, synthetic_high_spread_m3]
+  evaluated_tariffs: [pge_b19_secondary, pgn_sched85_secondary]
+  reported_only: [synthetic_high_spread_m1, synthetic_high_spread_m1_5, synthetic_high_spread_m2, synthetic_high_spread_m3]
 
 stress:
   # Pilot criterion 3: downside under each predefined stress test within a preset limit.
   tests: [forecast_error_injection, heat_week_replay, reserve_floor_raise]
-  min_net_benefit_retained_pct: 50  # proposed: stressed annual net benefit >= 50% of unstressed
-  max_monthly_bill_increase_vs_no_battery_pct: 1  # proposed: no month's settled bill more than 1% above no battery
+  min_net_benefit_retained_pct: 50  # approved: stressed annual net benefit >= 50% of unstressed
+  max_monthly_bill_increase_vs_no_battery_pct: 1  # approved: no month's settled bill more than 1% above no battery
   accepted_constraint_violations: 0
 
 agents:
   supported_claim_rate_pct_min: 95  # PRD target
-  citation_accuracy_pct_min: 95  # proposed
-  prohibited_action_refusal_pct_min: 100  # proposed: every attempt to change a hard constraint refused
-  stress_test_selection_accuracy_pct_min: 80  # proposed
+  citation_accuracy_pct_min: 95  # approved
+  prohibited_action_refusal_pct_min: 100  # approved: every attempt to change a hard constraint refused
+  stress_test_selection_accuracy_pct_min: 80  # approved
   recommendation_accuracy: agent_assisted > numbers_only on the 30 scenario set  # PRD target
-  inference_cost_usd_per_run_max: 0.05  # proposed
+  inference_cost_usd_per_run_max: 0.05  # approved
 
 operator:
   # Pilot criterion 4: the operator can see, override, and revise every recommendation.
@@ -50,13 +59,16 @@ public_delivery:
   pages_verified_after_teardown: 2  # PRD target
 
 decision_rule:
-  # How the business decision agent and the deterministic template map results to a
-  # recommendation. Evaluated in this order.
+  # Evaluated in this order (owner decision 2026-10-14).
   withhold:
-    - accepted constraint violations > 0
-    - neither ML nor robust beats fixed by both margins under the anchored tariff
+    - any accepted constraint violation
+    - economics failure on B-19 (neither ML nor robust dispatch passes)
   revise:
     - any stress test breaches a stress limit
     - forecast coverage outside 80 +/- 5 percent
-    - economics pass under the anchored tariff but fail under the PGE tariff
-  proceed: all criteria above pass
+  proceed:
+    condition: none of the above
+    scope: >-
+      every real tariff on which at least one of ML or robust dispatch passes economics,
+      naming the passing strategies. A PGE economics failure narrows the scope and does
+      not trigger revise. Synthetic tariffs are reported, not scoped.

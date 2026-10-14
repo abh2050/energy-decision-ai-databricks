@@ -1,22 +1,41 @@
-# Battery assumptions for Gate 3 (FR15, FR16). STATUS: proposed, awaiting owner approval.
-# Every value here is an ASSUMPTION, labelled "assumed" in the UI; sizes are set relative
-# to measured load so they scale with the client.
-status: proposed
+# Battery and operating assumptions for Gate 3 (FR15, FR16). Approved by the owner on
+# 2026-10-14 with the fixed-schedule and operating-cost changes. Every value here is an
+# ASSUMPTION, labelled "assumed" in the UI; sizes are set relative to measured load.
+status: approved
 base_case:
   observed_peak_kw:
     source: max kw_mean in the train split of edip.curated.load_observations
     note: training data only, so no test information sets the battery size
   power_fraction_of_observed_peak: 0.5  # FR22 grid point (25, 50, 100 percent)
   duration_hours: 2  # FR22 grid point (2, 4); energy = power x duration
-  round_trip_efficiency: 0.90  # assumed; split equally: charge and discharge efficiency sqrt(0.90)
+  round_trip_efficiency: 0.90  # assumed; charge and discharge efficiency each sqrt(0.90)
   soc_min_fraction: 0.10  # assumed usable window 10 to 90 percent of energy capacity
   soc_max_fraction: 0.90
   initial_soc_fraction: 0.50  # assumed state of charge at 2014-01-01 00:00 UTC
-  terminal_reserve_fraction: 0.50  # end of each planning day at or above 50 percent (FR15)
+  terminal_reserve_fraction: 0.50  # planning rule for forecast-driven strategies (FR15)
   degradation_cost_usd_per_kwh_discharged: 0.03  # assumed; varied in the sensitivity grid
   grid_export: false  # FR15: no export, grid import >= 0
+
+operating_cost:
+  # ASSUMED annual cost of running the decision system, charged against every
+  # forecast-driven strategy's net benefit. Not measured; replace with actuals in a pilot.
+  label: assumed
+  annual_usd: 4868  # sum of the components below
+  components:
+    cloud_usd_per_year: 1200  # assumed: scheduled jobs, app, and Lakebase at demo scale
+    inference_usd_per_year: 18  # assumed: 365 runs x 0.05 USD (agent cost ceiling)
+    operator_review_usd_per_year: 3650  # assumed: 10 minutes per day x 365 days x 60 USD per hour
+
 fixed_schedule:
-  # FR16 baseline that needs no forecast.
-  charge: full power from 00:00 local until soc_max, only in each tariff's off-peak hours
-  discharge: equal power across each tariff's protected window (B-19 peak; PGE on_peak),
-    limited by available energy and by forecast-free rules only
+  # FR16 forecast-free baseline. Physical limits are the same as every other strategy;
+  # the terminal reserve is a planning rule and does not apply (it needs no forecast).
+  charge: full power from 00:00 local in each tariff's off-peak hours until soc_max
+  discharge: >-
+    Full power in the local hours with the highest training-period average load inside
+    the tariff's demand window, until the battery reaches soc_min. Hours are ranked
+    separately for each tariff and season from the train split only; the battery
+    discharges in clock order through the top-ranked hours.
+  demand_window:
+    pge_b19_secondary: peak  # Maximum peak demand period, 4 to 9 p.m. local every day
+    pgn_sched85_secondary: peak_demand_hours  # Monday to Saturday 6 a.m. to 10 p.m. local
+    synthetic_high_spread: peak  # same windows as B-19
