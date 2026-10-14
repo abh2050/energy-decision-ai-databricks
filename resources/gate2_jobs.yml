@@ -27,5 +27,27 @@ resources:
               - onnx==1.17.0
               - onnxmltools==1.16.0
               - onnxruntime==1.31.0
-              # The runtime's MLflow fails with protobuf 6 (FieldDescriptor.label removed).
-              - protobuf<6
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
+    gate2_calibrate:
+      name: edip-gate2-calibrate
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: calibrate
+          spark_python_task:
+            python_file: ../src/edip/forecasting/calibrate_job.py
+            parameters:
+              - "--config"
+              - "${workspace.file_path}/config/forecasting.yaml"
+              - "--tariffs"
+              - "${workspace.file_path}/config/tariffs"
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - lightgbm==4.7.0
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

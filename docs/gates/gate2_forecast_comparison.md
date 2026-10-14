@@ -43,3 +43,34 @@ Generated from [gate2_results.json](gate2_results.json) (MLflow run `a9cf74a771a
 | 23 | 25.18 | 7.85 | 20.85 | 6.65 | 20.69 | 6.59 |
 
 Pinball loss and coverage apply only to the quantile forecaster.
+
+## Version 2: conformalized quantile regression
+
+From [gate2_calibration_results.json](gate2_calibration_results.json) (MLflow run `806d05010804457a9fa4a3208e941ad3`, model version 2). Calibration: 92 days (2013-10-01 to 2014-01-01, exclusive), one correction per forecast hour. These months were also used for tuning.
+
+| Split | Coverage raw % | Coverage calibrated % | Mean width raw kW | Mean width calibrated kW | Pinball P10 raw / cal kW | Pinball P90 raw / cal kW |
+|---|---|---|---|---|---|---|
+| validation | 72.80 | 79.03 | 67.0 | 77.2 | 6.54 / 6.43 | 7.03 / 6.81 |
+| test | 72.89 | 80.51 | 59.6 | 69.8 | 5.37 / 5.26 | 5.43 / 5.42 |
+
+Correction per forecast hour (kW added below P10 and above P90; negative narrows):
+
+| Hour | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| kW | 6.77 | 7.45 | 9.74 | 7.83 | 5.28 | -0.25 | 2.46 | 3.88 | 0.89 | 8.29 | 3.61 | 10.34 | 9.41 | 4.83 | 2.77 | 11.97 | 6.32 | 5.32 | 8.05 | 1.15 | 7.37 | -0.57 | -1.61 | 1.76 |
+
+## Peak timing
+
+| Split | Forecast peak within one hour of actual: seasonal / LGBM point / LGBM P50 % |
+|---|---|
+| validation | 51.6 / 49.5 / 48.9 |
+| test | 52.3 / 62.7 / 64.4 |
+
+Months whose actual peak hour (highest hourly kW, Lisbon clock) falls in the robust strategy's protected window:
+
+| Split | Tariff | Protected periods | Months in window | Share % | Months outside (local hour, period) |
+|---|---|---|---|---|---|
+| validation | pge_b19_secondary | peak | 4 of 6 | 66.7 | 2013-08 (15:00, part_peak); 2013-12 (12:00, off_peak) |
+| validation | pgn_sched85_secondary | on_peak | 4 of 6 | 66.7 | 2013-08 (15:00, off_peak); 2013-12 (12:00, mid_peak) |
+| test | pge_b19_secondary | peak | 9 of 12 | 75.0 | 2014-02 (11:00, off_peak); 2014-05 (14:00, off_peak); 2014-06 (14:00, part_peak) |
+| test | pgn_sched85_secondary | on_peak | 8 of 12 | 66.7 | 2014-02 (11:00, mid_peak); 2014-05 (14:00, mid_peak); 2014-06 (14:00, mid_peak); 2014-12 (19:00, off_peak) |

@@ -60,7 +60,8 @@ and `edip.curated.forecast_predictions`. Full table, including error by forecast
 | Registered model | `edip.ml.load_forecaster` version 1 |
 
 **Against the PRD target**: P10 to P90 coverage must be within 5 points of 80 percent on
-the test period. It is **72.9 percent, which misses the target** (open question 1).
+the test period. Version 1 measured **72.9 percent, which missed the target**; version 2
+measures 80.51 percent (section 6).
 
 ## 5. Deviations and why
 
@@ -83,29 +84,53 @@ the test period. It is **72.9 percent, which misses the target** (open question 
 6. **One registered model** returns point and quantiles together so a replay pins one
    version (FR12); the four LightGBM boosters are its artifacts.
 
-## 6. Open questions for the owner
+## 6. Changes after owner review (2026-10-14)
 
-1. **Coverage misses the PRD target (72.9 percent on test, 72.8 percent on validation).**
-   The bands are too narrow, and validation shows it without using test data. Option:
-   a split-conformal adjustment fitted on validation residuals only (widen P10 and P90
-   until validation coverage reaches 80 percent), registered as version 2, and the test
-   result reported as measured. The alternative is to keep version 1 and carry the miss
-   into the business case. This should be settled before Gate 3 freezes the acceptance
-   targets.
-2. **Refit on train plus validation** before the test replay? It would use six more
-   months of data but leave no held-out data for the calibration in question 1.
-3. **Peak hour timing is weak**: the forecast peak lands in the actual peak hour on 26.6
-   to 27.9 percent of test days. Battery value depends on peak timing, so Gate 3 should
-   show its effect through settlement against actual load (FR18 to FR21).
+Gate 2 was approved with these changes:
+
+1. **Coverage target kept at 80 ± 5 percent; conformalized quantile regression applied.**
+   One correction per forecast hour (0 to 23 UTC), fitted on the last three months of
+   validation (2013-10-01 to 2013-12-31, 92 days, 2,208 hours). **These calibration months
+   were also used for tuning** (validation early stopping and the hyperparameter grid).
+   Corrections range from -1.61 kW (narrower) to 11.97 kW (wider).
+2. **Version 2 registered and pinned.** `edip.ml.load_forecaster` version 2 (MLflow run
+   `806d05010804457a9fa4a3208e941ad3`) wraps the version 1 boosters unchanged (maximum
+   difference from the version 1 predictions: 0.0 kW) and adds the corrections; it takes
+   `horizon_h` as an extra input. Version 1 stays registered and is recorded under
+   `history` in `config/model_versions.yaml`. `forecast_predictions` now holds version 2
+   rows, with the version 1 band kept as `p10_raw` and `p90_raw`; earlier rows remain in
+   the Delta table history.
+3. **Test coverage, as measured: 80.51 percent** with version 2 (version 1: 72.89
+   percent). Validation: 79.03 percent (version 1: 72.80). Mean band width on test grew
+   from 59.6 kW to 69.8 kW. Details: [gate2_calibration_results.json](gate2_calibration_results.json)
+   and the version 2 section of [gate2_forecast_comparison.md](gate2_forecast_comparison.md).
+4. **No refit on train plus validation.** The business case notes
+   ([../business_case.md](../business_case.md)) record that production would retrain
+   monthly on a rolling window.
+5. **New peak timing metrics** (test 2014):
+   - Forecast peak within one hour of the actual peak: seasonal 52.3 percent, LightGBM
+     point 62.7 percent, LightGBM P50 64.4 percent of days.
+   - Months whose actual peak hour falls inside the robust strategy's protected window:
+     B-19 peak period 9 of 12 (75.0 percent; outside: February at 11:00, May at 14:00,
+     June at 14:00 local); PGE on-peak 8 of 12 (66.7 percent; outside: February, May,
+     June, and December, whose peak fell on a Sunday). These months set the demand
+     charges that P90 protection does not cover.
+6. **Runtime recorded and pinned.** The `edip-runtime-probe` job recorded serverless
+   environment 4: Python 3.12.3, mlflow-skinny 2.22.0, protobuf 5.29.4
+   (`config/runtime.yaml`). Every data and ML job now pins `mlflow-skinny==2.22.0` and
+   `protobuf==5.29.4`. Agent jobs at Gate 5 need MLflow 3.10 or later (required by
+   databricks-openai) and will need their own environment spec.
+
+Tests added: calibration 3, peak timing metrics 2. Suite: **93 passed**.
 
 ## 7. Exit checklist
 
 | Item | Status |
 |---|---|
 | Forecast comparison table: MAE and MAPE by forecast hour, peak hour error, P10 to P90 coverage, pinball loss, for all three forecasters | **Pass** ([gate2_forecast_comparison.md](gate2_forecast_comparison.md); pinball and coverage apply to the quantile forecaster only) |
-| ONNX files saved for the public build | **Pass** (`frontend/public/data/models/`, four models plus `feature_spec.json`) |
-| Models registered in Unity Catalog and one version pinned | **Pass** (`config/model_versions.yaml`, version 1) |
+| ONNX files saved for the public build | **Pass** (`frontend/public/data/models/`, four models, `feature_spec.json`, and `cqr_corrections.json` for version 2) |
+| Models registered in Unity Catalog and one version pinned | **Pass** (`config/model_versions.yaml`, version 2; version 1 recorded) |
 | Required tests: leakage and ONNX parity | **Pass** |
-| PRD success metric: coverage within 5 points of 80 percent | **Fail** (72.9 percent; open question 1) |
+| PRD success metric: coverage within 5 points of 80 percent | **Pass** with version 2 (80.51 percent on test, measured); version 1 failed (72.89 percent) |
 
 Awaiting approval to start Gate 3.

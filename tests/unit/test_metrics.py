@@ -60,3 +60,37 @@ def test_score_with_quantiles():
     assert set(s.pinball_kw) == {"p10", "p50", "p90", "mean"}
     point_only = _frame().drop(columns=["p10", "p50", "p90"])
     assert score(point_only, "seasonal", "point").pinball_kw is None
+
+
+def test_peak_within_one_hour():
+    from edip.core.metrics import peak_within_one_hour_pct
+
+    rows = []
+    for d, (actual_peak, pred_peak) in enumerate([(14, 15), (14, 16), (3, 3)]):
+        for h in range(24):
+            rows.append(
+                {
+                    "decision_date": d,
+                    "horizon_h": h,
+                    "actual": 100 + (50 if h == actual_peak else 0),
+                    "point": 100 + (50 if h == pred_peak else 0),
+                }
+            )
+    assert peak_within_one_hour_pct(pd.DataFrame(rows), "point") == pytest.approx(200 / 3)
+
+
+def test_months_peak_in_protected_window():
+    from pathlib import Path
+
+    from edip.core.metrics import months_peak_in_protected_window
+    from edip.core.tariff import load_tariff
+
+    b19 = load_tariff(Path(__file__).parents[2] / "config" / "tariffs" / "anchored_tou.yaml")
+    hours = pd.date_range("2014-06-30 23:00", "2014-08-31 22:00", freq="h")  # Lisbon Jul-Aug
+    kw = pd.Series(100.0, index=hours)
+    kw[pd.Timestamp("2014-07-10 16:00")] = 900  # 17:00 Lisbon, B-19 summer peak
+    kw[pd.Timestamp("2014-08-10 10:00")] = 900  # 11:00 Lisbon, off-peak
+    result = months_peak_in_protected_window(kw, b19, ["peak"])
+    assert result.months == 2 and result.months_in_window == 1
+    assert [d.period for d in result.detail] == ["peak", "off_peak"]
+    assert result.detail[0].local_hour == 17

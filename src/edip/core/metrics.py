@@ -10,6 +10,8 @@ import numpy as np
 import pandas as pd
 from pydantic import BaseModel
 
+from edip.core.tariff import Tariff
+
 QUANTILES = {"p10": 0.1, "p50": 0.5, "p90": 0.9}
 
 
@@ -98,4 +100,62 @@ def score(frame: pd.DataFrame, forecaster: str, point_col: str) -> ForecasterSco
         by_horizon=by_horizon(frame, point_col).to_dict("records"),
         p10_p90_coverage_pct=cov,
         pinball_kw=pin,
+    )
+
+
+def peak_within_one_hour_pct(frame: pd.DataFrame, pred_col: str) -> float:
+    """Share of days (percent) whose forecast peak hour is within one hour of the actual
+    peak hour (same planning day, |forecast hour - actual hour| <= 1)."""
+    hits = []
+    for _, day in frame.groupby("decision_date"):
+        actual_h = day.loc[day["actual"].idxmax(), "horizon_h"]
+        pred_h = day.loc[day[pred_col].idxmax(), "horizon_h"]
+        hits.append(abs(int(actual_h) - int(pred_h)) <= 1)
+    return float(np.mean(hits) * 100)
+
+
+class MonthPeak(BaseModel):
+    month: str
+    peak_hour_utc: str
+    local_hour: int
+    period: str
+    in_window: bool
+
+
+class ProtectedWindowResult(BaseModel):
+    tariff: str
+    protected_periods: list[str]
+    months: int
+    months_in_window: int
+    share_pct: float
+    detail: list[MonthPeak]
+
+
+def months_peak_in_protected_window(
+    actual_kw: pd.Series, tariff: Tariff, protected_periods: list[str]
+) -> ProtectedWindowResult:
+    """Share of local billing months whose actual peak hour (highest hourly kW) falls in
+    the tariff periods where the robust strategy plans on P90 (FR16)."""
+    local_month = actual_kw.index.tz_localize("UTC").tz_convert(tariff.clock).tz_localize(None)
+    detail = []
+    for month, g in actual_kw.groupby(local_month.to_period("M")):
+        t = g.idxmax()
+        cls = tariff.classify(pd.DatetimeIndex([t])).iloc[0]
+        detail.append(
+            MonthPeak(
+                month=str(month),
+                peak_hour_utc=t.isoformat(),
+                local_hour=int(cls["local_hour"]),
+                period=str(cls["period"]),
+                in_window=cls["period"] in protected_periods,
+            )
+        )
+    inside = sum(d.in_window for d in detail)
+    return ProtectedWindowResult(
+        tariff=tariff.id,
+        protected_periods=protected_periods,
+        months=len(detail),
+        months_in_window=inside,
+        share_pct=float(inside / len(detail) * 100) if detail else 0.0,
+        detail=detail,
     )

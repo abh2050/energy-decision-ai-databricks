@@ -1,9 +1,17 @@
 # Pinned forecaster for every replay (FR12). Change only with a new gate decision.
 load_forecaster:
   model_name: edip.ml.load_forecaster
-  version: "1"
-  mlflow_run_id: a9cf74a771ad442696fd78d73bfea987
-  config_hash: 8e6df8209868ceb6
+  version: "2"  # version 1 boosters + conformal P10-P90 corrections per forecast hour
+  mlflow_run_id: 806d05010804457a9fa4a3208e941ad3
+  base_version: "1"
+  calibration: config/forecasting.yaml#calibration
   dataset_sha256: f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1
+  inputs: features plus horizon_h (UTC hour of the target, 0 to 23)
   outputs: [point, p10, p50, p90]
   onnx: frontend/public/data/models/load_forecaster_{point,p10,p50,p90}.onnx
+  onnx_corrections: frontend/public/data/models/cqr_corrections.json  # apply after ONNX
+history:
+  - version: "1"
+    mlflow_run_id: a9cf74a771ad442696fd78d73bfea987
+    config_hash: 8e6df8209868ceb6
+    note: uncalibrated; test P10-P90 coverage 72.9 percent; superseded by version 2

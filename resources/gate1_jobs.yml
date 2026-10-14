@@ -16,3 +16,5 @@ resources:
             client: "4"
             dependencies:
               - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

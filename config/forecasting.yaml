@@ -18,3 +18,13 @@ onnx:
   parity_rows: 1000
   max_abs_diff_kw: 0.01
   target_opset: 15  # highest the onnxmltools LightGBM converter supports
+calibration:  # Gate 2 change, owner decision 2026-10-14
+  method: conformalized quantile regression, one correction per forecast hour (0 to 23)
+  window: ["2013-10-01T00:00:00", "2014-01-01T00:00:00"]  # last three months of validation
+  target_coverage: 0.8
+  base_model_version: "1"
+  registered_as_version: "2"
+  note: the calibration months are also part of the validation partition used for tuning
+robust_protected_periods:  # where the robust strategy plans on P90 (FR16)
+  pge_b19_secondary: [peak]
+  pgn_sched85_secondary: [on_peak]
