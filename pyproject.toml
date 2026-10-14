@@ -9,6 +9,7 @@ dependencies = [
     "pandas==2.3.3",
     "pydantic==2.14.1",
     "pyyaml==6.0.3",
+    "scipy==1.18.1",
 ]
 
 [project.optional-dependencies]
@@ -30,7 +31,7 @@ forecasting = [
 ]
 
 [dependency-groups]
-dev = ["httpx==0.28.1", "pytest==9.1.1", "ruff==0.17.0"]
+dev = ["httpx==0.28.1", "hypothesis==6.169.1", "pytest==9.1.1", "ruff==0.17.0"]
 
 [build-system]
 requires = ["hatchling"]

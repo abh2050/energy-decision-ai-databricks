@@ -1,0 +1,20 @@
+# Gate 3 rolling replay on serverless compute; no schedule.
+resources:
+  jobs:
+    gate3_replay:
+      name: edip-gate3-replay
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: replay
+          spark_python_task:
+            python_file: ../src/edip/replay/replay_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
