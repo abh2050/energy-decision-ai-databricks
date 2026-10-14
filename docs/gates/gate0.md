@@ -35,7 +35,7 @@ section 5 updated), `config/agent_allowlist.yaml` (empty until Gate 5), and the 
 - Resource verifier: 7 of 7 checks pass.
 - App: unauthenticated `GET /whoami` returned HTTP 302 to the workspace login; an
   OAuth-authenticated `GET /whoami` returned HTTP 200 with `authenticated: true`.
-- gitleaks: runs in CI only (not installed locally).
+- gitleaks: CI green on `main`; local full-history scan, 5 commits, no leaks.
 
 ## 4. Key numbers
 
@@ -88,6 +88,6 @@ response locally against the full Pydantic model, and spaces calls 2 s apart.
 | `docs/gates/gate0_preflight.json` saved | **Pass** |
 | Valid structured output in at least 19 of 20 calls | **Pass** (20 of 20) |
 | Lockfiles committed | **Pass** |
-| CI passes | See the CI run on `main` |
+| CI passes | **Pass**: python, frontend, and secret-scan jobs green on `main`. The first push's gitleaks step errored before scanning (known action bug on a new branch's first commit, no leaks reported); a local `gitleaks git` scan of all 5 commits found no leaks |
 
 Awaiting approval to start Gate 1.
