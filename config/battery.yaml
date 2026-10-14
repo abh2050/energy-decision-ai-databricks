@@ -1,0 +1,22 @@
+# Battery assumptions for Gate 3 (FR15, FR16). STATUS: proposed, awaiting owner approval.
+# Every value here is an ASSUMPTION, labelled "assumed" in the UI; sizes are set relative
+# to measured load so they scale with the client.
+status: proposed
+base_case:
+  observed_peak_kw:
+    source: max kw_mean in the train split of edip.curated.load_observations
+    note: training data only, so no test information sets the battery size
+  power_fraction_of_observed_peak: 0.5  # FR22 grid point (25, 50, 100 percent)
+  duration_hours: 2  # FR22 grid point (2, 4); energy = power x duration
+  round_trip_efficiency: 0.90  # assumed; split equally: charge and discharge efficiency sqrt(0.90)
+  soc_min_fraction: 0.10  # assumed usable window 10 to 90 percent of energy capacity
+  soc_max_fraction: 0.90
+  initial_soc_fraction: 0.50  # assumed state of charge at 2014-01-01 00:00 UTC
+  terminal_reserve_fraction: 0.50  # end of each planning day at or above 50 percent (FR15)
+  degradation_cost_usd_per_kwh_discharged: 0.03  # assumed; varied in the sensitivity grid
+  grid_export: false  # FR15: no export, grid import >= 0
+fixed_schedule:
+  # FR16 baseline that needs no forecast.
+  charge: full power from 00:00 local until soc_max, only in each tariff's off-peak hours
+  discharge: equal power across each tariff's protected window (B-19 peak; PGE on_peak),
+    limited by available energy and by forecast-free rules only

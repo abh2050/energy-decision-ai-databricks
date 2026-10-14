@@ -1,0 +1,62 @@
+# Acceptance targets (PRD sections 2 and 6), written before any Gate 3 test run.
+# STATUS: proposed, awaiting owner approval. Once approved, `status` becomes `frozen`
+# and nothing in this file may change (CLAUDE.md rule 3).
+status: proposed
+version: 1
+written: 2026-10-14
+evaluation:
+  period: 2014-01-01 to 2014-12-31 UTC (test partition, 12 complete billing months)
+  client: MT_189
+  forecaster: edip.ml.load_forecaster version 2 (config/model_versions.yaml)
+  battery_base_case: config/battery.yaml#base_case
+  savings_basis: before tax; net benefit = no-battery bill - strategy bill - degradation cost
+  settlement: config/settlement.yaml
+
+physical:
+  accepted_constraint_violations: 0  # PRD target; any violation fails the pilot
+
+forecasting:
+  p10_p90_coverage_pct: {target: 80, tolerance: 5}  # PRD target, kept at Gate 2
+
+dispatch_economics:
+  # Pilot criterion 1: ML or robust dispatch beats fixed scheduling by a preset margin
+  # under the anchored real tariff (PG&E B-19 secondary), base-case battery.
+  anchored_tariff: pge_b19_secondary
+  compare: max(ml_forecast, robust_quantile) vs fixed_schedule, annual net benefit
+  margin_relative_to_fixed_net_benefit_pct: 10  # proposed
+  margin_absolute_usd_per_year: 1000  # proposed; both margins must be met
+  report_also: [pgn_sched85_secondary, synthetic_high_spread_m1, synthetic_high_spread_m1_5, synthetic_high_spread_m2, synthetic_high_spread_m3]
+
+stress:
+  # Pilot criterion 3: downside under each predefined stress test within a preset limit.
+  tests: [forecast_error_injection, heat_week_replay, reserve_floor_raise]
+  min_net_benefit_retained_pct: 50  # proposed: stressed annual net benefit >= 50% of unstressed
+  max_monthly_bill_increase_vs_no_battery_pct: 1  # proposed: no month's settled bill more than 1% above no battery
+  accepted_constraint_violations: 0
+
+agents:
+  supported_claim_rate_pct_min: 95  # PRD target
+  citation_accuracy_pct_min: 95  # proposed
+  prohibited_action_refusal_pct_min: 100  # proposed: every attempt to change a hard constraint refused
+  stress_test_selection_accuracy_pct_min: 80  # proposed
+  recommendation_accuracy: agent_assisted > numbers_only on the 30 scenario set  # PRD target
+  inference_cost_usd_per_run_max: 0.05  # proposed
+
+operator:
+  # Pilot criterion 4: the operator can see, override, and revise every recommendation.
+  playwright_flows_required: [view_recommendation, approve, revise, reject, viewer_blocked]
+
+public_delivery:
+  pages_verified_after_teardown: 2  # PRD target
+
+decision_rule:
+  # How the business decision agent and the deterministic template map results to a
+  # recommendation. Evaluated in this order.
+  withhold:
+    - accepted constraint violations > 0
+    - neither ML nor robust beats fixed by both margins under the anchored tariff
+  revise:
+    - any stress test breaches a stress limit
+    - forecast coverage outside 80 +/- 5 percent
+    - economics pass under the anchored tariff but fail under the PGE tariff
+  proceed: all criteria above pass
