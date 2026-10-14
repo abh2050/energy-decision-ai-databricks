@@ -126,6 +126,65 @@ of the stress and coverage results still to come at Gate 5.
    replay (about 20 minutes per full run on serverless); running it on the current
    strategies would mostly map losses. My recommendation is to settle question 1 first.
 
+## 8. Revised strategy, post-hoc (owner decision 2026-10-14)
+
+The results in sections 3 and 4 are the **pre-registered** result and stay unchanged
+(`dispatch_schedules`, `settlement_outcomes`, `replay_outcomes`, `gate3_results.json`).
+The owner then approved two strategy changes, tuned on validation and run on 2014 once.
+
+**Changes.** A settlement charge guard for all six strategies, including hindsight
+(`src/edip/core/charge_guard.py`). It caps charging below the running peak of every
+demand determinant in effect: B-19 maximum demand, peak period demand, and summer
+part-peak demand (part-peak included as "every determinant in effect"; it only restricts
+charging further); PGE window demand and Facility Capacity Demand. The cap uses the
+smallest headroom across the hour's 15 minute intervals against actual load, starts each
+month at the previous month's billed demand, reduces charging only, and records clipped
+kWh. Days that end below reserve because of clipping are counted as guard shortfall days,
+not violations. The robust strategy also plans demand on P50 + k x (P90 - P50).
+
+**Tuning.** July to December 2013 only, local runs logged to the MLflow experiment
+`/Shared/edip/gate3_revised_tuning` (7 trials; [gate3_revised_tuning.json](gate3_revised_tuning.json)).
+Chosen: guard margin 0.02, k = 1.0 (plain P90). Frozen in
+[config/revised_strategy.yaml](../../config/revised_strategy.yaml) before the 2014 rerun.
+The local predictions file also held 2014 rows; the tuning script filters to validation
+and asserts no 2014 hour is used.
+
+**Rerun.** Databricks job `edip-gate3-replay-revised`, once, labelled "revised strategy,
+post-hoc"; outputs in `*_revised` tables and [gate3_revised_results.json](gate3_revised_results.json).
+Side by side: [gate3_revised_comparison.md](gate3_revised_comparison.md). Constraint
+violations: 0. Solver failures: 0.
+
+| Net benefit vs no battery, USD per year | B-19 pre | B-19 revised | PGE pre | PGE revised |
+|---|---|---|---|---|
+| Fixed schedule | −56,311 | −27,917 | −4,656 | −2,898 |
+| Seasonal forecast | −63,814 | −11,953 | −6,361 | −4,507 |
+| ML forecast | −62,630 | −10,624 | −5,867 | −4,250 |
+| Robust quantile | −64,950 | −3,006 | −5,325 | −1,924 |
+| Hindsight | 35,980 | 38,512 | 11,154 | 12,083 |
+
+The guard removes every new demand peak: highest billed demand on B-19 falls from 1,026.8
+kW to 747.6 kW, the no-battery level, for every strategy. Guard shortfall days (B-19):
+seasonal 53, ML 49, robust 4, hindsight 3. On synthetic m3, robust dispatch is the only
+non-hindsight strategy with a positive net benefit (8,543 USD).
+
+**Economics against the frozen targets (revised).** B-19: ML and robust **pass** under
+both readings (incremental over fixed 17,293 and 24,911 USD under the frozen reading).
+PGE: ML fails both readings; robust fails the frozen reading (+975 USD, below the 4,868 USD
+operating cost) and passes the single-count reading.
+
+**Flag on the frozen target (rule 3: reported, not edited).** The economics target
+compares ML and robust with the fixed schedule only. In the revised run the fixed schedule
+loses 27,917 USD on B-19, so ML and robust pass while still losing 10,624 and 3,006 USD per
+year against no battery. Read mechanically, the frozen decision rule gives "proceed,
+scoped to B-19" (pending the Gate 5 stress and coverage checks), for strategies that do
+not beat having no battery. I recommend the business case report net benefit against no
+battery next to every pass, and that the owner decide whether a pilot recommendation can
+rest on a pass against a loss-making baseline.
+
+Tests added: charge guard 6 (month-start limit, 15 minute headroom, both B-19
+determinants, part-peak, PGE Facility Capacity, settlement integration), P90 charge
+planning 1. Suite: **110 passed**.
+
 ## 7. Exit checklist
 
 | Item | Status |
@@ -134,5 +193,8 @@ of the stress and coverage results still to come at Gate 5.
 | Accepted constraint violations equal zero | **Pass** (0 across 36 tariff and strategy runs) |
 | Required tests: property, clipping, no-battery bill, regret | **Pass** |
 | Economics against the frozen targets (reported, not an exit item) | **Fail** on every tariff for ML and robust dispatch |
+
+Gate 4 is on hold for the owner's review of the revised rerun. When it starts, the grid
+runs as parallel tasks per tariff and battery size on small job compute.
 
 Awaiting approval to start Gate 4.

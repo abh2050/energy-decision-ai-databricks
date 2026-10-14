@@ -17,3 +17,8 @@ must carry into it:
    strategy and the fixed schedule lost 56,000 to 65,000 USD per year against no battery,
    because day-ahead charging set new demand peaks; perfect hindsight saved 35,980 USD.
    Any revised strategy must be reported next to this result.
+5. **Revised strategy, post-hoc (Gate 3).** With a settlement charge guard and P90 charge
+   planning, tuned on July to December 2013 and run once on 2014: B-19 net benefit against
+   no battery is ML −10,624 and robust −3,006 USD per year (hindsight +38,512). ML and
+   robust pass the frozen target because it is measured against a fixed schedule that
+   loses 27,917 USD; every pass must be shown next to net benefit against no battery.
