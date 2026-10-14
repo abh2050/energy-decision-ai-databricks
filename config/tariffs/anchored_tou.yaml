@@ -1,0 +1,54 @@
+# Primary anchored tariff (FR6). Every rate below is copied from the official PDF named
+# in `source`; the PDF's SHA256 identifies the exact copy that was read.
+id: pge_b19_secondary
+role: anchored
+synthetic: false
+utility: Pacific Gas and Electric Company (PG&E)
+schedule: Electric Schedule B-19, Medium General Demand-Metered TOU Service
+voltage: secondary
+eligibility: >-
+  Mandatory when maximum billing demand exceeds 499 kW for three consecutive months in the
+  last 12 and the customer does not meet Schedule B-20 requirements (Sheet 1).
+source:
+  url: https://www.pge.com/tariffs/assets/pdf/tariffbook/ELEC_SCHEDS_B-19.pdf
+  retrieved: 2026-10-14
+  sha256: 0206afab90dc15a02573bae4e03fa80341d75fce87ee92e4c13d9a73842bc5d6
+  advice_letter: 7846-E
+  effective_date: 2026-03-01
+  sheets:
+    - "Rates: Sheet 4, Cal. P.U.C. Sheet No. 61071-E (cancelling 60650-E), Advice 7846-E, effective March 1, 2026"
+    - "Time periods: Section 6, Cal. P.U.C. Sheet No. 57123-E (cancelling 49020-E), Advice 7116-E-B, effective January 1, 2024"
+seasons:
+  summer: [6, 7, 8, 9]  # June 1 through September 30
+  winter: [10, 11, 12, 1, 2, 3, 4, 5]  # October 1 through May 31
+default_period: off_peak  # "All other hours"
+period_rules:
+  - {season: summer, name: peak, hours: [[16, 21]]}  # 4:00 to 9:00 p.m. every day
+  - {season: summer, name: part_peak, hours: [[14, 16], [21, 23]]}  # 2-4 p.m. and 9-11 p.m.
+  - {season: winter, name: peak, hours: [[16, 21]]}
+  - {season: winter, name: super_off_peak, hours: [[9, 14]], months: [3, 4, 5]}  # 9 a.m.-2 p.m., Mar-May
+energy_usd_per_kwh:  # Total Energy Rates, secondary voltage
+  summer: {peak: 0.18648, part_peak: 0.14775, off_peak: 0.12037}
+  winter: {peak: 0.16188, off_peak: 0.12026, super_off_peak: 0.06442}
+demand_charges:  # Total Demand Rates ($ per kW), secondary voltage, monthly
+  - name: maximum_demand
+    rates_usd_per_kw: {summer: 37.37, winter: 37.37}
+  - name: maximum_peak_demand
+    periods: [peak]
+    rates_usd_per_kw: {summer: 46.16, winter: 2.31}
+  - name: maximum_part_peak_demand
+    periods: [part_peak]
+    rates_usd_per_kw: {summer: 10.52}
+excluded_from_savings:
+  - Customer charge, mandatory B-19 ($ per meter per day)
+  - Peak Day Pricing (PDP) event charges and credits (event days are not modelled)
+  - Power factor adjustment
+  - Riders, surcharges, and taxes
+  - Standby and reservation charges
+notes:
+  - >-
+    The tariff measures demand on 15 minute averages; this project bills demand on hourly
+    mean kW (FR3), which understates demand charges.
+  - >-
+    When a billing month spans both seasons the tariff prorates demand charges by days.
+    Billing months here are calendar months, which never span a season boundary.

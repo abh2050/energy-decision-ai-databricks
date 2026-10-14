@@ -32,13 +32,25 @@ databricks bundle run edip_hello -t dev -p edip
 Check the app: open its URL in a browser and visit `/whoami`; it returns
 `{"authenticated": true, ...}`. Without signing in, the proxy redirects to login.
 
-## 3. Model preflight
+## 3. Data snapshot and ingest (Gate 1)
+
+Serverless egress is blocked by the workspace network policy, so upload the UCI zip from
+a local download, then run the job:
+
+```sh
+curl -fsSLO https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip
+databricks fs cp electricityloaddiagrams20112014.zip \
+  dbfs:/Volumes/edip/raw/snapshots/uci_ld2011_2014/<YYYY-MM-DD>/ -p edip
+databricks bundle run gate1_ingest -t dev -p edip   # snapshot date defaults to today (UTC)
+```
+
+## 4. Model preflight
 
 ```sh
 DATABRICKS_CONFIG_PROFILE=edip uv run python scripts/preflight.py --profile edip
 ```
 
-## 4. Cost controls
+## 5. Cost controls
 
 ```sh
 BUDGET_ALERT_EMAIL=<you> uv run python scripts/set_cost_controls.py --profile edip \
@@ -48,7 +60,7 @@ BUDGET_ALERT_EMAIL=<you> uv run python scripts/set_cost_controls.py --profile ed
 The budget policy step needs the account **billing admin** role. Budget alerts are
 notifications, not hard caps.
 
-## 5. Verify and stop
+## 6. Verify and stop
 
 ```sh
 uv run python scripts/verify_gate0.py --profile edip   # writes gate0_resources.json

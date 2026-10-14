@@ -1,0 +1,40 @@
+# Gate 1 data settings (FR1 to FR5). Changing this file changes config_hash.
+dataset:
+  name: ElectricityLoadDiagrams20112014
+  source_url: https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip
+  member: LD2011_2014.txt
+  doi: 10.24432/C58C86
+  license: CC BY 4.0
+  attribution: >-
+    Trindade, A. (2015). ElectricityLoadDiagrams20112014 [Dataset]. UCI Machine Learning
+    Repository. https://doi.org/10.24432/C58C86
+  description: >-
+    15 minute average kW readings for 370 Portuguese clients, 2011 to 2014, labelled with
+    Portuguese wall-clock time at the interval end.
+  snapshot_volume: /Volumes/edip/raw/snapshots
+
+timezone:
+  source: Europe/Lisbon wall clock
+  output: Portuguese standard time (WET, equal to UTC); every day has 24 hours
+  dst_years: [2012, 2013, 2014]  # years where the data shows the documented artifacts
+
+# Series start: 2011 shows no DST artifacts, so its clock basis cannot be verified.
+series_start: "2012-01-01T00:00:00"
+splits:  # hour_start in standard time; each end is exclusive
+  train: ["2012-01-01T00:00:00", "2013-07-01T00:00:00"]
+  validation: ["2013-07-01T00:00:00", "2014-01-01T00:00:00"]
+  test: ["2014-01-01T00:00:00", "2015-01-01T00:00:00"]
+
+client_selection:
+  # Steps are applied in order; the rule and counts are recorded in the quality report.
+  activated_before: "2012-01-01T00:00:00"
+  dst_pattern_all_years: true
+  october_doubling_ratio: [1.6, 2.5]
+  train_nonzero_share_min: 1.0
+  # PG&E B-19 (anchored tariff) is mandatory when the 15 minute maximum demand exceeds
+  # 499 kW for three consecutive months and the customer does not qualify for B-20
+  # (1,000 kW and above). Applied to the training period.
+  demand_kw_min_exclusive: 499
+  demand_kw_max_inclusive: 999
+  consecutive_months_above_min: 3
+  tie_break: lowest client number

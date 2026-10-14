@@ -1,0 +1,12 @@
+# Stress case (FR6). Labelled synthetic: built from the anchored tariff by widening each
+# season's energy spread around its off-peak rate. Not a real tariff.
+id: synthetic_high_spread
+role: stress
+synthetic: true
+derived_from: anchored_tou.yaml
+energy_spread_multiplier: 3.0
+reference_period: off_peak
+assumption: >-
+  SYNTHETIC: energy rates are off_peak + 3 x (B-19 rate - off_peak) per season; demand
+  charges, periods, and exclusions are unchanged from B-19. The multiplier is a design
+  assumption chosen to stress test dispatch, not a published rate.

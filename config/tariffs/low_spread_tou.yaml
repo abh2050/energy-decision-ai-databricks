@@ -1,0 +1,14 @@
+# Low spread case (FR6): Portland General Electric (PGE), Oregon.
+# Status: rates not encoded yet. The only PDF reachable without a browser is the First
+# Revision of Sheet 85-1 (Advice 24-39, effective January 1, 2025), and an Oregon PUC
+# filing shows a later revision effective August 1, 2025. Encode from the current
+# official sheet only.
+status: pending_official_sheet
+id: pgn_sched85_secondary
+role: low_spread
+synthetic: false
+utility: Portland General Electric Company (PGE)
+candidate_schedule: >-
+  Schedule 85, Large Nonresidential Standard Service (201 - 4,000 kW), secondary delivery
+  voltage. Chosen because the selected client's demand (500 - 999 kW) exceeds the
+  31 - 200 kW range of Schedule 83.

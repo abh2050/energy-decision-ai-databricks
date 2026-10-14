@@ -5,13 +5,20 @@ description = "Energy Decision Intelligence Platform: battery dispatch decisions
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "numpy==2.3.5",
+    "pandas==2.3.3",
+    "pydantic==2.14.1",
+    "pyyaml==6.0.3",
+]
+
+[project.optional-dependencies]
+# Databricks, model client, app, and Lakebase. Jobs install only what they need.
+platform = [
     "databricks-openai==0.17.1",
     "databricks-sdk==0.152.0",
     "fastapi==0.143.0",
     "mlflow-skinny==3.17.1",
     "psycopg[binary]==3.3.6",
-    "pydantic==2.14.1",
-    "pyyaml==6.0.3",
     "uvicorn==0.54.0",
 ]
 

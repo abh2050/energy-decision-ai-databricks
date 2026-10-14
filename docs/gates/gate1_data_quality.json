@@ -1,0 +1,148 @@
+{
+  "manifest": {
+    "source_url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+    "doi": "10.24432/C58C86",
+    "license": "CC BY 4.0",
+    "attribution": "Trindade, A. (2015). ElectricityLoadDiagrams20112014 [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C58C86",
+    "file": "electricityloaddiagrams20112014.zip",
+    "bytes": 261335609,
+    "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+    "snapshot_date": "2026-10-14",
+    "retrieval": "uploaded via the Files API from a local download of source_url",
+    "recorded_at": "2026-10-14T20:32:01+00:00"
+  },
+  "config_hash": "fa18529101fa7d50",
+  "table": "edip.curated.load_observations",
+  "delta_version": 29,
+  "report": {
+    "dataset_sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+    "raw_rows": 140256,
+    "raw_clients": 370,
+    "raw_first_label": "2011-01-01T00:15:00",
+    "raw_last_label": "2015-01-01T00:00:00",
+    "selection": {
+      "client_id": "MT_189",
+      "candidates": [
+        "MT_189",
+        "MT_199",
+        "MT_205",
+        "MT_214",
+        "MT_274",
+        "MT_325"
+      ],
+      "steps": [
+        {
+          "name": "all clients",
+          "remaining": 370
+        },
+        {
+          "name": "activated before series start",
+          "remaining": 160
+        },
+        {
+          "name": "DST artifacts as documented, all years",
+          "remaining": 48
+        },
+        {
+          "name": "training readings all nonzero",
+          "remaining": 27
+        },
+        {
+          "name": "B-19 demand range in training",
+          "remaining": 6
+        }
+      ],
+      "train_max_demand_kw": 804.416403785489,
+      "train_nonzero_share": 1.0
+    },
+    "selection_rule": {
+      "activated_before": "2012-01-01T00:00:00",
+      "dst_pattern_all_years": true,
+      "october_doubling_ratio": [
+        1.6,
+        2.5
+      ],
+      "train_nonzero_share_min": 1.0,
+      "demand_kw_min_exclusive": 499,
+      "demand_kw_max_inclusive": 999,
+      "consecutive_months_above_min": 3,
+      "tie_break": "lowest client number"
+    },
+    "client_activation": "2011-01-01T00:15:00",
+    "dst_checks": [
+      {
+        "day": "2012-03-25",
+        "kind": "march",
+        "rows_present": 4,
+        "placeholder_zero": true,
+        "doubling_ratio": null
+      },
+      {
+        "day": "2013-03-31",
+        "kind": "march",
+        "rows_present": 4,
+        "placeholder_zero": true,
+        "doubling_ratio": null
+      },
+      {
+        "day": "2014-03-30",
+        "kind": "march",
+        "rows_present": 4,
+        "placeholder_zero": true,
+        "doubling_ratio": null
+      },
+      {
+        "day": "2012-10-28",
+        "kind": "october",
+        "rows_present": 4,
+        "placeholder_zero": null,
+        "doubling_ratio": 1.9215926493108728
+      },
+      {
+        "day": "2013-10-27",
+        "kind": "october",
+        "rows_present": 4,
+        "placeholder_zero": null,
+        "doubling_ratio": 1.9082446808510627
+      },
+      {
+        "day": "2014-10-26",
+        "kind": "october",
+        "rows_present": 4,
+        "placeholder_zero": null,
+        "doubling_ratio": 2.0126448893572175
+      }
+    ],
+    "rows_before_series_start": 35040,
+    "placeholder_rows_removed": 12,
+    "october_rows_split": 12,
+    "incomplete_hours_dropped": 0,
+    "hourly_rows": 26304,
+    "splits": [
+      {
+        "name": "train",
+        "start": "2012-01-01T00:00:00",
+        "end_exclusive": "2013-07-01T00:00:00",
+        "hours": 13128,
+        "zero_hours": 0,
+        "max_kw_mean": 751.7744479495268
+      },
+      {
+        "name": "validation",
+        "start": "2013-07-01T00:00:00",
+        "end_exclusive": "2014-01-01T00:00:00",
+        "hours": 4416,
+        "zero_hours": 0,
+        "max_kw_mean": 796.9242902208202
+      },
+      {
+        "name": "test",
+        "start": "2014-01-01T00:00:00",
+        "end_exclusive": "2015-01-01T00:00:00",
+        "hours": 8760,
+        "zero_hours": 1,
+        "max_kw_mean": 671.9242902208202
+      }
+    ]
+  }
+}
