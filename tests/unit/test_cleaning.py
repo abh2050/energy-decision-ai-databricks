@@ -10,7 +10,7 @@ from edip.core.cleaning import (
     drop_pre_activation,
     march_change_day,
     october_change_day,
-    to_standard_time,
+    to_utc,
 )
 from edip.core.units import to_hourly
 
@@ -45,11 +45,11 @@ def test_march_placeholder_rows_dropped_and_day_has_24_hours():
         s[pd.Timestamp(f"2013-03-31 {t}")] = 0.0
     assert check_dst_day(s, date(2013, 3, 31), "march").placeholder_zero
 
-    std = to_standard_time(s, [2013])
+    std = to_utc(s, [2013])
     assert (std == 10.0).all()  # every placeholder zero removed
     assert len(s) - len(std) == 4
     steps = std.index.to_series().diff().dropna()
-    assert (steps == pd.Timedelta(minutes=15)).all()  # no gap in standard time
+    assert (steps == pd.Timedelta(minutes=15)).all()  # no gap in UTC
     hourly = to_hourly(std)
     day = hourly.loc["2013-03-31"]
     assert len(day) == 24
@@ -65,7 +65,7 @@ def test_october_doubled_hour_split_preserves_energy():
     check = check_dst_day(s, date(2013, 10, 27), "october")
     assert check.doubling_ratio == pytest.approx(2.0)
 
-    std = to_standard_time(s, [2013])
+    std = to_utc(s, [2013])
     assert len(std) - len(s) == 4
     assert std.sum() == pytest.approx(s.sum())  # energy preserved
     assert (std == 10.0).all()
@@ -77,7 +77,7 @@ def test_october_doubled_hour_split_preserves_energy():
 
 def test_summer_labels_shift_back_one_hour():
     s = _day_series("2013-07-01")
-    std = to_standard_time(s, [2013])
+    std = to_utc(s, [2013])
     assert std.index[0] == pd.Timestamp("2013-06-30 23:15")
 
 

@@ -5,8 +5,9 @@ day the wall-clock labels 01:00 to 01:45 do not exist and hold zero placeholders
 October change day the same labels occur twice and hold the consumption of both hours.
 Observed in the data: the pattern holds in 2012 to 2014 (not 2011) for most clients.
 
-Output is Portuguese standard time (WET, equal to UTC): every day has 24 hours and
+Output is UTC (Portugal's standard time, WET, equals UTC): every day has 24 hours and
 energy is preserved. Placeholder rows are dropped and doubled rows are split in half.
+Tariff periods are later assigned from the Europe/Lisbon wall clock (edip.core.tariff).
 """
 
 from __future__ import annotations
@@ -60,8 +61,8 @@ def check_dst_day(kw: pd.Series, day: date, kind: str) -> DstDayCheck:
     return DstDayCheck(day=day, kind=kind, rows_present=present, doubling_ratio=ratio)
 
 
-def to_standard_time(kw: pd.Series, years: list[int]) -> pd.Series:
-    """Convert wall-clock labelled readings to Portuguese standard time (UTC).
+def to_utc(kw: pd.Series, years: list[int]) -> pd.Series:
+    """Convert Europe/Lisbon wall-clock labelled readings to UTC labels.
 
     Applies the DST correction only for `years`, the years in which the data shows the
     documented artifacts. The caller verifies the artifacts with `check_dst_day` first.

@@ -15,12 +15,13 @@ dataset:
 
 timezone:
   source: Europe/Lisbon wall clock
-  output: Portuguese standard time (WET, equal to UTC); every day has 24 hours
+  output: UTC; every day has 24 hours; optimization horizons are 24 UTC hours
+  tariff_clock: Europe/Lisbon  # tariff periods use the local wall-clock hour
   dst_years: [2012, 2013, 2014]  # years where the data shows the documented artifacts
 
 # Series start: 2011 shows no DST artifacts, so its clock basis cannot be verified.
 series_start: "2012-01-01T00:00:00"
-splits:  # hour_start in standard time; each end is exclusive
+splits:  # hour_start in UTC; each end is exclusive
   train: ["2012-01-01T00:00:00", "2013-07-01T00:00:00"]
   validation: ["2013-07-01T00:00:00", "2014-01-01T00:00:00"]
   test: ["2014-01-01T00:00:00", "2015-01-01T00:00:00"]

@@ -1,14 +1,469 @@
-# Low spread case (FR6): Portland General Electric (PGE), Oregon.
-# Status: rates not encoded yet. The only PDF reachable without a browser is the First
-# Revision of Sheet 85-1 (Advice 24-39, effective January 1, 2025), and an Oregon PUC
-# filing shows a later revision effective August 1, 2025. Encode from the current
-# official sheet only.
-status: pending_official_sheet
+# Low spread case (FR6): Portland General Electric Schedule 85, secondary, Cost of Service.
+# Generated from the downloaded official PDFs; each charge cites its source schedule.
+# Rule: include every per kWh and per kW charge, including all Schedule 100 adjustments
+# that apply to Schedule 85; exclude only fixed monthly customer charges and percentage
+# taxes or franchise fees.
 id: pgn_sched85_secondary
 role: low_spread
 synthetic: false
 utility: Portland General Electric Company (PGE)
-candidate_schedule: >-
-  Schedule 85, Large Nonresidential Standard Service (201 - 4,000 kW), secondary delivery
-  voltage. Chosen because the selected client's demand (500 - 999 kW) exceeds the
-  31 - 200 kW range of Schedule 83.
+schedule: Schedule 85, Large Nonresidential Standard Service (201 - 4,000 kW), Cost of Service Option
+voltage: secondary
+eligibility: 'Secondary: Demand (30 minute) above 200 kW more than six times in the preceding 13 months
+  and not above 4,000 kW more than once.'
+clock: Europe/Lisbon
+sources:
+- id: pge_85
+  title: Schedule 85 - Large Nonresidential Standard Service (201 - 4,000 kW)
+  url: https://assets.ctfassets.net/416ywc1laqmd/6iAoDWbGKULIlR2vzwe8cv/af14412ba87330868675f1ff125d66b0/Sched_085.pdf
+  sha256: 25ad5061603fd9e06cab5467f58995f7d7898ba6bf474f7f904c7cf5df2d8119
+  sheet: Fourth Revision of Sheet No. 85-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_100
+  title: Schedule 100 - Summary of Applicable Adjustments
+  url: https://assets.ctfassets.net/416ywc1laqmd/Lv0QYI9KQYsRZoiR1HVBh/8cd005d140448a0dd6651d674cb06d96/Sched_100.pdf
+  sha256: cbc26294877c2043e7a8ac4db2861b57eed6d32e6543248a58ed13d8c6f1d897
+  sheet: Fourth Revision of Sheet No. 100-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_85_periods_2026_01
+  title: Schedule 85, Third Revision of Sheet No. 85-1 (energy time periods footnote)
+  url: https://assets.ctfassets.net/416ywc1laqmd/6iAoDWbGKULIlR2vzwe8cv/bfa2d7b517cd1d3520193b652f504d3a/Sched_085.pdf
+  sha256: 5ae409cc56bf0e341588f0010ef9be78d29cec4581bb44f10605dda104fe1971
+  sheet: Third Revision of Sheet No. 85-1
+  advice_letter: 25-38
+  effective_date: '2026-01-01'
+  retrieved: '2026-10-14'
+- id: pge_rule_b
+  title: Rule B - Definitions (Demand, Facility Capacity)
+  url: https://assets.ctfassets.net/416ywc1laqmd/3o9FdGSkloIraCHhLxPzwA/850d3137b3d56f5a7dddcceed8ef33e1/Rule_B.pdf
+  sha256: 4a46c51e5b25b078c4bf446b7956fe8a085e9a044a22f61bda8ea72b885b5df4
+  sheet: Original Sheet No. B-1
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+- id: pge_102
+  title: Schedule 102 - Federal River Benefits supplied by Bonneville Power Administration (BPA)
+  url: https://assets.ctfassets.net/416ywc1laqmd/5x0xHN6q3zzRJF0WWOxjR8/8bd553307e8ba5efc5935756fa9b85f1/Sched_102.pdf
+  sha256: 96307eb8f8a49a5cfaaec49c1a12199312b241f5178e03cc91823fc233feebf0
+  sheet: Third Revision of Sheet No. 102-1
+  advice_letter: 26-03
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_103
+  title: Schedule 103 - Metro Supportive Housing Services Business Income Tax
+  url: https://assets.ctfassets.net/416ywc1laqmd/4XHtIFMajlPLQ7MsPiScbm/7b8c9bd700a66a5b7c299151e91aab62/Sched_103.pdf
+  sha256: 5141f2de1c2ece99f9b6ad9b4c4795f6e878035b1a606946fa6d38bd1802306c
+  sheet: Second Revision of Sheet No. 103-1
+  advice_letter: 26-08
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_106
+  title: Schedule 106 - Multnomah County Business Income Tax Recovery
+  url: https://assets.ctfassets.net/416ywc1laqmd/38ypmCHeuvsFUN2miTGf7o/31d67eb7afc7bfa7c54aaa99a9c5f49d/Sched_106.pdf
+  sha256: 3d92e4d8ecc27c6cbbbef0174e78f3f7e6c6ec76edea9b0e38e6b51b79d28a88
+  sheet: Second Revision of Sheet No. 106-1
+  advice_letter: 26-09
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_108
+  title: Schedule 108 - Public Purpose Charge
+  url: https://assets.ctfassets.net/416ywc1laqmd/3iIZy9k8dCDMillMpvNW0B/ef058b2f1a32a4dd05fef0c7f05f878e/Sched_108.pdf
+  sha256: 312a63be5d0812a8c0cce0ae96e8d58536b5afb1f340bec3a44cd9de83ddd859
+  sheet: Original Sheet No. 108-1
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+- id: pge_125
+  title: Schedule 125 - Annual Power Cost Update
+  url: https://assets.ctfassets.net/416ywc1laqmd/5NpoHo2zjqMSn6nj87KCtg/d12af2b91776b76538acaecd88f23a7e/Sched_125.pdf
+  sha256: ac4dd2ed4f0a01d557b326e5fda000848fb384a5e2b20741f9069502a43b4cea
+  sheet: Third Revision of Sheet No. 125-4
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_105
+  title: Schedule 105 - Regulatory Adjustments
+  url: https://assets.ctfassets.net/416ywc1laqmd/6eJ1dZrPipipULyDcYlQE4/42191bd4507517a6ac46267884e30b92/Sched_105.pdf
+  sha256: aba74dc05979ac11c4edf2dc3e379be46a8d1888fff4151e9f9924033649ea5e
+  sheet: Third Revision of Sheet No. 105-1
+  advice_letter: 26-21
+  effective_date: '2026-05-01'
+  retrieved: '2026-10-14'
+- id: pge_109
+  title: Schedule 109 - Energy Efficiency Funding Adjustment
+  url: https://assets.ctfassets.net/416ywc1laqmd/u0fnBKLiQdK43yHDhFH5a/106421633a307666fef86ef399088a29/Sched_109.pdf
+  sha256: 0bc73bfb7adbebe8631edb991de63cc85c84c3cb011dd00f7bf24a5819643ac8
+  sheet: Fourth Revision of Sheet No. 109-2
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_115
+  title: Schedule 115 - Low-Income Assistance
+  url: https://assets.ctfassets.net/416ywc1laqmd/1KAzftPiXxJXwpQHd49QaX/8de3ac17cdc6078d2085f243094c9b34/Sched_115.pdf
+  sha256: 3830b8220d66dc2fdcc54ae0e0ae80ae41d44620ee2975023033e3f9b27e19b7
+  sheet: Second Revision of Sheet No. 115-1
+  advice_letter: 26-02
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_118
+  title: Schedule 118 - Bill Adjustment Cost Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/2MY8v764ObKghtodobTrDr/27d3755ad305e860614e16ffe5f5787a/Sched_118.pdf
+  sha256: b1a0618fba5674b0407652e14578cab6a6618fb7f07b0de6ae7dfcbcd167f9ca
+  sheet: Third Revision of Sheet No. 118-1
+  advice_letter: 26-31
+  effective_date: '2026-10-01'
+  retrieved: '2026-10-14'
+- id: pge_120
+  title: Schedule 120 - Seaside Battery Storge Resource Alternative Recovery
+  url: https://assets.ctfassets.net/416ywc1laqmd/kiJChmVYGumcg3ZlS8w9H/62637f553f70c2e6d45808007f85b37f/Sched_120.pdf
+  sha256: 2d3560a5f3380298fab0961f2754f1885694da302c91d250e00dc0a6d19fa317
+  sheet: Second Revision of Sheet No. 120-2
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_121
+  title: Schedule 121 - Distribution System Plan Alternative Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/6zsYqSfaCtWeKjuDa6tmLf/cc20ffcefcafe499bcb4d4d9cf28fa9e/Sched_121.pdf
+  sha256: 5aaef39e07d133d819dde1f67ac048fa489f1c2662931afb7764351aa9303bf7
+  sheet: First Revision of Sheet No. 121-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_122
+  title: Schedule 122 - Renewable Resources Automatic Adjustment Clause
+  url: https://assets.ctfassets.net/416ywc1laqmd/66KKFjiBXfAq7uOjpYUfcY/517d1e32d9154cde3a6e0593462cf235/Sched_122.pdf
+  sha256: 774af6a030bbafdb2baf0a79ba07020cf2d2a65416529449402be636c66afacf
+  sheet: Fourth Revision of Sheet No. 122-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_123
+  title: Schedule 123 - Decoupling Adjustment
+  url: https://assets.ctfassets.net/416ywc1laqmd/1MZVi9lgm0Y5RxOsegygyy/e62ef3539ec24ade6076defdb5690897/Sched_123.pdf
+  sha256: 7e64e5dcffdbf2f3b600e927ac7a9f0779378fe9163348ebbfded843f37540e5
+  sheet: Frist Revision of Sheet No. 123-4
+  advice_letter: 24-23
+  effective_date: '2025-01-01'
+  retrieved: '2026-10-14'
+- id: pge_126
+  title: Schedule 126 - Annual Power Cost Variance Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/6qdQyzP5UCXW9XG5WQ31Gd/58ee890a69c79a2e51de1e838aa7103d/Sched_126.pdf
+  sha256: 748da19e56ddd389d6bb6fef4f5bd8253a9011afb33f46aa1fb786c5b16c8c1d
+  sheet: Third Revision of Sheet No. 126-5
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_135
+  title: Schedule 135 - Demand Response Cost Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/3xXyUze7t3mv5PE4J4pUqh/e6d138ae6b6a3607e52579a8662237cc/Sched_135.pdf
+  sha256: 5dbe8b982542ab617efa2ca311a63a1e926c1f01314c96c2be8624a49a10920f
+  sheet: Second Revision of Sheet No. 135-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_136
+  title: Schedule 136 - Oregon Community Solar Program Start-Up Cost Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/1pkJSErHJEn7d7r3NZAvVB/486a5cc06bf8536cf23a86c9e2266961/Sched_136.pdf
+  sha256: 75a7836dda2d7cf96f6f90508c525bbffb2361bc034e564b5766ff37d6360771
+  sheet: Third Revision of Sheet No. 136-2
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_137
+  title: Schedule 137 - Customer-Owned Solar Payment Option Cost Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/4AFZwegGfu8m452fEgtPxI/2693ab45f2c6e8cbc895a8c7e8326c65/Sched_137.pdf
+  sha256: f6ebc0ecb4d9623bf76c6b8795ce8b42beccc14530522daa0aacf31d310fc31a
+  sheet: Original Sheet No. 137-1
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+- id: pge_138
+  title: Schedule 138 - Energy Storage Cost Recovery Mechanism
+  url: https://assets.ctfassets.net/416ywc1laqmd/2d3t4JbJmL02fKe4Gm36ng/91405f738504985c285637f18c30d490/Sched_138.pdf
+  sha256: ef4671d49ac1df411cb814f8d3beb8d05e5fab81f0763bc4591e0a52323e21f0
+  sheet: Second Revision of Sheet No. 138-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_143
+  title: Schedule 143 - Spent Fuel Adjustment
+  url: https://assets.ctfassets.net/416ywc1laqmd/5DkNrbCRtH4nhPgS2j9jU8/efb120b07d0d71b44d55951a48721d8e/Sched_143.pdf
+  sha256: 88812d10103d9ba13cef9ba7cbefca3ab9f7c732708ad91a48f4530d14929817
+  sheet: Original Sheet No. 143-2
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+- id: pge_145
+  title: Schedule 145 - Boardman Power Plant Decommissioning Adjustment
+  url: https://assets.ctfassets.net/416ywc1laqmd/5i5n5Z2LczeYZry8kvWemJ/3e2091b575c17813295a41d0abd03b8c/Sched_145.pdf
+  sha256: f32622e7a9fb21225b198ba771d6ae6113a7a70b820aa97e422e73e3e5c980ad
+  sheet: Second Revision of Sheet No. 145-1
+  advice_letter: 25-36
+  effective_date: '2026-01-01'
+  retrieved: '2026-10-14'
+- id: pge_146
+  title: Schedule 146 - Colstrip Power Plant Operating Life Adjustment
+  url: https://assets.ctfassets.net/416ywc1laqmd/1Ytc6YPnaaiGy3M9DZ7fOi/136cd9dc65163bfd02d8a82d12df3d47/Sched_146.pdf
+  sha256: 7651211ec70084ab1bff6d55d1b42005a332d0e698b1f4c116c46c931ccef965
+  sheet: Third Revision of Sheet No. 146-1
+  advice_letter: 26-24
+  effective_date: '2026-07-08'
+  retrieved: '2026-10-14'
+- id: pge_149
+  title: Schedule 149 - Environmental Remediation Cost Recovery Adjustment, Automatic Adjustment Cl
+  url: https://assets.ctfassets.net/416ywc1laqmd/3Ka52qU7d3kueGzv8sFnrz/8e9e52333f16197db442f760fc87d74a/Sched_149.pdf
+  sha256: ba72a4aa6856bb72416b1c0b46824b7da8eb500ccd8a73552023ac905e96b74e
+  sheet: Original Sheet No. 149-4
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+- id: pge_150
+  title: Schedule 150 - Transportation Electrification Cost Recovery
+  url: https://assets.ctfassets.net/416ywc1laqmd/bAlUAOkBjG2ttYMFzDBzQ/3a3d7d2bfa7557cf13c5d9525262b0a4/Sched_150.pdf
+  sha256: 600f55b66d8f286c12ac30ec9e6ec190d58310756519c4d84680b0227c40c4d4
+  sheet: Second Revision of Sheet No. 150-1
+  advice_letter: 26-10
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_151
+  title: Schedule 151 - Wildfire Mitigation Cost Recovery
+  url: https://assets.ctfassets.net/416ywc1laqmd/2bGFN7omAhVqJX7m6Q8eNv/85d8b22f9e5a19744ab7e4e409e6a48c/Sched_151.pdf
+  sha256: 0a932090eea14d78363ee7e58b1c71a1ba84f34adc6c1a4454d804c62ae5d162
+  sheet: Eighth Revision of Sheet No. 151-1
+  advice_letter: 26-22
+  effective_date: '2026-06-01'
+  retrieved: '2026-10-14'
+- id: pge_152
+  title: Schedule 152 - Major Event Cost Recovery
+  url: https://assets.ctfassets.net/416ywc1laqmd/1ZKwOKXFNp9tSpEeL0vkXS/1529331e2bb903a873f3c3be5c349a87/Sched_152.pdf
+  sha256: fa5e82e74ba1dcb3cb88cde933b18f012e8e0eb8168524f5c6cdb06edc51c449
+  sheet: Third Revision of Sheet No. 152-1
+  advice_letter: 26-19
+  effective_date: '2026-04-01'
+  retrieved: '2026-10-14'
+- id: pge_153
+  title: Schedule 153 - Community Benefits and Impacts Advisory Group (CBAIG) Cost Recovery Mechani
+  url: https://assets.ctfassets.net/416ywc1laqmd/593mckgMRzdRSW3U5wuHU1/60fc6d4f5f65d7ab90d0508955a567bd/Sched_153.pdf
+  sha256: b058838cc727ef656aaf0d650262143d033add967011dfe0f299867e580b4eae
+  sheet: Original Sheet No. 153-1
+  advice_letter: 23-40
+  effective_date: '2024-01-01'
+  retrieved: '2026-10-14'
+seasons:
+  all_year:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+default_period: off_peak
+period_rules:
+- season: all_year
+  name: on_peak
+  hours:
+  - - 16
+    - 22
+  weekdays:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+- season: all_year
+  name: mid_peak
+  hours:
+  - - 6
+    - 16
+  weekdays:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+energy_components:
+- name: System usage charge
+  source: pge_85
+  cents_per_kwh: 0.281
+- name: Schedule 125 annual power cost update (Cost of Service energy)
+  source: pge_125
+  by_period_cents_per_kwh:
+    all_year:
+      on_peak: 5.808
+      mid_peak: 4.664
+      off_peak: 3.901
+- name: Regulatory Adjustments
+  source: pge_105
+  cents_per_kwh: 0.018
+- name: Energy Efficiency Funding Adjustment
+  source: pge_109
+  cents_per_kwh: 0.622
+- name: Low-Income Assistance
+  source: pge_115
+  cents_per_kwh: 0.138
+- name: Bill Adjustment Cost Recovery Mechanism
+  source: pge_118
+  cents_per_kwh: 0.361
+- name: Seaside Battery Storge Resource Alternative Recovery
+  source: pge_120
+  cents_per_kwh: 0.194
+- name: Distribution System Plan Alternative Recovery Mechanism
+  source: pge_121
+  cents_per_kwh: 0.161
+- name: Renewable Resources Automatic Adjustment Clause
+  source: pge_122
+  cents_per_kwh: 0.181
+- name: Decoupling Adjustment
+  source: pge_123
+  cents_per_kwh: 0.0
+- name: Annual Power Cost Variance Mechanism
+  source: pge_126
+  cents_per_kwh: 0.214
+- name: Demand Response Cost Recovery Mechanism
+  source: pge_135
+  cents_per_kwh: 0.075
+- name: Oregon Community Solar Program Start-Up Cost Recovery Mechanism
+  source: pge_136
+  cents_per_kwh: 0.024
+- name: Customer-Owned Solar Payment Option Cost Recovery Mechanism
+  source: pge_137
+  cents_per_kwh: 0.014
+- name: Energy Storage Cost Recovery Mechanism
+  source: pge_138
+  cents_per_kwh: 0.002
+- name: Spent Fuel Adjustment
+  source: pge_143
+  cents_per_kwh: 0.0
+- name: Boardman Power Plant Decommissioning Adjustment
+  source: pge_145
+  cents_per_kwh: 0.0
+- name: Colstrip Power Plant Operating Life Adjustment
+  source: pge_146
+  cents_per_kwh: 0.19
+- name: Environmental Remediation Cost Recovery Adjustment, Automatic Adjustment Cl
+  source: pge_149
+  cents_per_kwh: 0.0
+- name: Transportation Electrification Cost Recovery
+  source: pge_150
+  cents_per_kwh: 0.026
+- name: Wildfire Mitigation Cost Recovery
+  source: pge_151
+  cents_per_kwh: 0.182
+- name: Major Event Cost Recovery
+  source: pge_152
+  cents_per_kwh: 0.105
+- name: Community Benefits and Impacts Advisory Group (CBAIG) Cost Recovery Mechani
+  source: pge_153
+  cents_per_kwh: 0.001
+demand_charges:
+- name: Transmission and related services, per kW of monthly Peak Demand
+  source: pge_85
+  rates_usd_per_kw:
+    all_year: 3.16
+  hours:
+  - - 6
+    - 22
+  weekdays:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  tariff_interval_minutes: 30
+- name: Distribution, per kW of monthly Peak Demand
+  source: pge_85
+  rates_usd_per_kw:
+    all_year: 1.62
+  hours:
+  - - 6
+    - 22
+  weekdays:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  tariff_interval_minutes: 30
+- name: Generation demand charge, per kW of monthly Peak Demand
+  source: pge_85
+  rates_usd_per_kw:
+    all_year: 11.39
+  hours:
+  - - 6
+    - 22
+  weekdays:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  tariff_interval_minutes: 30
+facility_capacity:
+  name: Distribution, per kW of Facility Capacity
+  source: pge_85
+  definition_source: pge_rule_b
+  tiers_usd_per_kw:
+  - - 200
+    - 3.52
+  - - null
+    - 3.42
+  lookback_months: 12
+  top_n: 2
+excluded:
+- name: Basic charge ($730.00 per month, secondary)
+  source: pge_85
+  reason: fixed monthly customer charge
+- name: Schedule 103 Metro Supportive Housing Services business income tax recovery (0.000% of bill)
+  source: pge_103
+  reason: percentage tax
+- name: Schedule 106 Multnomah County business income tax recovery (0.000% of bill)
+  source: pge_106
+  reason: percentage tax
+- name: Schedule 108 Public Purpose Charge (1.5% of revenue)
+  source: pge_108
+  reason: percentage charge on the bill, not per kWh or per kW; excluded pending owner decision
+- name: Schedule 102 Federal Columbia River Benefits credit
+  source: pge_102
+  reason: applies only to Residential and Farm service
+- name: Schedule 128 Short-term Transition Adjustment
+  source: pge_100
+  reason: 'Schedule 100 footnote 4: only Daily Price or Direct Access customers; this tariff is Cost of
+    Service'
+not_modelled:
+- name: Reactive demand charge (50 cents per kVAR above 40% of maximum Demand)
+  source: pge_85
+  reason: load data has no reactive power
+- name: Daily Price Option
+  source: pge_85
+  reason: Cost of Service Option is the default and is used
+notes:
+- 'Schedule 85''s July 8, 2026 revision moved energy pricing to Schedule 125 and removed the energy period
+  footnote; Schedule 125 lists on-, mid-, and off-peak rates without restating hours. Periods use the
+  most recent published definition (Third Revision of Sheet 85-1, effective January 1, 2026): on-peak
+  Monday-Saturday 4-10 p.m., mid-peak Monday-Saturday 6 a.m.-4 p.m., off-peak Monday-Saturday 10 p.m.-6
+  a.m. and all day Sunday.'
+- Peak Demand hours are Monday-Saturday 6 a.m.-10 p.m. (Sheet 85-1). PGE measures Demand over 30 minute
+  intervals (Rule B); this project bills hourly mean kW.
+- Facility Capacity is the average of the two greatest non-zero monthly Demands in the 12 months ending
+  with the current billing period (Rule B).
+- Schedule 109 rate is the 85/485/585 secondary line, not the >1 aMW line; MT_189 averages below 1 aMW.
+- Schedule 115 caps the charge at $1,000 per month per site; MT_189's monthly kWh keeps it below the cap
+  (checked at Gate 3).
+- 'Schedule 126 footnote (2) excludes customers served the entire calendar year in which the variance
+  accrued; Schedule 100 applies that exclusion only to 5xx schedules, so it is included here (conservative:
+  more cost).'

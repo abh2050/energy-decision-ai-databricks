@@ -39,7 +39,7 @@ The product helps a facility energy manager decide when a battery should charge,
 │   ├── battery.yaml
 │   ├── tariffs/
 │   │   ├── anchored_tou.yaml         # PG&E B-19, secondary voltage
-│   │   ├── low_spread_tou.yaml       # Portland General Electric medium commercial TOU
+│   │   ├── low_spread_tou.yaml       # Portland General Electric Schedule 85 + adjustments
 │   │   └── synthetic_high_spread.yaml
 │   └── sensitivity_grid.yaml
 ├── databricks.yml                # Databricks Asset Bundle
@@ -120,7 +120,7 @@ Tasks:
 4. Detect and remove the zero placeholder rows on the March daylight saving days. Handle the collapsed October hour. Exclude each client's leading zeros before activation.
 5. Select one client using a written completeness rule over the training period and record the rule and result.
 6. Write chronological train, validation, and test partitions to Delta and record the boundary dates.
-7. Pull both official tariff sheets (FR6). Encode PG&E B-19, secondary voltage, in `config/tariffs/anchored_tou.yaml` as the primary anchored tariff, and Portland General Electric's current medium commercial time of use schedule in `config/tariffs/low_spread_tou.yaml` as the low spread case. For each, record the utility name, schedule name, source URL, effective date, advice letter number, seasons, period definitions, energy rates by period, and demand charges. Exclude fixed charges, riders, and taxes from savings and record that exclusion in each file. Encode the synthetic tariff as the stress case and label it `synthetic: true`.
+7. Pull the official tariff sheets (FR6). Encode PG&E B-19, secondary voltage, in `config/tariffs/anchored_tou.yaml` as the primary anchored tariff, and Portland General Electric Schedule 85, secondary voltage, Cost of Service, in `config/tariffs/low_spread_tou.yaml` as the low spread case, with every adjustment schedule that Schedule 100 applies to Schedule 85. For each source, record the URL, SHA256, sheet number, advice letter number, and effective date, plus seasons, period definitions, energy rates by period, and demand charges. Include every per kWh and per kW charge; exclude only fixed monthly customer charges and percentage taxes or franchise fees, and list each exclusion with its reason. Encode the synthetic stress tariff as B-19 with off-peak held fixed and the summer peak to off-peak gap multiplied by 1.0, 1.5, 2.0, and 3.0, labelled `synthetic: true`. Store load in UTC; assign tariff periods from the Europe/Lisbon wall-clock hour, with unit tests for one March and one October transition day.
 
 Required tests:
 1. A unit test proves that four readings of 100 kW produce 100 kWh for the hour.
@@ -154,7 +154,7 @@ Exit checklist:
 Before starting, write the acceptance targets into `config/acceptance_targets.yaml`, commit them, and stop for owner approval. Do not change them afterward.
 
 Tasks:
-1. In `core/optimizer.py`, build the mixed integer program with `scipy.optimize.milp` (HiGHS). Decision variables per hour: charge kW, discharge kW, state of charge kWh, grid import kW, a binary charge mode flag, and a peak variable for demand charge.
+1. In `core/optimizer.py`, build the mixed integer program with `scipy.optimize.milp` (HiGHS). Each horizon has 24 UTC hourly steps; tariff periods come from the Europe/Lisbon wall-clock hour. Decision variables per hour: charge kW, discharge kW, state of charge kWh, grid import kW, a binary charge mode flag, and a peak variable for demand charge.
 2. Enforce state of charge bounds, power limits, the binary that prevents simultaneous charge and discharge, round trip efficiency split between charge and discharge, terminal state of charge at or above the reserve, grid import at or above zero, and no export.
 3. Objective: energy cost plus incremental demand charge above the running monthly peak plus degradation cost per kWh of throughput.
 4. Implement the six strategies in `core/strategies.py`. The robust strategy plans on the P90 forecast during peak tariff hours and the P50 forecast otherwise. The hindsight strategy plans on actual load.
@@ -174,7 +174,7 @@ Exit checklist:
 ### Gate 4: Sensitivity (FR22 to FR23)
 
 Tasks:
-1. Define the grid in `config/sensitivity_grid.yaml`: peak to off peak spread multipliers, battery size at 25, 50, and 100 percent of observed peak kW, durations of 2 and 4 hours, demand charge rates, and degradation costs.
+1. Define the grid in `config/sensitivity_grid.yaml`: summer peak to off-peak gap multipliers 1.0, 1.5, 2.0, and 3.0 (synthetic tariff sweep), battery size at 25, 50, and 100 percent of observed peak kW, durations of 2 and 4 hours, demand charge rates, and degradation costs.
 2. Run the replay for every grid cell as a Databricks job that uses small job compute.
 3. Write `sensitivity_grid` and compute, for each strategy, the smallest spread at which it beats the fixed schedule.
 

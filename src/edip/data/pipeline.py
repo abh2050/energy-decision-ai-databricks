@@ -14,8 +14,9 @@ from edip.core.cleaning import (
     drop_pre_activation,
     march_change_day,
     october_change_day,
-    to_standard_time,
+    to_utc,
 )
+from edip.core.eligibility import EligibilityResult, pge_b19, pgn_schedule_85
 from edip.core.selection import SelectionResult, SelectionRule, select_client
 from edip.core.splits import SPLIT_NAMES, SplitBounds, assign_split
 from edip.core.units import to_hourly
@@ -53,6 +54,8 @@ class QualityReport(BaseModel):
     incomplete_hours_dropped: int
     hourly_rows: int
     splits: list[SplitSummary]
+    eligibility: list[EligibilityResult]
+    b19_longest_run_months_above_499_kw: int
 
 
 def rule_from_config(cfg: dict[str, Any]) -> SelectionRule:
@@ -93,10 +96,13 @@ def build(
     checks += [check_dst_day(kw, october_change_day(y), "october") for y in years]
 
     active = drop_pre_activation(kw)
-    std = to_standard_time(active, years)
+    std = to_utc(active, years)
     series_start = T(cfg["series_start"])
     before = int((std.index <= series_start).sum())
     std = std[std.index > series_start]  # interval-end labels after the start
+    clock = cfg["timezone"]["tariff_clock"]
+    b19, b19_run = pge_b19(std, clock)
+    pgn = pgn_schedule_85(std, clock)
     hourly = to_hourly(std)
     expected_hours = len(std) // 4
     split = assign_split(hourly.index, bounds)
@@ -144,5 +150,7 @@ def build(
         incomplete_hours_dropped=expected_hours - len(hourly),
         hourly_rows=len(out),
         splits=summaries,
+        eligibility=[b19, pgn],
+        b19_longest_run_months_above_499_kw=b19_run,
     )
     return out, report

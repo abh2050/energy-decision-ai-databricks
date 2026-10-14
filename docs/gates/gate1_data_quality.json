@@ -9,11 +9,11 @@
     "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
     "snapshot_date": "2026-10-14",
     "retrieval": "uploaded via the Files API from a local download of source_url",
-    "recorded_at": "2026-10-14T20:32:01+00:00"
+    "recorded_at": "2026-10-14T20:48:33+00:00"
   },
-  "config_hash": "fa18529101fa7d50",
+  "config_hash": "a7cd838d21c33062",
   "table": "edip.curated.load_observations",
-  "delta_version": 29,
+  "delta_version": 39,
   "report": {
     "dataset_sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
     "raw_rows": 140256,
@@ -143,6 +143,43 @@
         "zero_hours": 1,
         "max_kw_mean": 671.9242902208202
       }
-    ]
+    ],
+    "eligibility": [
+      {
+        "tariff": "PG&E B-19 secondary",
+        "rule": "15 minute demand at most 999 kW in every month of each 12 month window",
+        "interval_minutes": 15,
+        "monthly_demand_kw_min": 472.397476340694,
+        "monthly_demand_kw_max": 826.498422712934,
+        "windows_checked": 25,
+        "windows_passed": 25,
+        "passed": true,
+        "worst_window": {
+          "window_end": "2012-12",
+          "months": 12,
+          "months_above_min": 12,
+          "months_above_max": 0,
+          "passed": true
+        }
+      },
+      {
+        "tariff": "PGE Schedule 85 secondary",
+        "rule": "Demand > 200 kW more than 6 times and > 4,000 kW at most once in 13 months",
+        "interval_minutes": 30,
+        "monthly_demand_kw_min": 457.807570977918,
+        "monthly_demand_kw_max": 804.8107255520505,
+        "windows_checked": 24,
+        "windows_passed": 24,
+        "passed": true,
+        "worst_window": {
+          "window_end": "2013-01",
+          "months": 13,
+          "months_above_min": 13,
+          "months_above_max": 0,
+          "passed": true
+        }
+      }
+    ],
+    "b19_longest_run_months_above_499_kw": 19
   }
 }

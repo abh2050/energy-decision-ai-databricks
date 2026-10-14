@@ -1,12 +1,14 @@
-# Stress case (FR6). Labelled synthetic: built from the anchored tariff by widening each
-# season's energy spread around its off-peak rate. Not a real tariff.
-id: synthetic_high_spread
+# Stress case (FR6). SYNTHETIC: B-19 with off-peak held fixed and the summer peak to
+# off-peak gap multiplied; every other rate, period, and demand charge is B-19's.
+# One tariff per multiplier: synthetic_high_spread_m1, _m1_5, _m2, _m3.
+id_prefix: synthetic_high_spread
 role: stress
 synthetic: true
 derived_from: anchored_tou.yaml
-energy_spread_multiplier: 3.0
+season: summer
+peak_period: peak
 reference_period: off_peak
+gap_multipliers: [1.0, 1.5, 2.0, 3.0]
 assumption: >-
-  SYNTHETIC: energy rates are off_peak + 3 x (B-19 rate - off_peak) per season; demand
-  charges, periods, and exclusions are unchanged from B-19. The multiplier is a design
-  assumption chosen to stress test dispatch, not a published rate.
+  SYNTHETIC: summer peak energy = B-19 summer off-peak + m x (B-19 summer peak - B-19
+  summer off-peak). Not a published rate; owner-specified sweep for stress testing.

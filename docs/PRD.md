@@ -51,8 +51,8 @@ Every numerical result is computed deterministically and persisted before any ag
 3. FR3. Convert each 15 minute reading (average kW) to interval energy by dividing by 4, then aggregate to hourly kW and kWh.
 4. FR4. Remove zero placeholder rows on March daylight saving days, handle the collapsed October hour, and exclude pre activation zeros.
 5. FR5. Split chronologically into train, validation, and test partitions. No feature may use information after its decision time.
-6. FR6. Load three tariffs. Primary anchored tariff: PG&E Schedule B-19, secondary voltage. Low spread case: Portland General Electric's current medium commercial time of use schedule. Stress case: one labeled synthetic high spread tariff. For each real tariff, record from the official tariff sheet the source URL, effective date, advice letter number, seasons, period definitions, energy rates, and demand charges. Savings calculations exclude fixed charges, riders, and taxes, and the provenance panel states that exclusion.
-7. FR7. Display that the load comes from Portuguese clients between 2011 and 2014 and the tariffs are American.
+6. FR6. Load three tariffs. Primary anchored tariff: PG&E Schedule B-19, secondary voltage. Low spread case: Portland General Electric Schedule 85 (201 to 4,000 kW), secondary voltage, Cost of Service Option, with every adjustment schedule that Schedule 100 applies to Schedule 85. Stress case: a labelled synthetic tariff that holds B-19 off-peak fixed and multiplies the summer peak to off-peak gap, swept over multipliers 1.0, 1.5, 2.0, and 3.0. For each real tariff and adjustment schedule, record from the official sheet the source URL, SHA256, sheet number, advice letter number, effective date, seasons, period definitions, energy rates, and demand charges. Savings include every per kWh and per kW charge and exclude only fixed monthly customer charges and percentage taxes or franchise fees; the provenance panel lists the exclusions. Load is stored and optimized in UTC; tariff periods are assigned from the Europe/Lisbon wall-clock hour.
+7. FR7. Display that the load comes from Portuguese clients between 2011 and 2014, that the tariffs are American, and that tariff hours follow the Lisbon wall clock.
 
 ### 3.2 Forecasting
 
@@ -65,7 +65,7 @@ Every numerical result is computed deterministically and persisted before any ag
 
 ### 3.3 Dispatch
 
-1. FR14. Solve a 24 hour mixed integer program with SciPy milp and HiGHS.
+1. FR14. Solve a 24 step mixed integer program (24 UTC hours per horizon) with SciPy milp and HiGHS.
 2. FR15. Enforce state of charge bounds, power limits, no simultaneous charge and discharge, efficiency losses, a terminal reserve, and no export.
 3. FR16. Compute six strategies under equal physical constraints: no battery, fixed schedule, seasonal forecast dispatch, ML forecast dispatch, robust quantile dispatch (P90 load in peak hours), and hindsight optimum.
 4. FR17. Include time of use energy charges and, when configured, monthly demand charges over complete billing periods with a running peak.

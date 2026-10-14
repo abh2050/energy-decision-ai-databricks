@@ -26,12 +26,12 @@ from edip.data.pipeline import build, read_uci
 
 TABLE_COMMENT = (
     "Hourly load for one UCI ElectricityLoadDiagrams20112014 client (Portugal, 2012 to "
-    "2014), in Portuguese standard time (WET, equal to UTC). Source: Trindade (2015), UCI "
+    "2014), hours in UTC; tariff periods use the Europe/Lisbon clock. Source: Trindade (2015), UCI "
     "Machine Learning Repository, CC BY 4.0. Built by edip.data.ingest_job (FR1 to FR5)."
 )
 COLUMN_COMMENTS = {
     "client_id": "UCI client column name, chosen by the selection rule in config/data.yaml",
-    "hour_start": "Start of the hour, Portuguese standard time (WET = UTC); 24 hours per day",
+    "hour_start": "Start of the hour, UTC; 24 hours per day",
     "kw_mean": "Average demand over the hour, kW (mean of four 15 minute average kW readings)",
     "kwh": "Energy in the hour, kWh (sum of 15 minute kW / 4)",
     "n_intervals": "15 minute readings in the hour; always 4",
@@ -94,7 +94,7 @@ def write_delta(spark: Any, pdf: Any, table: str, cfg_hash: str, sha: str) -> No
     spark.sql(
         f"ALTER TABLE {table} SET TBLPROPERTIES ("
         f"'edip.dataset_sha256' = '{sha}', 'edip.config_hash' = '{cfg_hash}', "
-        "'edip.units' = 'kW, kWh', 'edip.timezone' = 'WET (UTC)')"
+        "'edip.units' = 'kW, kWh', 'edip.timezone' = 'UTC')"
     )
 
 
