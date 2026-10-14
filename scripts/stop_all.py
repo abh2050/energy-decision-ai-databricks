@@ -10,7 +10,6 @@ import argparse
 
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors import NotFound
-from databricks.sdk.service.database import DatabaseInstance
 from databricks.sdk.service.sql import State
 
 APPS = ["edip-hello"]
@@ -29,18 +28,15 @@ def main() -> int:
             ws.apps.stop(name)
             print(f"app {name}: stop requested")
 
+    # Lakebase Autoscaling suspends itself after 5 idle minutes; report its state only.
     try:
-        inst = ws.database.get_database_instance(LAKEBASE)
+        project = f"projects/{LAKEBASE}"
+        for branch in ws.postgres.list_branches(project):
+            for ep in ws.postgres.list_endpoints(branch.name):
+                state = ep.status.current_state if ep.status else None
+                print(f"lakebase endpoint {ep.name.rsplit('/', 1)[-1]}: {state}")
     except NotFound:
         print(f"lakebase {LAKEBASE}: not found")
-    else:
-        if not inst.effective_stopped:
-            ws.database.update_database_instance(
-                LAKEBASE, DatabaseInstance(name=LAKEBASE, stopped=True), update_mask="stopped"
-            )
-            print(f"lakebase {LAKEBASE}: stop requested")
-        else:
-            print(f"lakebase {LAKEBASE}: already stopped")
 
     for wh in ws.warehouses.list():
         if wh.state not in (State.STOPPED, State.STOPPING, State.DELETED):

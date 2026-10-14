@@ -8,20 +8,19 @@ from __future__ import annotations
 
 import argparse
 import json
-import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 
-import psycopg
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors import NotFound
 
 from edip.core.gate0_checks import Gate0Snapshot, evaluate
+from edip.store.lakebase import PROJECT as LAKEBASE
+from edip.store.lakebase import connect
 
 CATALOG = "edip"
 CREDENTIAL = "edip_s3"
 LOCATION = "edip_root"
-LAKEBASE = "edip-lakebase"
 APP = "edip-hello"
 OUTPUT = Path(__file__).resolve().parents[1] / "docs" / "gates" / "gate0_resources.json"
 
@@ -36,22 +35,11 @@ def _exists(fn: object, *args: object) -> bool:
 
 def _lakebase_tables(ws: WorkspaceClient) -> tuple[bool, set[str]]:
     try:
-        inst = ws.database.get_database_instance(LAKEBASE)
+        ws.postgres.get_project(f"projects/{LAKEBASE}")
     except NotFound:
         return False, set()
-    if inst.effective_stopped:
-        print("lakebase is stopped; start it to verify tables")
-        return True, set()
-    cred = ws.database.generate_database_credential(
-        request_id=str(uuid.uuid4()), instance_names=[LAKEBASE]
-    )
-    with psycopg.connect(
-        host=inst.read_write_dns,
-        dbname="databricks_postgres",
-        user=ws.current_user.me().user_name,
-        password=cred.token,
-        sslmode="require",
-    ) as conn:
+    # Connecting wakes a suspended endpoint; it suspends again after the idle timeout.
+    with connect(ws) as conn:
         rows = conn.execute(
             "SELECT table_name FROM information_schema.tables WHERE table_schema = 'edip'"
         ).fetchall()
