@@ -135,3 +135,18 @@ def test_optimizer_respects_terminal_reserve_and_shaves_peak():
     plan = solve_day(load, price, terms, SPEC, SPEC.initial_soc_kwh, SPEC.terminal_reserve_kwh)
     assert plan.soc_kwh[-1] >= SPEC.terminal_reserve_kwh - 1e-6
     assert max(plan.grid_kw) < 900.0
+
+
+def test_p90_charge_planning_leaves_room_for_higher_load():
+    """With demand planned on a higher load, charging stays below the running peak."""
+    p50 = np.full(24, 400.0)
+    p90 = np.full(24, 550.0)
+    price = np.where(np.arange(24) >= 16, 0.30, 0.05)  # cheap to charge early
+    terms = [DemandTerm(name="m", mask=[True] * 24, rate_usd_per_kw=40.0, running_peak_kw=700.0)]
+    soc0 = SPEC.soc_min_kwh
+    plain = solve_day(p50, price, terms, SPEC, soc0, SPEC.terminal_reserve_kwh)
+    guarded = solve_day(
+        p50, price, terms, SPEC, soc0, SPEC.terminal_reserve_kwh, demand_load_kw=p90
+    )
+    assert max(plain.charge_kw) > 700.0 - 550.0 + 1e-6  # plans up to the peak on P50
+    assert max(guarded.charge_kw) <= 700.0 - 550.0 + 1e-6  # leaves P90 headroom

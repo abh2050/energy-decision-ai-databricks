@@ -22,7 +22,7 @@ from edip.core.billing_demand import interval_demand, monthly_demand_all_hours
 from edip.core.strategies import STRATEGIES, fixed_rule
 from edip.core.tariff import Tariff, load_tariffs
 from edip.replay.evaluate import check_targets, economics
-from edip.replay.replay import StrategyResult, run
+from edip.replay.replay import RevisedSettings, StrategyResult, run
 
 TARIFF_FILES = ("anchored_tou.yaml", "low_spread_tou.yaml", "synthetic_high_spread.yaml")
 
@@ -73,8 +73,11 @@ def compute(
     hourly: pd.DataFrame,
     load15: pd.Series,
     tariff_ids: list[str] | None = None,
+    revised: RevisedSettings | None = None,
 ) -> Outputs:
-    """Run every strategy on every tariff. Pure pandas; used by the job and local checks."""
+    """Run every strategy on every tariff over the period in `hourly`. Pure pandas; used
+    by the job, the validation tuning, and local checks. Facility Capacity is seeded
+    with the 11 months of no-battery Demand before the first replayed month."""
     battery_cfg = yaml.safe_load((cdir / "battery.yaml").read_text())
     targets = yaml.safe_load((cdir / "acceptance_targets.yaml").read_text())
     fc_cfg = yaml.safe_load((cdir / "forecasting.yaml").read_text())
@@ -82,9 +85,9 @@ def compute(
     observed_peak = float(train.max())
     spec = BatterySpec.from_config(battery_cfg, observed_peak)
     operating = float(battery_cfg["operating_cost"]["annual_usd"])
-    seed15 = load15[
-        (load15.index > pd.Timestamp("2013-02-01")) & (load15.index <= pd.Timestamp("2014-01-01"))
-    ]
+    first = hourly.index[0].normalize().replace(day=1)
+    seed_start = first - pd.DateOffset(months=11)
+    seed15 = load15[(load15.index > seed_start) & (load15.index <= first)]
     tariffs = [t for f in TARIFF_FILES for t in load_tariffs(cdir / "tariffs" / f)]
     if tariff_ids is not None:
         tariffs = [t for t in tariffs if t.id in tariff_ids]
@@ -120,6 +123,7 @@ def compute(
                 protected_periods=prot[prot_key],
                 fixed=rule,
                 seed_monthly_demand_kw=seed,
+                revised=revised,
             )
             results[strategy] = res
             frame = frame.reset_index()
@@ -170,6 +174,11 @@ def main() -> int:
     parser.add_argument("--config-dir", default="config")
     parser.add_argument("--catalog", default="edip")
     parser.add_argument("--out", default="/Volumes/edip/ml/artifacts/gate3")
+    parser.add_argument(
+        "--revised",
+        action="store_true",
+        help="apply config/revised_strategy.yaml; write *_revised tables (never the originals)",
+    )
     args = parser.parse_args()
     cdir = Path(args.config_dir)
     targets = yaml.safe_load((cdir / "acceptance_targets.yaml").read_text())
@@ -195,17 +204,26 @@ def main() -> int:
     )
     iv = spark.table(f"{args.catalog}.curated.load_intervals_15min").toPandas()
     load15 = iv.set_index("interval_end")["kw"].sort_index().astype(float)
-    o = compute(cdir, obs, hourly, load15)
+    revised = None
+    suffix, label = "", "pre-registered"
+    if args.revised:
+        settings = yaml.safe_load((cdir / "revised_strategy.yaml").read_text())
+        if settings["status"] != "frozen":
+            raise RuntimeError("revised strategy settings must be frozen before the rerun")
+        revised = RevisedSettings(**settings["settings"])
+        suffix, label = "_revised", settings["label"]
+    o = compute(cdir, obs, hourly, load15, revised=revised)
 
     def write(pdf: pd.DataFrame, name: str) -> None:
         spark.createDataFrame(pdf).write.mode("overwrite").option(
             "overwriteSchema", "true"
-        ).saveAsTable(f"{args.catalog}.curated.{name}")
+        ).saveAsTable(f"{args.catalog}.curated.{name}{suffix}")
 
     meta = {
         "model_version": pinned["version"],
         "config_hash": cfg_hash,
         "dataset_sha256": dataset_sha,
+        "result_label": label,
     }
     write(o.schedules.assign(**meta), "dispatch_schedules")
     write(o.settlements.assign(**meta), "settlement_outcomes")
@@ -224,12 +242,16 @@ def main() -> int:
     }
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
+    if revised is not None:
+        results_json["revised_settings"] = revised.model_dump()
+        out = out / "revised"
+        out.mkdir(parents=True, exist_ok=True)
     (out / "gate3_results.json").write_text(json.dumps(results_json, indent=2, default=str) + "\n")
 
     import mlflow
 
     mlflow.set_experiment("/Shared/edip/gate3_replay")
-    with mlflow.start_run(run_name="gate3-replay"):
+    with mlflow.start_run(run_name="gate3-replay" + ("-revised" if revised else "")):
         mlflow.set_tags({"gate": "3", **meta, "mlflow_version": mlflow.__version__})
         for row in o.annual.to_dict("records"):
             prefix = f"{row['tariff_id']}.{row['strategy']}"

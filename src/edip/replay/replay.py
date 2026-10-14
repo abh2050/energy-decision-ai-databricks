@@ -15,10 +15,18 @@ from pydantic import BaseModel
 
 from edip.core.battery import BatterySpec
 from edip.core.billing_demand import local_month
+from edip.core.charge_guard import ChargeGuard, start_peaks_from_load
 from edip.core.optimizer import DemandTerm, solve_day
 from edip.core.settlement import MonthBill, bill_months, count_violations, settle_day
 from edip.core.strategies import OPTIMIZED, FixedRule, fixed_plan, planning_load
 from edip.core.tariff import Tariff
+
+
+class RevisedSettings(BaseModel):
+    """Revised strategy, post-hoc (config/revised_strategy.yaml)."""
+
+    guard_margin_fraction: float
+    robust_charge_band_k: float  # demand load = P50 + k (P90 - P50); k = 1 is P90
 
 
 class StrategyResult(BaseModel):
@@ -37,6 +45,10 @@ class StrategyResult(BaseModel):
     violations: int
     months: list[MonthBill]
     solver_failures: int
+    guard_applied: bool = False
+    guard_clipped_kwh: float = 0.0
+    guard_shortfall_days: int = 0  # days ending below reserve because the guard cut charging
+    guard_shortfall_kwh: float = 0.0
 
 
 def demand_terms(
@@ -90,6 +102,7 @@ def run(
     protected_periods: list[str],
     fixed: FixedRule | None,
     seed_monthly_demand_kw: pd.Series | None,
+    revised: RevisedSettings | None = None,
 ) -> tuple[StrategyResult, pd.DataFrame]:
     """`hourly`: test hours (UTC index) with actual, seasonal, point, p50, p90."""
     days = sorted(set(hourly.index.normalize()))
@@ -97,6 +110,24 @@ def run(
     running: dict[tuple[str, str], float] = {}
     rows: list[dict[str, Any]] = []
     failures = 0
+    guard = None
+    if revised is not None:
+        first_month = local_month(pd.DatetimeIndex([hourly.index[0]]), tariff.clock)[0]
+        guard = ChargeGuard(
+            tariff,
+            start_peaks_from_load(tariff, load15, first_month - 1),
+            revised.guard_margin_fraction,
+        )
+        guard.precompute(hourly.index)
+        ends = hourly.index + pd.Timedelta(minutes=15)
+        grid15 = pd.DatetimeIndex(
+            np.concatenate([ends + pd.Timedelta(minutes=15 * i) for i in range(4)])
+        )
+        aligned = load15.reindex(grid15).to_numpy().reshape(4, -1).T  # hours x 4
+        if np.isnan(aligned).any():
+            raise ValueError("15 minute load missing for a replayed hour")
+        row_of = {h: i for i, h in enumerate(hourly.index)}
+    shortfall_days, shortfall_kwh = 0, 0.0
     for day in days:
         block = hourly.loc[day : day + pd.Timedelta(hours=23)]
         hours = block.index
@@ -109,6 +140,10 @@ def run(
             fc = np.full(24, np.nan)
         elif strategy in OPTIMIZED:
             fc = planning_load(strategy, block, tariff, protected_periods)
+            peak_load = None
+            if revised is not None and strategy == "robust_quantile":
+                band = block["p50"] + revised.robust_charge_band_k * (block["p90"] - block["p50"])
+                peak_load = np.maximum(fc, band.to_numpy())
             try:
                 plan = solve_day(
                     fc,
@@ -117,6 +152,7 @@ def run(
                     spec,
                     soc,
                     spec.terminal_reserve_kwh,
+                    demand_load_kw=peak_load,
                 )
                 c_plan, d_plan = np.array(plan.charge_kw), np.array(plan.discharge_kw)
             except RuntimeError:
@@ -124,7 +160,25 @@ def run(
                 c_plan = d_plan = np.zeros(24)
         else:
             raise ValueError(strategy)
-        settled = settle_day(c_plan, d_plan, actual, spec, soc)
+        if guard is not None:
+            first = row_of[hours[0]]
+            settled = settle_day(
+                c_plan,
+                d_plan,
+                actual,
+                spec,
+                soc,
+                guard=guard,
+                hours_utc=hours,
+                load15_kw=aligned[first : first + 24],
+            )
+            day_clip = sum(settled.guard_clipped_kw)
+            short = spec.terminal_reserve_kwh - settled.soc_end_kwh
+            if strategy in OPTIMIZED and day_clip > 0 and short > 1e-6:
+                shortfall_days += 1
+                shortfall_kwh += short
+        else:
+            settled = settle_day(c_plan, d_plan, actual, spec, soc)
         soc = settled.soc_end_kwh
         update_running(tariff, hours, np.array(settled.grid_kw), running)
         for t, h in enumerate(hours):
@@ -138,6 +192,7 @@ def run(
                     "charge_kw": settled.charge_kw[t],
                     "discharge_kw": settled.discharge_kw[t],
                     "discharge_clipped_kw": settled.discharge_clipped_kw[t],
+                    "guard_clipped_kw": settled.guard_clipped_kw[t],
                     "soc_kwh": settled.soc_kwh[t],
                     "grid_kw": settled.grid_kw[t],
                 }
@@ -171,5 +226,9 @@ def run(
         ),
         months=months,
         solver_failures=failures,
+        guard_applied=guard is not None,
+        guard_clipped_kwh=float(frame["guard_clipped_kw"].sum()),
+        guard_shortfall_days=shortfall_days,
+        guard_shortfall_kwh=shortfall_kwh,
     )
     return result, frame

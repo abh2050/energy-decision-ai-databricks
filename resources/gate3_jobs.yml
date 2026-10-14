@@ -18,3 +18,20 @@ resources:
               - ../dist/*.whl
               - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
               - protobuf==5.29.4
+    gate3_replay_revised:
+      name: edip-gate3-replay-revised
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: replay_revised
+          spark_python_task:
+            python_file: ../src/edip/replay/replay_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--revised"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

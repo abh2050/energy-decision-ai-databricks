@@ -22,6 +22,7 @@ from edip.core.billing_demand import (
     monthly_demand_all_hours,
     net_interval_load,
 )
+from edip.core.charge_guard import ChargeGuard
 from edip.core.tariff import Tariff
 
 TOL = 1e-6
@@ -31,6 +32,7 @@ class SettledDay(BaseModel):
     charge_kw: list[float]
     discharge_kw: list[float]
     discharge_clipped_kw: list[float]  # planned minus settled discharge
+    guard_clipped_kw: list[float]  # charge removed by the charge guard
     soc_kwh: list[float]
     grid_kw: list[float]
     soc_end_kwh: float
@@ -42,11 +44,19 @@ def settle_day(
     actual_kw: np.ndarray,
     spec: BatterySpec,
     soc0_kwh: float,
+    *,
+    guard: ChargeGuard | None = None,
+    hours_utc: pd.DatetimeIndex | None = None,
+    load15_kw: np.ndarray | None = None,
 ) -> SettledDay:
+    """Execute a plan hour by hour. With a `guard`, `hours_utc` and `load15_kw` (24 x 4
+    actual 15 minute readings) are required; the guard only ever reduces charging."""
+    if guard is not None and (hours_utc is None or load15_kw is None):
+        raise ValueError("the charge guard needs hours_utc and load15_kw")
     soc = soc0_kwh
-    c_out, d_out, clipped, s_out, g_out = [], [], [], [], []
-    for c_plan, d_plan, load in zip(
-        planned_charge_kw, planned_discharge_kw, actual_kw, strict=True
+    c_out, d_out, clipped, guarded, s_out, g_out = [], [], [], [], [], []
+    for t, (c_plan, d_plan, load) in enumerate(
+        zip(planned_charge_kw, planned_discharge_kw, actual_kw, strict=True)
     ):
         load = max(float(load), 0.0)
         d = min(
@@ -56,18 +66,26 @@ def settle_day(
             max(soc - spec.soc_min_kwh, 0.0) * spec.eta_discharge,
         )
         d = max(d, 0.0)
-        c = 0.0 if d > 0 else float(c_plan)
+        c = 0.0 if d > 0 else max(float(c_plan), 0.0)
+        g_clip = 0.0
+        if guard is not None and c > 0:
+            limited = guard.limit(hours_utc[t], c, load15_kw[t])
+            g_clip, c = c - limited, limited
         c = max(min(c, spec.power_kw, max(spec.soc_max_kwh - soc, 0.0) / spec.eta_charge), 0.0)
         soc = soc + spec.eta_charge * c - d / spec.eta_discharge
+        if guard is not None:
+            guard.update(hours_utc[t], np.maximum(np.asarray(load15_kw[t]) - d + c, 0.0))
         c_out.append(c)
         d_out.append(d)
         clipped.append(max(float(d_plan) - d, 0.0))
+        guarded.append(g_clip)
         s_out.append(soc)
         g_out.append(load - d + c)
     return SettledDay(
         charge_kw=c_out,
         discharge_kw=d_out,
         discharge_clipped_kw=clipped,
+        guard_clipped_kw=guarded,
         soc_kwh=s_out,
         grid_kw=g_out,
         soc_end_kwh=soc,

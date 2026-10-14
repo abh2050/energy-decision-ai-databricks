@@ -52,8 +52,13 @@ def solve_day(
     spec: BatterySpec,
     soc0_kwh: float,
     terminal_min_kwh: float | None,
+    demand_load_kw: np.ndarray | None = None,
 ) -> Plan:
-    """Optimal 24 hour plan for a forecast (or actual) hourly load."""
+    """Optimal 24 hour plan for a forecast (or actual) hourly load.
+
+    `demand_load_kw` (robust strategy's P90 charge planning) replaces the load in the
+    demand-peak constraints only: m_k >= D_t - d_t + c_t, so charging leaves room for a
+    higher load than the energy plan assumes."""
     load = np.maximum(np.asarray(load_kw, dtype=float), 0.0)
     price = np.asarray(price_usd_per_kwh, dtype=float)
     if load.shape != (T,) or price.shape != (T,):
@@ -117,11 +122,17 @@ def solve_day(
         lb.append(-np.inf)
         ub.append(load[t])
         r += 1
+    peak_load = None if demand_load_kw is None else np.asarray(demand_load_kw, dtype=float)
     for k, term in enumerate(demand_terms):
         for t in np.flatnonzero(term.mask):
-            # m_k - g_t >= 0
-            A[r, im + k], A[r, ig + t] = 1, -1
-            lb.append(0)
+            if peak_load is None:
+                # m_k - g_t >= 0
+                A[r, im + k], A[r, ig + t] = 1, -1
+                lb.append(0)
+            else:
+                # m_k - c_t + d_t >= D_t
+                A[r, im + k], A[r, ic + t], A[r, id_ + t] = 1, -1, 1
+                lb.append(peak_load[t])
             ub.append(np.inf)
             r += 1
 

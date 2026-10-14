@@ -1,0 +1,29 @@
+# Revised strategy settings (owner decision 2026-10-14). FROZEN before the single 2014
+# rerun; the pre-registered 2014 results (Gate 3, first replay) are kept unchanged.
+status: frozen
+frozen: 2026-10-14
+label: revised strategy, post-hoc
+settings:
+  guard_margin_fraction: 0.02  # charge guard cap = running peak x (1 - margin)
+  robust_charge_band_k: 1.0  # robust demand planning load = P50 + k (P90 - P50)
+applies_to:
+  charge_guard: all six strategies, including hindsight (settlement)
+  p90_charge_planning: robust_quantile only (optimizer demand constraints)
+tuning:
+  period: 2013-07-01 to 2013-12-31 UTC (validation only; no 2014 data read)
+  tariffs: [pge_b19_secondary, pgn_sched85_secondary]
+  objective: net benefit of ml_forecast plus robust_quantile, summed over both tariffs
+  procedure: >-
+    step 1 margin in [0, 0.02, 0.05] with k = 1; step 2 k in [0, 0.5, 1.0, 1.5] with the
+    chosen margin; ties to the smaller margin, then k closest to 1
+  run_by: scripts/tune_revised.py (local run, owner-approved)
+  mlflow_experiment: /Shared/edip/gate3_revised_tuning
+  results: docs/gates/gate3_revised_tuning.json
+  trials:
+  - {step: 1, guard_margin_fraction: 0.0, robust_charge_band_k: 1.0, objective_usd: -8563.41}
+  - {step: 1, guard_margin_fraction: 0.02, robust_charge_band_k: 1.0, objective_usd: -5367.63}
+  - {step: 1, guard_margin_fraction: 0.05, robust_charge_band_k: 1.0, objective_usd: -12480.79}
+  - {step: 2, guard_margin_fraction: 0.02, robust_charge_band_k: 0.0, objective_usd: -7040.90}
+  - {step: 2, guard_margin_fraction: 0.02, robust_charge_band_k: 0.5, objective_usd: -5715.86}
+  - {step: 2, guard_margin_fraction: 0.02, robust_charge_band_k: 1.0, objective_usd: -5367.63}
+  - {step: 2, guard_margin_fraction: 0.02, robust_charge_band_k: 1.5, objective_usd: -7532.09}

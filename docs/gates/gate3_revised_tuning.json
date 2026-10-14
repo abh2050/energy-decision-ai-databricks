@@ -1,0 +1,736 @@
+{
+  "chosen": {
+    "guard_margin_fraction": 0.02,
+    "robust_charge_band_k": 1.0
+  },
+  "trials": [
+    {
+      "step": 1,
+      "guard_margin_fraction": 0.0,
+      "robust_charge_band_k": 1.0,
+      "objective_usd": -8563.41468386696,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -12598.522813828497,
+          "guard_clipped_kwh": 863.8604100946353,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": 474.03072367440654,
+          "guard_clipped_kwh": 4264.886773961089,
+          "guard_shortfall_days": 7,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 351.8006341453729,
+          "guard_clipped_kwh": 3651.685184037768,
+          "guard_shortfall_days": 7,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": 915.5409877804877,
+          "guard_clipped_kwh": 1239.9905120123542,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 29100.446792611565,
+          "guard_clipped_kwh": 68.32948852213514,
+          "guard_shortfall_days": 6,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1679.0559575090765,
+          "guard_clipped_kwh": 1216.660868465931,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.0929433936035,
+          "guard_clipped_kwh": 378.6494109124647,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 65.66448726900796,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4836.858955218758,
+          "guard_clipped_kwh": 383.85426048524073,
+          "guard_shortfall_days": 11,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 7105.452921088445,
+          "guard_clipped_kwh": 826.6446357097054,
+          "guard_shortfall_days": 14,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "guard_margin_fraction": 0.02,
+      "robust_charge_band_k": 1.0,
+      "objective_usd": -5367.6331258359605,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -11596.366974220975,
+          "guard_clipped_kwh": 1317.83594733029,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -281.69546722783707,
+          "guard_clipped_kwh": 4686.558562027438,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 1718.3487822128782,
+          "guard_clipped_kwh": 4255.332274941112,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": 2744.7743977439823,
+          "guard_clipped_kwh": 1578.9020441980524,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 27169.648926157814,
+          "guard_clipped_kwh": 283.0063923080285,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1614.1090243546223,
+          "guard_clipped_kwh": 1772.8083448066245,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.051308580034,
+          "guard_clipped_kwh": 451.6580859913292,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 120.88049828249478,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4836.858955218758,
+          "guard_clipped_kwh": 746.1955947458858,
+          "guard_shortfall_days": 13,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6928.650460431814,
+          "guard_clipped_kwh": 1097.1419542896342,
+          "guard_shortfall_days": 18,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "guard_margin_fraction": 0.05,
+      "robust_charge_band_k": 1.0,
+      "objective_usd": -12480.792230307776,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -9403.166107383382,
+          "guard_clipped_kwh": 2338.585158686761,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": 1931.472974337562,
+          "guard_clipped_kwh": 5918.352480492857,
+          "guard_shortfall_days": 16,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -2413.5921338380203,
+          "guard_clipped_kwh": 5597.050913263455,
+          "guard_shortfall_days": 14,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -236.77850508293068,
+          "guard_clipped_kwh": 2163.14450400008,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 22427.825340217052,
+          "guard_clipped_kwh": 909.7920500636133,
+          "guard_shortfall_days": 17,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1611.7067544334418,
+          "guard_clipped_kwh": 3102.25227704165,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4269.832602718818,
+          "guard_clipped_kwh": 676.2452088795019,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 220.3686538146738,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4836.5242408127615,
+          "guard_clipped_kwh": 1393.088359168198,
+          "guard_shortfall_days": 20,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6986.276722811619,
+          "guard_clipped_kwh": 1578.6855214366815,
+          "guard_shortfall_days": 26,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "guard_margin_fraction": 0.02,
+      "robust_charge_band_k": 0.0,
+      "objective_usd": -7040.898161094732,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -11596.366974220975,
+          "guard_clipped_kwh": 1317.83594733029,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -281.69546722783707,
+          "guard_clipped_kwh": 4686.558562027438,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 1718.3487822128782,
+          "guard_clipped_kwh": 4255.332274941112,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": 1216.581786175273,
+          "guard_clipped_kwh": 4341.425138520295,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 27169.648926157814,
+          "guard_clipped_kwh": 283.0063923080285,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1614.1090243546223,
+          "guard_clipped_kwh": 1772.8083448066245,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.051308580034,
+          "guard_clipped_kwh": 451.6580859913292,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 120.88049828249478,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4981.93137890882,
+          "guard_clipped_kwh": 568.8122435798172,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6928.650460431814,
+          "guard_clipped_kwh": 1097.1419542896342,
+          "guard_shortfall_days": 18,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "guard_margin_fraction": 0.02,
+      "robust_charge_band_k": 0.5,
+      "objective_usd": -5715.862113263361,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -11596.366974220975,
+          "guard_clipped_kwh": 1317.83594733029,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -281.69546722783707,
+          "guard_clipped_kwh": 4686.558562027438,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 1718.3487822128782,
+          "guard_clipped_kwh": 4255.332274941112,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": 2623.7354669294837,
+          "guard_clipped_kwh": 2690.303779486893,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 27169.648926157814,
+          "guard_clipped_kwh": 283.0063923080285,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1614.1090243546223,
+          "guard_clipped_kwh": 1772.8083448066245,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.051308580034,
+          "guard_clipped_kwh": 451.6580859913292,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 120.88049828249478,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -5064.049011831659,
+          "guard_clipped_kwh": 696.9240375765764,
+          "guard_shortfall_days": 11,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6928.650460431814,
+          "guard_clipped_kwh": 1097.1419542896342,
+          "guard_shortfall_days": 18,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "guard_margin_fraction": 0.02,
+      "robust_charge_band_k": 1.0,
+      "objective_usd": -5367.6331258359605,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -11596.366974220975,
+          "guard_clipped_kwh": 1317.83594733029,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -281.69546722783707,
+          "guard_clipped_kwh": 4686.558562027438,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 1718.3487822128782,
+          "guard_clipped_kwh": 4255.332274941112,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": 2744.7743977439823,
+          "guard_clipped_kwh": 1578.9020441980524,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 27169.648926157814,
+          "guard_clipped_kwh": 283.0063923080285,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1614.1090243546223,
+          "guard_clipped_kwh": 1772.8083448066245,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.051308580034,
+          "guard_clipped_kwh": 451.6580859913292,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 120.88049828249478,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4836.858955218758,
+          "guard_clipped_kwh": 746.1955947458858,
+          "guard_shortfall_days": 13,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6928.650460431814,
+          "guard_clipped_kwh": 1097.1419542896342,
+          "guard_shortfall_days": 18,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "guard_margin_fraction": 0.02,
+      "robust_charge_band_k": 1.5,
+      "objective_usd": -7532.089434265045,
+      "annual": [
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -11596.366974220975,
+          "guard_clipped_kwh": 1317.83594733029,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -281.69546722783707,
+          "guard_clipped_kwh": 4686.558562027438,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": 1718.3487822128782,
+          "guard_clipped_kwh": 4255.332274941112,
+          "guard_shortfall_days": 8,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -150.94524649331106,
+          "guard_clipped_kwh": 1109.9060447803677,
+          "guard_shortfall_days": 2,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pge_b19_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 27169.648926157814,
+          "guard_clipped_kwh": 283.0063923080285,
+          "guard_shortfall_days": 9,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "no_battery",
+          "net_benefit_usd": 0.0,
+          "guard_clipped_kwh": 0.0,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "fixed_schedule",
+          "net_benefit_usd": -1614.1090243546223,
+          "guard_clipped_kwh": 1772.8083448066245,
+          "guard_shortfall_days": 0,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "seasonal_forecast",
+          "net_benefit_usd": -4271.051308580034,
+          "guard_clipped_kwh": 451.6580859913292,
+          "guard_shortfall_days": 5,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "ml_forecast",
+          "net_benefit_usd": -4993.897350574063,
+          "guard_clipped_kwh": 120.88049828249478,
+          "guard_shortfall_days": 3,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "robust_quantile",
+          "net_benefit_usd": -4105.595619410549,
+          "guard_clipped_kwh": 1136.2332483143655,
+          "guard_shortfall_days": 16,
+          "violations": 0
+        },
+        {
+          "tariff_id": "pgn_sched85_secondary",
+          "strategy": "hindsight",
+          "net_benefit_usd": 6928.650460431814,
+          "guard_clipped_kwh": 1097.1419542896342,
+          "guard_shortfall_days": 18,
+          "violations": 0
+        }
+      ]
+    }
+  ]
+}
