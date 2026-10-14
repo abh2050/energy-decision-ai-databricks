@@ -1,0 +1,9 @@
+# Pinned forecaster for every replay (FR12). Change only with a new gate decision.
+load_forecaster:
+  model_name: edip.ml.load_forecaster
+  version: "1"
+  mlflow_run_id: a9cf74a771ad442696fd78d73bfea987
+  config_hash: 8e6df8209868ceb6
+  dataset_sha256: f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1
+  outputs: [point, p10, p50, p90]
+  onnx: frontend/public/data/models/load_forecaster_{point,p10,p50,p90}.onnx

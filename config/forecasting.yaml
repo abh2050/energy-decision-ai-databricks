@@ -1,0 +1,20 @@
+# Gate 2 forecasting settings (FR8 to FR13). Changing this file changes config_hash.
+decision_time: "00:00 UTC of the planning day; all load before it is known"
+horizon_hours: 24
+features: [lag_24, lag_168, roll_mean_24_shift_24, roll_mean_168_shift_24, hour_local, dow_local]
+seed: 7
+tuning:  # chosen by validation MAE only; test is never used for tuning
+  learning_rate: 0.05
+  num_leaves: [15, 31, 63]
+  min_child_samples: [20, 50]
+  max_estimators: 2000
+  early_stopping_rounds: 100
+quantiles: [0.1, 0.5, 0.9]
+final_fit: train_only  # models are fitted on train; validation is used only to tune and stop
+quantile_crossing: sort  # monotone rearrangement so p10 <= p50 <= p90 in every hour
+registry:
+  model_name: edip.ml.load_forecaster
+onnx:
+  parity_rows: 1000
+  max_abs_diff_kw: 0.01
+  target_opset: 15  # highest the onnxmltools LightGBM converter supports

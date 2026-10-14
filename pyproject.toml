@@ -21,6 +21,13 @@ platform = [
     "psycopg[binary]==3.3.6",
     "uvicorn==0.54.0",
 ]
+# Gate 2 forecasting: LightGBM models and ONNX export for the browser sandbox.
+forecasting = [
+    "lightgbm==4.7.0",
+    "onnx==1.17.0",  # newer onnx needs protobuf 6, which breaks the Databricks runtime MLflow
+    "onnxmltools==1.16.0",
+    "onnxruntime==1.31.0",
+]
 
 [dependency-groups]
 dev = ["httpx==0.28.1", "pytest==9.1.1", "ruff==0.17.0"]

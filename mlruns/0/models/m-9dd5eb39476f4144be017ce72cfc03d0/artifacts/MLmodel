@@ -1,0 +1,44 @@
+artifact_path: /Users/abhishekshah/Desktop/energy/mlruns/0/models/m-9dd5eb39476f4144be017ce72cfc03d0/artifacts
+flavors:
+  python_function:
+    artifacts:
+      p10:
+        path: artifacts/p10.txt
+        uri: /var/folders/r6/b87zwk157sz4fy3q2qlsmrp00000gn/T/tmpmossjmhs/p10.txt
+      p50:
+        path: artifacts/p50.txt
+        uri: /var/folders/r6/b87zwk157sz4fy3q2qlsmrp00000gn/T/tmpmossjmhs/p50.txt
+      p90:
+        path: artifacts/p90.txt
+        uri: /var/folders/r6/b87zwk157sz4fy3q2qlsmrp00000gn/T/tmpmossjmhs/p90.txt
+      point:
+        path: artifacts/point.txt
+        uri: /var/folders/r6/b87zwk157sz4fy3q2qlsmrp00000gn/T/tmpmossjmhs/point.txt
+    cloudpickle_version: 3.1.2
+    code: code
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pyfunc.model
+    python_model: python_model.pkl
+    python_version: 3.12.13
+    streamable: false
+is_signature_from_type_hint: false
+mlflow_version: 3.17.1
+model_id: m-9dd5eb39476f4144be017ce72cfc03d0
+model_size_bytes: 1879251
+model_uuid: m-9dd5eb39476f4144be017ce72cfc03d0
+prompts: null
+run_id: b743e7049e83411aa0c05af539eaef3a
+signature:
+  inputs: '[{"type": "double", "name": "lag_24", "required": true}, {"type": "double",
+    "name": "lag_168", "required": true}, {"type": "double", "name": "roll_mean_24_shift_24",
+    "required": true}, {"type": "double", "name": "roll_mean_168_shift_24", "required":
+    true}, {"type": "double", "name": "hour_local", "required": true}, {"type": "double",
+    "name": "dow_local", "required": true}]'
+  outputs: '[{"type": "double", "name": "point", "required": true}, {"type": "double",
+    "name": "p10", "required": true}, {"type": "double", "name": "p50", "required":
+    true}, {"type": "double", "name": "p90", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-10-14 21:04:57.604228'

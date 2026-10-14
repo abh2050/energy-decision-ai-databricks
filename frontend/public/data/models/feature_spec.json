@@ -1,0 +1,1 @@
+{"features": ["lag_24", "lag_168", "roll_mean_24_shift_24", "roll_mean_168_shift_24", "hour_local", "dow_local"], "dtype": "float32", "clock": "Europe/Lisbon"}
