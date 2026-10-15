@@ -1,7 +1,24 @@
-# Fields the planning agent may propose changes to (rule 5, FR25).
-# Empty until Gate 5. Anything not listed here is rejected in code.
-version: 0
+# What agents may propose or request (rule 5, FR25). Anything not listed is rejected in
+# code before it reaches the workflow. Hard constraints are never on this list.
+version: 1
 planning_agent:
-  allowed_fields: []
+  # Scenario changes the planning agent may propose; the operator must confirm them.
+  allowed_fields:
+    tariff_id: [pge_b19_secondary, pgn_sched85_secondary]
+    strategy: [fixed_schedule, ml_forecast, robust_quantile]
+    power_fraction: [0.25, 0.5, 1.0]
+    duration_hours: [2, 4]
+  hard_constraints:  # named so a request to change them can be detected and refused
+    - soc_min_fraction
+    - soc_max_fraction
+    - terminal_reserve_fraction
+    - power_limit_kw
+    - grid_export
+    - round_trip_efficiency
+    - charge_guard
+    - acceptance_targets
 risk_agent:
-  allowed_stress_tests: []
+  allowed_stress_tests: [forecast_error_injection, heat_week_replay, reserve_floor_raise]
+business_agent:
+  allowed_decisions: [proceed, revise, withhold]
+  may_approve: false  # only the operator approves (FR25)

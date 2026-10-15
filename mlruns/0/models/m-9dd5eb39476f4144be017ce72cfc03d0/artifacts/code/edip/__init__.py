@@ -1,1 +1,0 @@
-"""Energy Decision Intelligence Platform."""
