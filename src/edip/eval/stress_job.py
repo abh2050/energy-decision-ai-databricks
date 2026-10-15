@@ -14,6 +14,11 @@ from edip.replay.grid_job import read_inputs
 from edip.replay.stress import run_all
 
 
+def _records(df) -> list[dict]:  # noqa: ANN001
+    """Rows with NaN written as null (valid JSON)."""
+    return df.astype(object).where(df.notna(), None).to_dict("records")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config-dir", default="config")
@@ -26,15 +31,24 @@ def main() -> int:
     cdir = Path(args.config_dir)
     obs, hourly, load15 = read_inputs(spark, args.catalog, cdir)
     with tempfile.TemporaryDirectory() as tmp:
-        frame = run_all(cdir, obs, hourly, load15, Path(tmp))
+        frame, excess = run_all(cdir, obs, hourly, load15, Path(tmp))
     window = frame.attrs.get("heat_week_window")
     frame["label"] = "revised strategy, post-hoc"
-    spark.createDataFrame(frame).write.mode("overwrite").option(
-        "overwriteSchema", "true"
-    ).saveAsTable(f"{args.catalog}.eval.stress_results")
+    excess["label"] = "revised strategy, post-hoc"
+    excess["guard_month_start_determinants"] = excess["guard_month_start_determinants"].apply(
+        json.dumps
+    )
+    for df, name in ((frame, "stress_results"), (excess, "stress_excess_months")):
+        spark.createDataFrame(df).write.mode("overwrite").option(
+            "overwriteSchema", "true"
+        ).saveAsTable(f"{args.catalog}.eval.{name}")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    payload = {"heat_week_window": window, "rows": frame.to_dict("records")}
+    payload = {
+        "heat_week_window": window,
+        "rows": _records(frame),
+        "excess_months": _records(excess),
+    }
     (out / "stress_results.json").write_text(json.dumps(payload, indent=2, default=str) + "\n")
     print(json.dumps({"rows": len(frame), "passed": int(frame.passed.sum())}))
     return 0

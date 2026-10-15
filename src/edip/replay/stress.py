@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 import yaml
 
+from edip.core.charge_guard import start_peaks_from_load
+from edip.core.tariff import Tariff, load_tariffs
 from edip.replay.replay import RevisedSettings
 from edip.replay.replay_job import compute
 
@@ -52,10 +55,18 @@ def raise_floor(cdir: Path, soc_min_fraction: float, work: Path) -> Path:
     return work
 
 
+NOT_APPLICABLE = "not applicable, base case already loses money"
+
+
 def evaluate(
     unstressed: pd.DataFrame, stressed: pd.DataFrame, monthly: pd.DataFrame, limits: dict[str, Any]
 ) -> list[dict[str, Any]]:
-    """Per tariff and strategy: retained net benefit, worst month vs no battery, violations."""
+    """Per tariff and strategy: retained net benefit, worst month vs no battery, violations.
+
+    When the unstressed net benefit is not positive, retained percent is undefined: it is
+    recorded as null with reason "base_negative", and the test is judged on the monthly
+    bill limit and the absolute dollar change (stressed must be no worse than unstressed).
+    """
     rows = []
     base = unstressed.set_index(["tariff_id", "strategy"])
     nb_month = monthly[monthly.strategy == "no_battery"].set_index(["tariff_id", "month"])[
@@ -69,10 +80,11 @@ def evaluate(
         worst = max(
             (m.bill_usd / nb_month[(m.tariff_id, m.month)] - 1) * 100 for m in mine.itertuples()
         )
-        retained_ok = (
-            after >= limits["min_net_benefit_retained_pct"] / 100 * before
-            if before > 0
-            else after >= before
+        base_negative = before <= 0
+        change_ok = (
+            after >= before
+            if base_negative
+            else (after >= limits["min_net_benefit_retained_pct"] / 100 * before)
         )
         rows.append(
             {
@@ -80,11 +92,19 @@ def evaluate(
                 "strategy": r["strategy"],
                 "net_benefit_unstressed_usd": before,
                 "net_benefit_stressed_usd": after,
-                "retained_pct": after / before * 100 if before > 0 else None,
+                "absolute_change_usd": after - before,
+                "retained_pct": None if base_negative else after / before * 100,
+                "retained_reason": "base_negative" if base_negative else None,
+                "retained_display": NOT_APPLICABLE if base_negative else None,
+                "judged_on": (
+                    "monthly bill limit and absolute dollar change"
+                    if base_negative
+                    else "retained net benefit and monthly bill limit"
+                ),
                 "worst_month_vs_no_battery_pct": worst,
                 "violations": int(r["violations"]),
                 "passed": bool(
-                    retained_ok
+                    change_ok
                     and worst <= limits["max_monthly_bill_increase_vs_no_battery_pct"]
                     and r["violations"] <= limits["accepted_constraint_violations"]
                 ),
@@ -93,16 +113,91 @@ def evaluate(
     return rows
 
 
+def _charges(row: Any) -> tuple[dict[str, float], dict[str, float]]:  # noqa: ANN401
+    return json.loads(row.demand_usd_by_charge), json.loads(row.billing_demand_kw_by_charge)
+
+
+def excess_months(
+    case: str,
+    monthly: pd.DataFrame,
+    tariffs: dict[str, Tariff],
+    load15: pd.Series,
+    margin: float,
+    limit_pct: float,
+) -> list[dict[str, Any]]:
+    """Every strategy month billed more than `limit_pct` above no battery, with the excess
+    split into energy, each demand charge, and Facility Capacity, and whether the charge
+    guard's month-start limit caused the demand excess: the guard starts each month at the
+    previous month's billed demand, so charging may lift this month's demand up to that
+    level even when it is above this month's no-battery demand."""
+    out = []
+    nb = monthly[monthly.strategy == "no_battery"].set_index(["tariff_id", "month"])
+    for tid, tariff in tariffs.items():
+        first = pd.Period(monthly[monthly.tariff_id == tid].month.min(), "M")
+        seed = start_peaks_from_load(tariff, load15, first - 1)
+        for strategy, g in monthly[
+            (monthly.tariff_id == tid) & (monthly.strategy != "no_battery")
+        ].groupby("strategy"):
+            g = g.sort_values("month")
+            prev_kw = dict(seed)
+            for row in g.itertuples():
+                base = nb.loc[(tid, row.month)]
+                usd, kw = _charges(row)
+                base_usd, base_kw = _charges(base)
+                pct = (row.bill_usd / base.bill_usd - 1) * 100
+                if pct > limit_pct:
+                    split = {"energy_usd": row.energy_usd - base.energy_usd}
+                    caused = []
+                    for name in usd:
+                        split[f"{name} usd"] = usd[name] - base_usd.get(name, 0.0)
+                        start_cap = prev_kw.get(name, 0.0) * (1 - margin)
+                        if (
+                            kw[name] > base_kw.get(name, 0.0) + 0.5
+                            and start_cap > base_kw.get(name, 0.0) + 0.5
+                            and kw[name] <= start_cap + 0.5
+                        ):
+                            caused.append(name)
+                    split["facility_capacity_usd"] = (
+                        row.facility_capacity_usd - base.facility_capacity_usd
+                    )
+                    out.append(
+                        {
+                            "case": case,
+                            "tariff_id": tid,
+                            "strategy": strategy,
+                            "month": row.month,
+                            "bill_above_no_battery_pct": pct,
+                            "excess_usd": row.bill_usd - base.bill_usd,
+                            **{k: float(v) for k, v in split.items()},
+                            "guard_month_start_limit_caused": bool(caused),
+                            "guard_month_start_determinants": caused,
+                        }
+                    )
+                prev_kw = {**prev_kw, **kw}
+    return out
+
+
 def run_all(
     cdir: Path, obs: pd.DataFrame, hourly: pd.DataFrame, load15: pd.Series, work: Path
-) -> pd.DataFrame:
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Stress results and the excess-month breakdown (base case and every test)."""
     cfg = yaml.safe_load((cdir / "stress_tests.yaml").read_text())
     limits = yaml.safe_load((cdir / "acceptance_targets.yaml").read_text())["stress"]
     settings = RevisedSettings(
         **yaml.safe_load((cdir / "revised_strategy.yaml").read_text())["settings"]
     )
     tariffs = cfg["tariffs"]
+    tariff_objs = {
+        t.id: t
+        for f in ("anchored_tou.yaml", "low_spread_tou.yaml")
+        for t in load_tariffs(cdir / "tariffs" / f)
+        if t.id in tariffs
+    }
+    monthly_limit = limits["max_monthly_bill_increase_vs_no_battery_pct"]
     base = compute(cdir, obs, hourly, load15, tariffs, settings)
+    excess = excess_months(
+        "base", base.monthly, tariff_objs, load15, settings.guard_margin_fraction, monthly_limit
+    )
     rows = []
     t = cfg["tests"]
     variants = {
@@ -126,9 +221,12 @@ def run_all(
     variants["heat_week_replay"] = (cdir, hw_hourly, hw_l15)
     for name, (vdir, vh, vl) in variants.items():
         out = compute(vdir, obs, vh, vl, tariffs, settings)
-        # Heat week compares with an unstressed run on the same (scaled) load for no battery.
+        # Monthly bills compare with no battery under the same stress (heat week: scaled load).
         for row in evaluate(base.annual, out.annual, out.monthly, limits):
             rows.append({"test": name, **row})
+        excess += excess_months(
+            name, out.monthly, tariff_objs, vl, settings.guard_margin_fraction, monthly_limit
+        )
     frame = pd.DataFrame(rows)
     frame.attrs["heat_week_window"] = [w.isoformat() for w in window]
-    return frame
+    return frame, pd.DataFrame(excess)
