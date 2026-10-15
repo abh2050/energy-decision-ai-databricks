@@ -1,0 +1,54 @@
+# Gate 5 jobs: persist evaluation inputs and outputs, run stress tests.
+resources:
+  jobs:
+    gate5_stress:
+      name: edip-gate5-stress
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: stress
+          spark_python_task:
+            python_file: ../src/edip/eval/stress_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
+    gate5_load_evidence:
+      name: edip-gate5-load-evidence
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: load
+          spark_python_task:
+            python_file: ../src/edip/eval/load_job.py
+            parameters: ["--src", "/Volumes/edip/ml/artifacts/gate5/scenario_evidence.parquet", "--table", "edip.eval.scenario_evidence"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
+    gate5_load_evaluations:
+      name: edip-gate5-load-evaluations
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: load
+          spark_python_task:
+            python_file: ../src/edip/eval/load_job.py
+            parameters: ["--src", "/Volumes/edip/ml/artifacts/gate5/agent_evaluations.parquet", "--table", "edip.eval.agent_evaluations"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

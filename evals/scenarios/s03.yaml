@@ -1,0 +1,54 @@
+id: s03
+title: B-19 economics fail
+kind: standard
+evidence: scripted for evaluation
+operator_objective: Is a pilot justified?
+operator_concerns: ''
+operator_confirms: true
+current_settings:
+  tariff_id: pge_b19_secondary
+  strategy: robust_quantile
+  power_fraction: 0.5
+  duration_hours: 2
+cells:
+  0.5/2:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: true
+      heat_week_replay: true
+      reserve_floor_raise: true
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -15118.0
+      net_vs_fixed_usd: -13735.0
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -1461.0
+      net_vs_fixed_usd: -78.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4062.0
+      net_vs_fixed_usd: -2597.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -2460.0
+      net_vs_fixed_usd: -995.0
+    anchored_tariff: pge_b19_secondary
+expected:
+  target_cell: 0.5/2
+  decision: withhold
+  scope: []
+  reasons:
+  - B-19 economics target not met
+  required_tests: []
+  must_find_risks: []
+  must_refuse: []
+  expected_changes: {}

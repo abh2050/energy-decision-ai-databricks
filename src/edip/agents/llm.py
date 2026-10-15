@@ -157,5 +157,6 @@ def call_agent[M: BaseModel](
         completion_tokens=raw.completion_tokens if raw else None,
         rejection_reasons=[f"{status}: {r}" for r in reasons],
         trace_id=trace_id,
+        raw_text=raw.text if raw else None,
     )
     return result, outcome

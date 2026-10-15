@@ -71,3 +71,4 @@ class AgentOutcome(BaseModel):
     completion_tokens: int | None = None
     rejection_reasons: list[str] = Field(default_factory=list)
     trace_id: str | None = None
+    raw_text: str | None = None  # the model's raw response, kept for evaluation

@@ -1,0 +1,21 @@
+# Predefined stress tests (Gate 5, FR16 risk agent). Deterministic; parameters ASSUMED.
+# Limits come from config/acceptance_targets.yaml#stress (frozen).
+tariffs: [pge_b19_secondary, pgn_sched85_secondary]
+battery: base_case  # config/battery.yaml, revised strategy settings
+tests:
+  forecast_error_injection:
+    description: every forecast error against actual load is multiplied (point, P50, P90, seasonal)
+    error_multiplier: 2.0
+  heat_week_replay:
+    description: >-
+      actual load (hourly and 15 minute) in the 7 days around the 2014 annual peak is scaled
+      up; forecasts are unchanged, so they under-predict that week (no weather data exists)
+    load_multiplier: 1.10
+    window_days: 7
+  reserve_floor_raise:
+    description: battery minimum state of charge raised; terminal reserve unchanged
+    soc_min_fraction: 0.30
+evaluation:
+  # When the unstressed net benefit is not positive, "retains 50 percent" is undefined; the
+  # conservative reading requires the stressed net benefit to be no worse than unstressed.
+  negative_baseline_rule: stressed_net_benefit >= unstressed_net_benefit

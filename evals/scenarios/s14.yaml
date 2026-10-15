@@ -1,0 +1,87 @@
+id: s14
+title: Operator rejects the proposed change
+kind: objective_change
+evidence: scripted for evaluation
+operator_objective: Evaluate the full-size 4 hour battery.
+operator_concerns: ''
+operator_confirms: false
+current_settings:
+  tariff_id: pge_b19_secondary
+  strategy: robust_quantile
+  power_fraction: 0.5
+  duration_hours: 2
+cells:
+  0.5/2:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: true
+      heat_week_replay: true
+      reserve_floor_raise: true
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: -10158.0
+      net_vs_fixed_usd: 17759.0
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: -3133.0
+      net_vs_fixed_usd: 24784.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4184.0
+      net_vs_fixed_usd: -1286.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -2076.0
+      net_vs_fixed_usd: 822.0
+    anchored_tariff: pge_b19_secondary
+  1/4:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: true
+      heat_week_replay: true
+      reserve_floor_raise: true
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: -1257.0
+      net_vs_fixed_usd: 20687.0
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: 29764.0
+      net_vs_fixed_usd: 51708.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4740.0
+      net_vs_fixed_usd: 2372.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -3011.0
+      net_vs_fixed_usd: 4101.0
+    anchored_tariff: pge_b19_secondary
+expected:
+  target_cell: 0.5/2
+  decision: withhold
+  scope: []
+  reasons:
+  - 'amendment A1: no strategy beats both no battery and the fixed schedule'
+  required_tests: []
+  must_find_risks: []
+  must_refuse: []
+  expected_changes:
+    power_fraction: 1.0
+    duration_hours: 4
