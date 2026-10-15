@@ -15,5 +15,12 @@ duration_hours: [2, 4]  # FR22
 round_trip_efficiency: [0.85, 0.90]  # owner decision 2026-10-14
 degradation_cost_usd_per_kwh_discharged: [0.02, 0.03, 0.05]  # owner decision 2026-10-14
 operating_cost_annual_usd: assumed  # config/battery.yaml#operating_cost, single value
-demand_charge_rate_multiplier: [0.5, 1.0, 1.5]  # PROPOSED at Gate 4 (FR22 "demand charge rate"); owner to confirm
+demand_charge_rate_multiplier: [0.5, 1.0, 1.5]  # owner decision 2026-10-14 (FR22 "demand charge rate")
 parallel_tasks: one per tariff and battery power fraction (5 x 3 = 15), plus one aggregate task
+execution:
+  # Owner decision 2026-10-14: the full grid on serverless was estimated at about 19
+  # compute hours (25 to 30 USD). The 15 slices run locally in parallel processes
+  # (scripts/run_grid_local.py) on the same Delta inputs, and the Databricks job
+  # edip-gate4-aggregate writes edip.eval.sensitivity_grid and the flip boundary outputs.
+  slices: local processes
+  aggregate: databricks job edip-gate4-aggregate

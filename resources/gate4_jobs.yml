@@ -111,3 +111,21 @@ resources:
               - matplotlib==3.11.2
               - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
               - protobuf==5.29.4
+    gate4_aggregate:
+      name: edip-gate4-aggregate
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: aggregate
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--aggregate"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - matplotlib==3.11.2
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
