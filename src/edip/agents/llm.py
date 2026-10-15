@@ -47,21 +47,35 @@ class CallBudget:
 
 
 class DatabricksModel:
-    """Foundation Model API client with an explicit deadline and no retries."""
+    """Foundation Model API client with an explicit deadline and no retries. Calls are
+    spaced at least `min_interval_s` apart: the trial endpoint returned 429 for
+    back-to-back calls at Gate 0. Spacing is not a retry."""
 
-    def __init__(self, endpoint: str, timeout_s: float, profile: str | None = None) -> None:
+    def __init__(
+        self,
+        endpoint: str,
+        timeout_s: float,
+        profile: str | None = None,
+        min_interval_s: float = 2.0,
+    ) -> None:
         from databricks.sdk import WorkspaceClient
         from databricks_openai import DatabricksOpenAI
 
         ws = WorkspaceClient(profile=profile) if profile else WorkspaceClient()
         self.client = DatabricksOpenAI(workspace_client=ws, timeout=timeout_s, max_retries=0)
         self.endpoint = endpoint
+        self.min_interval_s = min_interval_s
+        self._last = 0.0
 
     def complete(
         self, system: str, user: str, schema: dict[str, Any], max_tokens: int
     ) -> RawCompletion:
         import openai
 
+        wait = self.min_interval_s - (time.monotonic() - self._last)
+        if wait > 0:
+            time.sleep(wait)
+        self._last = time.monotonic()
         try:
             resp = self.client.chat.completions.create(
                 model=self.endpoint,
