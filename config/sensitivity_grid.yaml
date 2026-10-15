@@ -1,11 +1,19 @@
-# Gate 4 sensitivity grid (FR22). Dimensions recorded now; values marked "to set at Gate 4"
-# are proposed then. Every cell reruns the full replay.
+# Gate 4 sensitivity grid (FR22). Every cell reruns the full 2014 replay with the
+# revised strategy settings (config/revised_strategy.yaml, "revised strategy, post-hoc").
+strategy_settings: config/revised_strategy.yaml
 tariffs:
-  real: [pge_b19_secondary, pgn_sched85_secondary]
-  synthetic_gap_multipliers: [1.0, 1.5, 2.0, 3.0]  # peak and part-peak gaps, both seasons
-battery_power_fraction_of_observed_peak: [0.25, 0.50, 1.00]
-duration_hours: [2, 4]
+  # Spread family: B-19 is gap multiplier 1.0 (synthetic_high_spread_m1 is identical and
+  # is not rerun); synthetic tariffs widen the peak and part-peak gaps in both seasons.
+  spread_family:
+    1.0: pge_b19_secondary
+    1.5: synthetic_high_spread_m1_5
+    2.0: synthetic_high_spread_m2
+    3.0: synthetic_high_spread_m3
+  other_real: [pgn_sched85_secondary]
+battery_power_fraction_of_observed_peak: [0.25, 0.50, 1.00]  # FR22
+duration_hours: [2, 4]  # FR22
 round_trip_efficiency: [0.85, 0.90]  # owner decision 2026-10-14
 degradation_cost_usd_per_kwh_discharged: [0.02, 0.03, 0.05]  # owner decision 2026-10-14
-operating_cost_annual_usd: [assumed]  # config/battery.yaml#operating_cost (assumed)
-demand_charge_rate_multiplier: to set at Gate 4
+operating_cost_annual_usd: assumed  # config/battery.yaml#operating_cost, single value
+demand_charge_rate_multiplier: [0.5, 1.0, 1.5]  # PROPOSED at Gate 4 (FR22 "demand charge rate"); owner to confirm
+parallel_tasks: one per tariff and battery power fraction (5 x 3 = 15), plus one aggregate task

@@ -488,6 +488,9 @@ platform = [
     { name = "psycopg", extra = ["binary"] },
     { name = "uvicorn" },
 ]
+reporting = [
+    { name = "matplotlib" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -503,6 +506,7 @@ requires-dist = [
     { name = "databricks-sdk", marker = "extra == 'platform'", specifier = "==0.152.0" },
     { name = "fastapi", marker = "extra == 'platform'", specifier = "==0.143.0" },
     { name = "lightgbm", marker = "extra == 'forecasting'", specifier = "==4.7.0" },
+    { name = "matplotlib", marker = "extra == 'reporting'", specifier = "==3.11.2" },
     { name = "mlflow-skinny", marker = "extra == 'platform'", specifier = "==3.17.1" },
     { name = "numpy", specifier = "==2.3.5" },
     { name = "onnx", marker = "extra == 'forecasting'", specifier = "==1.17.0" },
@@ -515,7 +519,7 @@ requires-dist = [
     { name = "scipy", specifier = "==1.18.1" },
     { name = "uvicorn", marker = "extra == 'platform'", specifier = "==0.54.0" },
 ]
-provides-extras = ["platform", "forecasting"]
+provides-extras = ["platform", "reporting", "forecasting"]
 
 [package.metadata.requires-dev]
 dev = [

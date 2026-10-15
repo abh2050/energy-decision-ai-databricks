@@ -301,3 +301,23 @@ def load_tariffs(path: Path) -> list[Tariff]:
 def load_tariff(path: Path) -> Tariff:
     (tariff,) = load_tariffs(path)
     return tariff
+
+
+def scale_demand(tariff: Tariff, factor: float) -> Tariff:
+    """Copy with every demand charge and Facility Capacity rate multiplied by `factor`
+    (sensitivity grid dimension; factor 1.0 returns an equal tariff)."""
+    charges = [
+        c.model_copy(
+            update={"rates_usd_per_kw": {s: r * factor for s, r in c.rates_usd_per_kw.items()}}
+        )
+        for c in tariff.demand_charges
+    ]
+    update: dict = {"demand_charges": charges}
+    if tariff.facility_capacity is not None:
+        fc = tariff.facility_capacity
+        update["facility_capacity"] = fc.model_copy(
+            update={"tiers_usd_per_kw": [(u, r * factor) for u, r in fc.tiers_usd_per_kw]}
+        )
+    if factor != 1.0:
+        update["notes"] = [*tariff.notes, f"SENSITIVITY: demand charges x{factor:g}"]
+    return tariff.model_copy(update=update)

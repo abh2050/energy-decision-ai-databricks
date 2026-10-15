@@ -1,0 +1,113 @@
+# Gate 4 sensitivity grid: one serverless task per tariff and battery power fraction,
+# running in parallel, then one aggregate task. Generated from config/sensitivity_grid.yaml.
+resources:
+  jobs:
+    gate4_grid:
+      name: edip-gate4-grid
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: pge_b19_secondary_pf0_25
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pge_b19_secondary", "--power-fraction", "0.25"]
+          environment_key: default
+        - task_key: pge_b19_secondary_pf0_5
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pge_b19_secondary", "--power-fraction", "0.5"]
+          environment_key: default
+        - task_key: pge_b19_secondary_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pge_b19_secondary", "--power-fraction", "1.0"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m1_5_pf0_25
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m1_5", "--power-fraction", "0.25"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m1_5_pf0_5
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m1_5", "--power-fraction", "0.5"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m1_5_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m1_5", "--power-fraction", "1.0"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m2_pf0_25
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m2", "--power-fraction", "0.25"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m2_pf0_5
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m2", "--power-fraction", "0.5"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m2_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m2", "--power-fraction", "1.0"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m3_pf0_25
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m3", "--power-fraction", "0.25"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m3_pf0_5
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m3", "--power-fraction", "0.5"]
+          environment_key: default
+        - task_key: synthetic_high_spread_m3_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "synthetic_high_spread_m3", "--power-fraction", "1.0"]
+          environment_key: default
+        - task_key: pgn_sched85_secondary_pf0_25
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pgn_sched85_secondary", "--power-fraction", "0.25"]
+          environment_key: default
+        - task_key: pgn_sched85_secondary_pf0_5
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pgn_sched85_secondary", "--power-fraction", "0.5"]
+          environment_key: default
+        - task_key: pgn_sched85_secondary_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--tariff", "pgn_sched85_secondary", "--power-fraction", "1.0"]
+          environment_key: default
+        - task_key: aggregate
+          depends_on:
+            - task_key: pge_b19_secondary_pf0_25
+            - task_key: pge_b19_secondary_pf0_5
+            - task_key: pge_b19_secondary_pf1
+            - task_key: synthetic_high_spread_m1_5_pf0_25
+            - task_key: synthetic_high_spread_m1_5_pf0_5
+            - task_key: synthetic_high_spread_m1_5_pf1
+            - task_key: synthetic_high_spread_m2_pf0_25
+            - task_key: synthetic_high_spread_m2_pf0_5
+            - task_key: synthetic_high_spread_m2_pf1
+            - task_key: synthetic_high_spread_m3_pf0_25
+            - task_key: synthetic_high_spread_m3_pf0_5
+            - task_key: synthetic_high_spread_m3_pf1
+            - task_key: pgn_sched85_secondary_pf0_25
+            - task_key: pgn_sched85_secondary_pf0_5
+            - task_key: pgn_sched85_secondary_pf1
+          spark_python_task:
+            python_file: ../src/edip/replay/grid_job.py
+            parameters: ["--config-dir", "${workspace.file_path}/config", "--aggregate"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - matplotlib==3.11.2
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

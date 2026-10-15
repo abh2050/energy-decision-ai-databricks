@@ -22,6 +22,10 @@ platform = [
     "psycopg[binary]==3.3.6",
     "uvicorn==0.54.0",
 ]
+# Gate 4 charts for the public pages.
+reporting = [
+    "matplotlib==3.11.2",
+]
 # Gate 2 forecasting: LightGBM models and ONNX export for the browser sandbox.
 forecasting = [
     "lightgbm==4.7.0",

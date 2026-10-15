@@ -51,15 +51,39 @@ class StrategyResult(BaseModel):
     guard_shortfall_kwh: float = 0.0
 
 
+class Calendar:
+    """Tariff lookups for every replayed hour, computed once (speed only)."""
+
+    def __init__(self, tariff: Tariff, index: pd.DatetimeIndex) -> None:
+        self.pos = {h: i for i, h in enumerate(index)}
+        self.price = tariff.energy_rate(index).to_numpy()
+        self.months = local_month(index, tariff.clock)
+        self.windows = {
+            c.name: tariff.in_demand_window(c, index).to_numpy() for c in tariff.demand_charges
+        }
+        cls = tariff.classify(index)
+        self.cls = cls.reset_index(drop=True)
+
+    def span(self, hours: pd.DatetimeIndex) -> slice:
+        start = self.pos[hours[0]]
+        return slice(start, start + len(hours))
+
+
 def demand_terms(
     tariff: Tariff,
     hours: pd.DatetimeIndex,
     running: dict[tuple[str, str], float],
+    cal: Calendar | None = None,
 ) -> list[DemandTerm]:
-    months = local_month(hours, tariff.clock)
+    sl = cal.span(hours) if cal is not None else None
+    months = cal.months[sl] if cal is not None else local_month(hours, tariff.clock)
     terms = []
     for charge in tariff.demand_charges:
-        window = tariff.in_demand_window(charge, hours).to_numpy()
+        window = (
+            cal.windows[charge.name][sl]
+            if cal is not None
+            else tariff.in_demand_window(charge, hours).to_numpy()
+        )
         for month in sorted(set(months)):
             mask = window & (months == month)
             if not mask.any():
@@ -81,10 +105,16 @@ def update_running(
     hours: pd.DatetimeIndex,
     grid_kw: np.ndarray,
     running: dict[tuple[str, str], float],
+    cal: Calendar | None = None,
 ) -> None:
-    months = local_month(hours, tariff.clock)
+    sl = cal.span(hours) if cal is not None else None
+    months = cal.months[sl] if cal is not None else local_month(hours, tariff.clock)
     for charge in tariff.demand_charges:
-        window = tariff.in_demand_window(charge, hours).to_numpy()
+        window = (
+            cal.windows[charge.name][sl]
+            if cal is not None
+            else tariff.in_demand_window(charge, hours).to_numpy()
+        )
         for month in sorted(set(months)):
             mask = window & (months == month)
             if mask.any():
@@ -128,6 +158,7 @@ def run(
             raise ValueError("15 minute load missing for a replayed hour")
         row_of = {h: i for i, h in enumerate(hourly.index)}
     shortfall_days, shortfall_kwh = 0, 0.0
+    cal = Calendar(tariff, hourly.index)
     for day in days:
         block = hourly.loc[day : day + pd.Timedelta(hours=23)]
         hours = block.index
@@ -136,10 +167,25 @@ def run(
             c_plan = d_plan = np.zeros(24)
             fc = np.full(24, np.nan)
         elif strategy == "fixed_schedule":
-            c_plan, d_plan = fixed_plan(hours, tariff, fixed, spec, soc)
+            sl = cal.span(hours)
+            c_plan, d_plan = fixed_plan(
+                hours,
+                tariff,
+                fixed,
+                spec,
+                soc,
+                cls=cal.cls.iloc[sl],
+                window=cal.windows[fixed.window_charge][sl],
+            )
             fc = np.full(24, np.nan)
         elif strategy in OPTIMIZED:
-            fc = planning_load(strategy, block, tariff, protected_periods)
+            fc = planning_load(
+                strategy,
+                block,
+                tariff,
+                protected_periods,
+                periods=cal.cls["period"].to_numpy()[cal.span(hours)],
+            )
             peak_load = None
             if revised is not None and strategy == "robust_quantile":
                 band = block["p50"] + revised.robust_charge_band_k * (block["p90"] - block["p50"])
@@ -147,8 +193,8 @@ def run(
             try:
                 plan = solve_day(
                     fc,
-                    tariff.energy_rate(hours).to_numpy(),
-                    demand_terms(tariff, hours, running),
+                    cal.price[cal.span(hours)],
+                    demand_terms(tariff, hours, running, cal),
                     spec,
                     soc,
                     spec.terminal_reserve_kwh,
@@ -180,7 +226,7 @@ def run(
         else:
             settled = settle_day(c_plan, d_plan, actual, spec, soc)
         soc = settled.soc_end_kwh
-        update_running(tariff, hours, np.array(settled.grid_kw), running)
+        update_running(tariff, hours, np.array(settled.grid_kw), running, cal)
         for t, h in enumerate(hours):
             rows.append(
                 {

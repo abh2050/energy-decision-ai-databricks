@@ -35,6 +35,7 @@ def planning_load(
     day: pd.DataFrame,
     tariff: Tariff,
     protected_periods: list[str],
+    periods: np.ndarray | None = None,
 ) -> np.ndarray:
     """The hourly load a strategy plans on. `day` has 24 rows indexed by UTC hour with
     columns actual, seasonal, point, p50, p90."""
@@ -43,7 +44,9 @@ def planning_load(
     if strategy == "ml_forecast":
         return day["point"].to_numpy()
     if strategy == "robust_quantile":
-        protected = tariff.classify(day.index)["period"].isin(protected_periods).to_numpy()
+        if periods is None:
+            periods = tariff.classify(day.index)["period"].to_numpy()
+        protected = np.isin(periods, protected_periods)
         return np.where(protected, day["p90"].to_numpy(), day["p50"].to_numpy())
     if strategy == "hindsight":
         return day["actual"].to_numpy()
@@ -84,13 +87,22 @@ def fixed_rule(tariff: Tariff, window: str, train_kw: pd.Series, spec: BatterySp
 
 
 def fixed_plan(
-    hours_utc: pd.DatetimeIndex, tariff: Tariff, rule: FixedRule, spec: BatterySpec, soc0: float
+    hours_utc: pd.DatetimeIndex,
+    tariff: Tariff,
+    rule: FixedRule,
+    spec: BatterySpec,
+    soc0: float,
+    *,
+    cls: pd.DataFrame | None = None,
+    window: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Charge at full power from 00:00 local in off-peak hours until soc_max (before the
     first discharge hour); discharge at full power in the ranked hours until soc_min."""
-    charge = next(c for c in tariff.demand_charges if c.name == rule.window_charge)
-    window = tariff.in_demand_window(charge, hours_utc).to_numpy()
-    cls = tariff.classify(hours_utc)
+    if window is None:
+        charge = next(c for c in tariff.demand_charges if c.name == rule.window_charge)
+        window = tariff.in_demand_window(charge, hours_utc).to_numpy()
+    if cls is None:
+        cls = tariff.classify(hours_utc)
     c = np.zeros(len(hours_utc))
     d = np.zeros(len(hours_utc))
     soc = soc0
