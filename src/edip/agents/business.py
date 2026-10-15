@@ -21,7 +21,7 @@ def run(
     table: str,
     inputs: DecisionInputs,
 ) -> tuple[BusinessResponse, AgentOutcome]:
-    version, system = load_prompt("business_v1")
+    version, system = load_prompt("business_v2")
     user = user_message({"Context": context, "Evidence rows": packet.as_prompt_rows()})
     return call_agent(
         agent="business",

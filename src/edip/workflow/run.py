@@ -115,7 +115,7 @@ def numbers_only_path(
     budget = CallBudget()
     inputs = sc.cells[cell_key(sc.current_settings)]
     packet = build_packet(table, inputs)
-    version, system = load_prompt("business_v1")
+    version, system = load_prompt("business_v2")
     user = user_message(
         {
             "Context": {"settings": sc.current_settings, "objective": sc.operator_objective},

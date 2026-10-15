@@ -4,8 +4,9 @@ Frozen rule (config/acceptance_targets.yaml): withhold on any violation or a B-1
 economics failure (neither ML nor robust passes); revise on a stress or coverage failure;
 otherwise proceed, scoped to real tariffs where at least one of them passes.
 Amendment A1 (docs/business_case.md, 2026-10-15): a strategy and tariff are in scope only
-if net benefit is positive over no battery and over the fixed schedule. With A1 applied,
-an empty scope means withhold.
+if net benefit is positive over no battery and over the fixed schedule. A1 is applied
+before the stress and coverage checks: when no strategy qualifies, the result is withhold,
+because revising for stress cannot fix a strategy that loses money.
 """
 
 from __future__ import annotations
@@ -50,14 +51,6 @@ def decide(x: DecisionInputs) -> DecisionResult:
         return DecisionResult(
             decision="withhold", scope=[], reasons=["B-19 economics target not met"]
         )
-    failed_stress = sorted(t for t, ok in x.stress_passed.items() if not ok)
-    coverage_ok = abs(x.coverage_pct - x.coverage_target) <= x.coverage_tolerance
-    if failed_stress or not coverage_ok:
-        if failed_stress:
-            reasons.append(f"stress limits breached: {', '.join(failed_stress)}")
-        if not coverage_ok:
-            reasons.append(f"forecast coverage {x.coverage_pct:.1f}% outside 80 +/- 5")
-        return DecisionResult(decision="revise", scope=[], reasons=reasons)
     scope = [
         (s.tariff_id, s.strategy)
         for s in x.strategies
@@ -72,4 +65,12 @@ def decide(x: DecisionInputs) -> DecisionResult:
             scope=[],
             reasons=["amendment A1: no strategy beats both no battery and the fixed schedule"],
         )
+    failed_stress = sorted(t for t, ok in x.stress_passed.items() if not ok)
+    coverage_ok = abs(x.coverage_pct - x.coverage_target) <= x.coverage_tolerance
+    if failed_stress or not coverage_ok:
+        if failed_stress:
+            reasons.append(f"stress limits breached: {', '.join(failed_stress)}")
+        if not coverage_ok:
+            reasons.append(f"forecast coverage {x.coverage_pct:.1f}% outside 80 +/- 5")
+        return DecisionResult(decision="revise", scope=[], reasons=reasons)
     return DecisionResult(decision="proceed", scope=sorted(scope), reasons=["all criteria met"])
