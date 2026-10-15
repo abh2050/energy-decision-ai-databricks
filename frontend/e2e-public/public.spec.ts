@@ -24,6 +24,7 @@ test("sandbox: banner, live forecast and schedule in the browser, network blocke
   await expect(page.getByTestId("mode-label")).toContainText("Sandbox");
   await expect(page.getByTestId("schedule-chart")).toContainText("solved in your browser", { timeout: 120_000 });
   await expect(page.getByTestId("forecast-chart")).toContainText("computed in your browser");
+  await expect(page.getByTestId("sandbox-settlement-note")).toContainText("without 15 minute billing demand or the charge guard");
   // Change battery size, tariff, and reserve: the schedule is re-solved locally.
   await page.getByTestId("cell").first().selectOption("1/4");
   await page.getByTestId("reserve").fill("0.3");
