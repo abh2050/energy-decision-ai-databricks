@@ -39,3 +39,12 @@ must carry into it:
    of peak for 4 hours, +29,764 at 100 percent for 4 hours); nothing forecast-driven beats
    no battery on PGE. Net benefit excludes battery capital cost, which favours the largest
    battery; the pilot case must set annual savings against installed cost.
+7. **Capital layer (evidence, not a gate; added 2026-10-15).** Installed cost from the
+   NREL/NLR 2025 ATB commercial battery storage CAPEX for cost year 2026 (2023 dollars):
+   low 207.7 USD/kWh + 487.1 USD/kW, mid 255.3 + 507.7, high 284.7 + 520.4 (derived from
+   the 2 h and 4 h values). Life 15 years and discount rate 8 percent are ASSUMED; fixed
+   O&M, replacement, and incentives are excluded. At the mid cost no non-hindsight strategy
+   pays back within 15 years on either tariff; on B-19 the best case (robust dispatch, 100
+   percent of peak, 4 hours) earns 28,281 USD per year against 1,149,297 USD installed: a
+   40.6 year payback and an NPV of −907,229 USD. Full table:
+   [business_case_capital.md](business_case_capital.md).

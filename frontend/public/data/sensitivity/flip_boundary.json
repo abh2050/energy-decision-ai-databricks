@@ -2352,7 +2352,7 @@
         2.0,
         3.0
       ],
-      "smallest_spread_beating_fixed": 2.0,
+      "smallest_spread_beating_fixed": 1.0,
       "smallest_spread_beating_no_battery": null
     },
     {
@@ -2496,7 +2496,7 @@
         2.0,
         3.0
       ],
-      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_fixed": 1.0,
       "smallest_spread_beating_no_battery": null
     },
     {
@@ -2561,7 +2561,7 @@
         3.0
       ],
       "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
+      "smallest_spread_beating_no_battery": 3.0
     },
     {
       "strategy": "ml_forecast",
@@ -2912,3047 +2912,3047 @@
         2.0,
         3.0
       ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "ml_forecast",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 0.5,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 2.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.5
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "robust_quantile",
-      "power_fraction": 1.0,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.25,
-      "duration_hours": 4.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.03,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.85,
-      "degradation_usd_per_kwh": 0.05,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 0.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": 3.0
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.0,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
-      "smallest_spread_beating_fixed": null,
-      "smallest_spread_beating_no_battery": null
-    },
-    {
-      "strategy": "seasonal_forecast",
-      "power_fraction": 0.5,
-      "duration_hours": 2.0,
-      "round_trip_efficiency": 0.9,
-      "degradation_usd_per_kwh": 0.02,
-      "demand_charge_multiplier": 1.5,
-      "spreads_tested": [
-        1.0,
-        1.5,
-        2.0,
-        3.0
-      ],
       "smallest_spread_beating_fixed": 1.5,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "ml_forecast",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 0.5,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 2.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.5
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "robust_quantile",
+      "power_fraction": 1.0,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 1.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.25,
+      "duration_hours": 4.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.03,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.85,
+      "degradation_usd_per_kwh": 0.05,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 0.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": 3.0
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.0,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": null,
+      "smallest_spread_beating_no_battery": null
+    },
+    {
+      "strategy": "seasonal_forecast",
+      "power_fraction": 0.5,
+      "duration_hours": 2.0,
+      "round_trip_efficiency": 0.9,
+      "degradation_usd_per_kwh": 0.02,
+      "demand_charge_multiplier": 1.5,
+      "spreads_tested": [
+        1.0,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "smallest_spread_beating_fixed": 1.0,
       "smallest_spread_beating_no_battery": null
     },
     {
@@ -6913,7 +6913,7 @@
         3.0
       ],
       "smallest_spread_beating_fixed": 1.0,
-      "smallest_spread_beating_no_battery": 1.0
+      "smallest_spread_beating_no_battery": 1.5
     }
   ]
 }

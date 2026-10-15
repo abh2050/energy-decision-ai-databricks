@@ -102,6 +102,34 @@ against a loss-making fixed schedule (Gate 3, section 8).
 2. **Decision baseline** (from Gate 3): should pilot scope rest on beating no battery, the
    fixed schedule, or both?
 
+## 8. Follow-ups after approval (2026-10-15)
+
+**Deterministic optimizer.** HiGHS through SciPy `milp` now runs single-threaded with a
+fixed random seed (0), a relative MIP gap of 1e-6, and a throughput tie-break of 1e-7 USD
+per kWh on charge plus discharge (at most 0.66 USD a year for the largest grid battery;
+never billed). The base cell rerun on Databricks (Linux aarch64) and locally (Darwin arm64)
+agrees within **0.01 USD per bill** across all 12 tariff and strategy bills (limit 10 USD).
+The deterministic plans differ slightly from the earlier ones (base cell: robust −3,133
+USD, ML −10,158 USD, hindsight +43,814 USD against no battery).
+
+**Grid rerun.** One sign in the flip boundary chart changed (B-19 ML, 100 percent / 4 h:
++3,926 to −1,257 USD), so the full grid was rerun (540 cells, 1,695 s, 0 violations) and
+the aggregate job rewrote `edip.eval.sensitivity_grid` and the chart. Against the first
+grid, 32 of 2,700 battery-strategy outcomes against no battery and 31 against the fixed
+schedule changed sign; median net benefit change 2 USD, largest 9,074 USD.
+
+**Updated headline** (deterministic grid, base costs): on B-19 the guarded robust strategy
+beats no battery only with larger batteries (+3,128 USD per year at 50 percent / 4 h,
++1,034 at 100 percent / 2 h, +28,281 at 100 percent / 4 h); ML dispatch beats no battery at
+no base-cost size (best −1,257); nothing forecast-driven beats no battery on PGE; hindsight
+would earn 22,861 to 83,107 USD per year on B-19. Share of cells beating no battery on
+B-19: robust 25.9 percent, ML 2.8 percent, fixed 14.8 percent.
+
+**Capital layer (business case only, not a gate):** see
+[../business_case_capital.md](../business_case_capital.md). At the mid ATB cost no
+non-hindsight strategy recovers its capital in 15 years; the best (robust, 100 percent /
+4 h) has a 40.6 year simple payback and an NPV of −907,229 USD.
+
 ## 7. Exit checklist
 
 | Item | Status |
