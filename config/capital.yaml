@@ -1,0 +1,25 @@
+# Capital layer for the business case only (owner decision 2026-10-15). Not a gate and not
+# an acceptance target. Every value here is ASSUMED except the ATB source data.
+label: assumed
+source:
+  dataset: NREL/NLR 2025 Annual Technology Baseline (ATB), electricity, v1.0.0, ATBe.csv
+  url: https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/csv/2025/v1.0.0/ATBe.csv
+  page: https://atb.nlr.gov/electricity/2025/commercial_battery_storage
+  extract: data/reference/atb2025_commercial_battery_capex_2026.csv  # CAPEX rows used
+  technology: Commercial Battery Storage
+  metric: CAPEX ($/kW of power capacity), cost year 2026, R&D case (identical to Markets for batteries)
+  dollar_year: 2023  # ATB 2025 reports 2023 dollars; savings are in 2026 tariff dollars (not inflated)
+  retrieved: 2026-10-15
+cases:  # low cost = Advanced, mid = Moderate, high = Conservative
+  low: Advanced
+  mid: Moderate
+  high: Conservative
+derivation: >-
+  ATB CAPEX per kW is linear in duration. Per-kWh cost = (CAPEX 4h - CAPEX 2h) / 2 and
+  per-kW cost = CAPEX 2h - 2 x per-kWh cost; installed cost = per-kWh x kWh + per-kW x kW.
+life_years: 15  # assumed
+discount_rate: 0.08  # assumed, real, annual
+excluded:
+  - ATB fixed O&M ($/kW-yr) is not included (owner specified installed cost, life, and rate)
+  - Battery replacement or augmentation within the 15 year life
+  - Tax credits and incentives

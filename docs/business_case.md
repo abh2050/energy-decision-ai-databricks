@@ -1,5 +1,17 @@
 # Pilot business case (working notes)
 
+## Amendment A1, 2026-10-15 (owner decision)
+
+**A pilot recommendation requires positive net benefit over no battery and over the fixed
+schedule**, for the strategy and tariff named in the recommendation. Reason: the frozen
+economics target (`config/acceptance_targets.yaml`, unchanged) measures ML and robust
+dispatch only against the fixed schedule, and did not anticipate that the fixed schedule
+itself would lose money. In the revised Gate 3 rerun, ML and robust passed that target on
+B-19 while losing 10,624 and 3,006 USD per year against no battery. Under this amendment
+such a pass cannot support a pilot recommendation. The frozen target is still evaluated
+and reported as written.
+
+
 The full business case is assembled at Gates 4 and 7 from persisted results. Notes that
 must carry into it:
 
