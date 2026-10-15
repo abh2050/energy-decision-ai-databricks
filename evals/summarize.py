@@ -1,10 +1,10 @@
 """Gate 5 evaluation report numbers from evals/results/agent_evaluations.parquet.
 
 Usage: uv run python evals/summarize.py --usd-per-million-tokens RATE --rate-source TEXT
-       [--previous evals/results/agent_evaluations_business_v1.parquet]
+       [--prompts business_v1 business_v2 business_v3]
 
-With --previous, the report shows the previous business prompt next to the current (live)
-one and checks the current run against the frozen agent targets.
+Reports every business prompt's run side by side and checks each against the frozen agent
+targets (config/acceptance_targets.yaml#agents).
 """
 
 from __future__ import annotations
@@ -117,37 +117,46 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--usd-per-million-tokens", type=float, required=True)
     parser.add_argument("--rate-source", required=True)
-    parser.add_argument("--previous", type=Path)
+    parser.add_argument(
+        "--prompts", nargs="+", default=["business_v1", "business_v2", "business_v3"]
+    )
+    parser.add_argument("--out", default="docs/gates/gate6_evaluation.json")
     args = parser.parse_args()
-    df = pd.read_parquet(ROOT / "evals" / "results" / "agent_evaluations.parquet")
     targets = yaml.safe_load((ROOT / "config" / "acceptance_targets.yaml").read_text())["agents"]
-    paths = summarize(df, args.usd_per_million_tokens)
+    runs = {}
+    frames = []
+    for bp in args.prompts:
+        df = pd.read_parquet(ROOT / "evals" / "results" / f"agent_evaluations_{bp}.parquet")
+        frames.append(df)
+        paths = summarize(df, args.usd_per_million_tokens)
+        checks = agent_target_checks(paths, targets)
+        runs[bp] = {
+            "business_prompt": business_prompt(df),
+            "result_set": str(df["result_set"].iloc[0]) if "result_set" in df else None,
+            "paths": paths,
+            "agent_targets": checks,
+            "meets_every_agent_target": all(c["met"] for c in checks),
+        }
     summary = {
         "usd_per_million_tokens": args.usd_per_million_tokens,
         "rate_source": args.rate_source,
-        "business_prompt": business_prompt(df),
-        "label": "live",
-        "paths": paths,
-        "agent_targets": agent_target_checks(paths, targets),
-        "per_scenario": df.drop(
+        "runs": runs,
+        "per_scenario": pd.concat(frames)
+        .drop(
             columns=[
-                c for c in ("required_tests", "selected_tests", "unrequested_changes") if c in df
+                c
+                for c in ("required_tests", "selected_tests", "unrequested_changes")
+                if c in frames[0]
             ]
-        ).to_dict("records"),
+        )
+        .to_dict("records"),
     }
-    if args.previous:
-        prev = pd.read_parquet(args.previous)
-        prev_paths = summarize(prev, args.usd_per_million_tokens)
-        summary["previous"] = {
-            "business_prompt": business_prompt(prev),
-            "label": "superseded",
-            "paths": prev_paths,
-            "agent_targets": agent_target_checks(prev_paths, targets),
-        }
-    (ROOT / "docs" / "gates" / "gate5_evaluation.json").write_text(
-        json.dumps(summary, indent=2, default=str) + "\n"
+    (ROOT / args.out).write_text(json.dumps(summary, indent=2, default=str) + "\n")
+    print(
+        json.dumps(
+            {k: {"targets_met": v["meets_every_agent_target"]} for k, v in runs.items()}, indent=1
+        )
     )
-    print(json.dumps({k: summary[k] for k in ("business_prompt", "agent_targets")}, indent=1))
     return 0
 
 

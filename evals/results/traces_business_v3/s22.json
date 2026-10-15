@@ -1,0 +1,119 @@
+{
+  "scenario_id": "s22",
+  "title": "Several concerns, two failures",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay"
+  ],
+  "planning": {
+    "interpretation": "Template: no scenario change proposed; the operator's settings stand.",
+    "changes": [],
+    "refused": [],
+    "claims": [],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay"
+      ],
+      "reason": "Operator concerns about forecast misses and heat waves"
+    },
+    "findings": [
+      {
+        "text": "Forecast error injection test failed",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Heat week replay test failed",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Forecast misses",
+      "Heat waves"
+    ],
+    "comparisons": []
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "Stress limits breached: forecast_error_injection, heat_week_replay",
+    "claims": [
+      {
+        "text": "Stress test forecast_error_injection failed with a value of 0.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Stress test heat_week_replay failed with a value of 0.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 11.74
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 2.66
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 2.54
+    }
+  ]
+}

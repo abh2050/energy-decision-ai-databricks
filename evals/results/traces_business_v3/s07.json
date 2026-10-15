@@ -1,0 +1,165 @@
+{
+  "scenario_id": "s07",
+  "title": "Reserve floor stress fails",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "Template: no scenario change proposed; the operator's settings stand.",
+    "changes": [],
+    "refused": [],
+    "claims": [],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests bear on the plan and operator's concerns"
+    },
+    "findings": [
+      {
+        "text": "The forecast error injection stress test passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The heat week replay stress test passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The reserve floor raise stress test failed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The robust quantile strategy passes the target",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "The net value vs no battery is $15800",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The net value vs fixed is $12400",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "reserve_floor_raise"
+    ],
+    "comparisons": []
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "The rule reached the verdict to revise because stress limits were breached: reserve_floor_raise. Both the frozen rule and amendment A1 have the same decision and reasons.",
+    "claims": [
+      {
+        "text": "The stress test reserve_floor_raise was not passed.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The stress test forecast_error_injection was passed.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The stress test heat_week_replay was passed.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 6.48
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 5.41
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.52
+    }
+  ]
+}

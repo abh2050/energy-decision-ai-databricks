@@ -1,0 +1,169 @@
+{
+  "scenario_id": "s10",
+  "title": "Ask about a longer duration",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "What if the battery had 4 hours of storage instead of 2, same power?",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 4
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "The operator wants to increase the battery storage from 2 hours to 4 hours, keeping the same power.",
+    "changes": [
+      {
+        "field": "duration_hours",
+        "new_value": 4,
+        "reason": "Operator wants to increase battery storage from 2 hours to 4 hours."
+      }
+    ],
+    "refused": [],
+    "claims": [],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests passed"
+    },
+    "findings": [
+      {
+        "text": "All stress tests passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Violations are zero",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 80.5",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Net vs no battery USD is 15800.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net vs fixed USD is 12400.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "forecast_error_injection",
+      "heat_week_replay",
+      "reserve_floor_raise"
+    ],
+    "comparisons": []
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "No constraint violations and both strategies pass the target for pge_b19_secondary.",
+    "claims": [
+      {
+        "text": "No constraint violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "ml_forecast passes the target for pge_b19_secondary.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "robust_quantile passes the target for pge_b19_secondary.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 1.48
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 5.04
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v1",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.29
+    }
+  ]
+}

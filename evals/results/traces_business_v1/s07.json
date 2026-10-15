@@ -1,0 +1,196 @@
+{
+  "scenario_id": "s07",
+  "title": "Reserve floor stress fails",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "Template: no scenario change proposed; the operator's settings stand.",
+    "changes": [],
+    "refused": [],
+    "claims": [],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests bear on the plan and operator's concerns"
+    },
+    "findings": [
+      {
+        "text": "The plan has no violations",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The plan has 80.5% coverage",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The plan passed the forecast error injection stress test",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The plan passed the heat week replay stress test",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The plan failed the reserve floor raise stress test",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The plan's net value vs no battery is $9600",
+        "value": 9600.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The plan's net value vs fixed is $7200",
+        "value": 7200.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
+        }
+      },
+      {
+        "text": "The plan's net value vs no battery using robust quantile is $15800",
+        "value": 15800.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "reserve_floor_raise"
+    ],
+    "comparisons": [
+      {
+        "text": "Net value vs no battery using robust quantile is greater than net value vs no battery using ml forecast",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        },
+        "right_value": null
+      },
+      {
+        "text": "Net value vs fixed using robust quantile is greater than net value vs fixed using ml forecast",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
+        },
+        "right_value": null
+      }
+    ]
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "Stress test reserve_floor_raise did not pass",
+    "claims": [
+      {
+        "text": "Stress test reserve_floor_raise did not pass",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 7.88
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 10.3
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v1",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 1.62
+    }
+  ]
+}

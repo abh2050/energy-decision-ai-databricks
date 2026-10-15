@@ -1,0 +1,223 @@
+{
+  "scenario_id": "s05",
+  "title": "Forecast coverage below target",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "The current settings have a coverage percentage of 72.9% (evidence row: summary, column: coverage_pct) and no violations (evidence row: summary, column: violations). The robust quantile strategy has passed all stress tests (evidence rows: stress/forecast_error_injection, stress/heat_week_replay, stress/reserve_floor_raise). The net value vs no battery is $21,500 (evidence row: economics/pge_b19_secondary/robust_quantile, column: net_vs_no_battery_usd) and the net value vs fixed is $17,100 (evidence row: economics/pge_b19_secondary/robust_quantile, column: net_vs_fixed_usd).",
+    "changes": [],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current settings have a coverage percentage of 72.9%.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The current settings have no violations.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The robust quantile strategy has passed all stress tests.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The net value vs no battery is $21,500.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The net value vs fixed is $17,100.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      },
+      {
+        "text": "The current strategy is robust quantile.",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests passed"
+    },
+    "findings": [
+      {
+        "text": "All stress tests passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Violations are zero",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 72.9",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Net vs no battery USD is 21500.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net vs fixed USD is 17100.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Forecast error",
+      "Heat week",
+      "Reserve floor"
+    ],
+    "comparisons": [
+      {
+        "text": "Net vs no battery USD is greater than net vs fixed USD",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        },
+        "right_value": null
+      }
+    ]
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "Forecast coverage is outside 80 +/- 5 range",
+    "claims": [
+      {
+        "text": "Forecast coverage is 72.9%",
+        "value": 72.9,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "text": "Forecast coverage is less than 75",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": "<",
+        "right": null,
+        "right_value": 75.0
+      }
+    ]
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 7.83
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 6.13
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 2.66
+    }
+  ]
+}

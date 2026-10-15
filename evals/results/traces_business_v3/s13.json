@@ -1,0 +1,230 @@
+{
+  "scenario_id": "s13",
+  "title": "Bigger battery with a stress failure",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Size the battery to the full peak with 4 hours and tell me if we can pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "Template: no scenario change proposed; the operator's settings stand.",
+    "changes": [],
+    "refused": [],
+    "claims": [],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests passed"
+    },
+    "findings": [
+      {
+        "text": "Violations are zero",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 80.5",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Forecast error injection test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Heat week replay test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Reserve floor raise test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Robust quantile strategy passes target",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Net vs no battery USD is 21500.0",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net vs fixed USD is 17100.0",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Insufficient data",
+      "Inaccurate forecasts",
+      "Unforeseen events"
+    ],
+    "comparisons": [
+      {
+        "text": "Net vs no battery USD is greater than net vs fixed USD",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        },
+        "right_value": null
+      }
+    ]
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary",
+      "pgn_sched85_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "All criteria met for both frozen rule and amendment A1, with 0 violations and 80.5% coverage. All stress tests passed.",
+    "claims": [
+      {
+        "text": "The scenario had 0 violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The scenario had 80.5% coverage.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "All stress tests passed, including forecast error injection, heat week replay, and reserve floor raise.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "text": "The number of violations is less than or equal to 0.",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        },
+        "operator": "<=",
+        "right": null,
+        "right_value": 0.0
+      },
+      {
+        "text": "The coverage percentage is greater than or equal to 80.",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": ">=",
+        "right": null,
+        "right_value": 80.0
+      }
+    ]
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 4.39
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 8.71
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 5.24
+    }
+  ]
+}

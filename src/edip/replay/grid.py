@@ -16,6 +16,7 @@ import yaml
 
 from edip.core.battery import BatterySpec
 from edip.core.billing_demand import interval_demand, monthly_demand_all_hours
+from edip.core.labels import REVISED
 from edip.core.strategies import STRATEGIES, fixed_rule
 from edip.core.tariff import Tariff, load_tariffs, scale_demand
 from edip.replay.evaluate import check_targets, economics
@@ -148,7 +149,7 @@ def run_task(
                     "guard_clipped_kwh": res.guard_clipped_kwh,
                     "guard_shortfall_days": res.guard_shortfall_days,
                     "max_billing_demand_kw": res.max_billing_demand_kw,
-                    "result_label": settings["label"],
+                    "result_label": REVISED,
                 }
             )
     return pd.DataFrame(rows)

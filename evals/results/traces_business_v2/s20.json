@@ -1,0 +1,245 @@
+{
+  "scenario_id": "s20",
+  "title": "Forecast concern but the test passes",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "The current settings have a coverage percentage of 80.5% (evidence row: summary, column: coverage_pct) and no violations (evidence row: summary, column: violations). The robust quantile strategy has passed all stress tests (evidence rows: stress/forecast_error_injection, stress/heat_week_replay, stress/reserve_floor_raise). The net value vs no battery is $21,500 (evidence row: economics/pge_b19_secondary/robust_quantile, column: net_vs_no_battery_usd) and the net value vs fixed schedule is $17,100 (evidence row: economics/pge_b19_secondary/robust_quantile, column: net_vs_fixed_usd).",
+    "changes": [],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current settings have a coverage percentage of 80.5%",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The current settings have no violations",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The robust quantile strategy has passed all stress tests",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The net value vs no battery is $21,500",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The net value vs fixed schedule is $17,100",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      },
+      {
+        "text": "The current strategy passes the target",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "text": "The net value vs no battery is greater than the net value vs fixed schedule",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        },
+        "right_value": null
+      },
+      {
+        "text": "The coverage percentage is greater than 80%",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": ">",
+        "right": null,
+        "right_value": 80.0
+      }
+    ]
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "Operator concerns about forecast reliability and all stress tests passed"
+    },
+    "findings": [
+      {
+        "text": "Violations are 0.0",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 80.5",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Forecast error injection stress test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Heat week replay stress test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Reserve floor raise stress test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Forecast inaccuracy",
+      "Unforeseen high-load weeks",
+      "Insufficient reserve"
+    ],
+    "comparisons": []
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "robust_quantile",
+      "ml_forecast"
+    ],
+    "rationale": "All stress tests passed and coverage is within range.",
+    "claims": [
+      {
+        "text": "No constraint violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Forecast coverage is 80.5%.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "All stress tests passed.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 9.57
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 4.68
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.07
+    }
+  ]
+}

@@ -28,5 +28,6 @@ def test_guard_replay_tracks_where_the_limit_came_from():
     load = pd.Series(400.0, index=ends)
     load[(ends > "2014-06-10 00:00") & (ends <= "2014-06-10 00:15")] = 900.0  # June peak
     states = guard_states(B19, frame, load, margin=0.0)
-    assert states.loc[hours[-1], "guard_cap_kw"] == 900.0
-    assert states.loc[hours[-1], "guard_cap_origin_month"] == "2014-06"
+    # Corrected guard: August starts at July's billed demand (400 kW), not June's 900 kW.
+    assert states.loc[hours[-1], "guard_cap_kw"] == 400.0
+    assert states.loc[hours[-1], "guard_cap_origin_month"] == "2014-07"

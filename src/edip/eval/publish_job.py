@@ -17,6 +17,7 @@ from pathlib import Path
 
 import yaml
 
+from edip.core.labels import REVISED
 from edip.replay.replay_job import file_hash
 
 CELL_TABLES = (
@@ -87,7 +88,7 @@ def main() -> int:
     obs = spark.table(f"{args.catalog}.curated.load_observations").select("dataset_sha256")
     manifest = {
         "published_at": datetime.now(UTC).isoformat(timespec="seconds"),
-        "result_label": "revised strategy, post-hoc",
+        "result_label": REVISED,
         "dataset_sha256": obs.first()["dataset_sha256"],
         "model_version": f"{pinned['model_name']} v{pinned['version']}",
         "evaluation_period": "2014-01-01 to 2014-12-31 UTC (test partition)",

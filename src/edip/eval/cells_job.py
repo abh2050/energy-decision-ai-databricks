@@ -20,11 +20,12 @@ import pandas as pd
 import yaml
 
 from edip.agents.fallback import build_packet
+from edip.core.labels import REVISED
 from edip.core.metrics import coverage
 from edip.replay.stress import run_all, with_battery
 from edip.workflow.verdicts import base_inputs, verdict_record
 
-LABEL = "revised strategy, post-hoc"
+LABEL = REVISED
 EVIDENCE_TABLE = "edip.eval.cell_evidence"
 
 

@@ -10,8 +10,14 @@ behind Facility Capacity.
                      determinants of (running peak x (1 - margin) - actual 15 min load))
 
 A determinant's running peak starts each local month at its billed demand for the
-previous month and rises with the settled billed interval demand. The guard reduces
-charging only; it never adds discharge.
+previous month (the highest settled interval demand in that month, not the previous
+month's starting value) and rises with the settled billed interval demand. The guard
+reduces charging only; it never adds discharge.
+
+Correction (2026-10-15, owner decision): before this date the next month started at the
+running peak, which includes the month's own starting value, so a high peak was carried
+forward indefinitely (business case note 8). Results produced with that code are kept
+and labelled "revised strategy, post-hoc (guard defect)".
 """
 
 from __future__ import annotations
@@ -60,6 +66,7 @@ class ChargeGuard:
         self.charges = {c.name: c for c in tariff.demand_charges}
         self.previous = dict(start_peaks_kw)
         self.running: dict[str, float] = {}
+        self.billed: dict[str, float] = {}  # this month's settled billed demand so far
         self.month: pd.Period | None = None
         self.clipped_kwh = 0.0
         self._lookup: dict[pd.Timestamp, tuple[pd.Period, list[Determinant]]] = {}
@@ -100,8 +107,9 @@ class ChargeGuard:
         if month != self.month:
             if self.month is not None:
                 # Each determinant's billed demand last month seeds this month.
-                self.previous = {d.name: self.running.get(d.name, 0.0) for d in self.dets}
+                self.previous = {d.name: self.billed.get(d.name, 0.0) for d in self.dets}
             self.running = {d.name: self.previous.get(d.name, 0.0) for d in self.dets}
+            self.billed = {d.name: 0.0 for d in self.dets}
             self.month = month
 
     def cap_kw(self, hour_start_utc: pd.Timestamp) -> float:
@@ -130,8 +138,9 @@ class ChargeGuard:
         net = np.asarray(net15_kw, dtype=float)
         for det in self._active(hour_start_utc):
             per = det.interval_minutes // 15
-            demand = net.reshape(-1, per).mean(axis=1).max()
-            self.running[det.name] = max(self.running[det.name], float(demand))
+            demand = float(net.reshape(-1, per).mean(axis=1).max())
+            self.billed[det.name] = max(self.billed[det.name], demand)
+            self.running[det.name] = max(self.running[det.name], demand)
 
 
 def start_peaks_from_load(

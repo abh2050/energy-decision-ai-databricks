@@ -1,0 +1,187 @@
+{
+  "scenario_id": "s14",
+  "title": "Operator rejects the proposed change",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "operator_objective": "Evaluate the full-size 4 hour battery.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_rejected",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "To evaluate the full-size 4 hour battery, increase the duration to 4 hours.",
+    "changes": [
+      {
+        "field": "duration_hours",
+        "new_value": 4,
+        "reason": "To evaluate the full-size 4 hour battery, the duration should be increased to 4 hours."
+      }
+    ],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current settings have a coverage percentage of",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The current settings have a net value of $",
+        "value": -3133.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      }
+    ]
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests passed"
+    },
+    "findings": [
+      {
+        "text": "All stress tests passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Violations are 0",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 80.5",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Heat week replay test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Reserve floor raise test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Insufficient data",
+      "Unforeseen events",
+      "Market volatility",
+      "Regulatory changes",
+      "Technical failures",
+      "Cybersecurity threats"
+    ]
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "No constraint violations and both strategies pass the target.",
+    "claims": [
+      {
+        "text": "No constraint violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Both ml_forecast and robust_quantile pass the target for pge_b19_secondary.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Both ml_forecast and robust_quantile have positive net_vs_fixed_usd for pge_b19_secondary.",
+        "value": 17759.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ]
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v1",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.06
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v1",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 4.84
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.88
+    }
+  ]
+}

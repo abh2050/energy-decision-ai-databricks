@@ -1,0 +1,186 @@
+{
+ "source": "edip.eval.cell_verdicts (inputs_json)",
+ "result_set": "revised strategy, post-hoc (corrected guard)",
+ "cells": {
+  "0.25/2": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -8473.635029330635,
+    "net_vs_fixed_usd": -7090.984179213616
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": 3198.2768137284456,
+    "net_vs_fixed_usd": 4580.927663845465
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4061.592579720421,
+    "net_vs_fixed_usd": -2597.0913983332307
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -2459.8012866365852,
+    "net_vs_fixed_usd": -995.3001052493951
+   }
+  ],
+  "0.25/4": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -3754.4039476299545,
+    "net_vs_fixed_usd": -10540.33210006581
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": 5346.454413261728,
+    "net_vs_fixed_usd": -1439.4737391741273
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4166.42505568938,
+    "net_vs_fixed_usd": -1230.9517637343997
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -1923.633099052639,
+    "net_vs_fixed_usd": 1011.8401929023416
+   }
+  ],
+  "0.5/2": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": true,
+    "net_vs_no_battery_usd": -3159.0876944581614,
+    "net_vs_fixed_usd": 11568.142784260592
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": true,
+    "net_vs_no_battery_usd": 5644.681900450076,
+    "net_vs_fixed_usd": 20371.91237916883
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4175.25635367307,
+    "net_vs_fixed_usd": -1330.0208750953816
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -2234.8777864146155,
+    "net_vs_fixed_usd": 610.3576921630734
+   }
+  ],
+  "0.5/4": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": true,
+    "net_vs_no_battery_usd": -279.27428927745586,
+    "net_vs_fixed_usd": 8474.309636205555
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": true,
+    "net_vs_no_battery_usd": 14447.518312195869,
+    "net_vs_fixed_usd": 23201.102237678882
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4418.392866154587,
+    "net_vs_fixed_usd": 1294.9360258214747
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -1275.4064014733058,
+    "net_vs_fixed_usd": 4437.922490502756
+   }
+  ],
+  "1/2": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": true,
+    "net_vs_no_battery_usd": -2990.7297355148003,
+    "net_vs_fixed_usd": 11125.372009312247
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": true,
+    "net_vs_no_battery_usd": 11455.438614072384,
+    "net_vs_fixed_usd": 25571.54035889943
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4389.829284269112,
+    "net_vs_fixed_usd": -574.4373615099457
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -2808.1666047039007,
+    "net_vs_fixed_usd": 1007.2253180552652
+   }
+  ],
+  "1/4": [
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": true,
+    "net_vs_no_battery_usd": 4476.799870867591,
+    "net_vs_fixed_usd": 13729.317859013201
+   },
+   {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": true,
+    "net_vs_no_battery_usd": 37362.74910460925,
+    "net_vs_fixed_usd": 46615.26709275486
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "ml_forecast",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -4699.946925532511,
+    "net_vs_fixed_usd": 2232.1763081734025
+   },
+   {
+    "tariff_id": "pgn_sched85_secondary",
+    "strategy": "robust_quantile",
+    "passes_target": false,
+    "net_vs_no_battery_usd": -3094.036568010645,
+    "net_vs_fixed_usd": 3838.0866656952685
+   }
+  ]
+ }
+}

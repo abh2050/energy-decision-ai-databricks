@@ -24,6 +24,21 @@ class Claim(BaseModel):
     evidence_ref: EvidenceRef
 
 
+Operator = Literal[">", ">=", "<", "<=", "==", "!="]
+
+
+class Comparison(BaseModel):
+    """A typed comparison: left value, operator, and right value (a second evidence row,
+    or a constant such as 0). The validator evaluates it against the evidence and
+    rejects a false comparison. Plain claims may not compare values."""
+
+    text: str = Field(max_length=300)
+    left: EvidenceRef
+    operator: Operator
+    right: EvidenceRef | None = None
+    right_value: float | None = None  # used when `right` is not given
+
+
 class ScenarioChange(BaseModel):
     """One proposed change to an allowlisted scenario field."""
 
@@ -37,6 +52,7 @@ class PlanningResponse(BaseModel):
     changes: list[ScenarioChange] = Field(default_factory=list, max_length=4)
     refused: list[str] = Field(default_factory=list)  # requests the agent declined
     claims: list[Claim] = Field(default_factory=list, max_length=6)
+    comparisons: list[Comparison] = Field(default_factory=list, max_length=4)
 
 
 class RiskTestSelection(BaseModel):
@@ -48,6 +64,7 @@ class RiskResponse(BaseModel):
     selection: RiskTestSelection
     findings: list[Claim] = Field(default_factory=list, max_length=8)
     unresolved_risks: list[str] = Field(default_factory=list, max_length=6)
+    comparisons: list[Comparison] = Field(default_factory=list, max_length=4)
 
 
 class BusinessResponse(BaseModel):
@@ -56,6 +73,7 @@ class BusinessResponse(BaseModel):
     scope_strategies: list[str] = Field(default_factory=list)
     rationale: str = Field(max_length=800)
     claims: list[Claim] = Field(min_length=1, max_length=8)
+    comparisons: list[Comparison] = Field(default_factory=list, max_length=4)
 
 
 class AgentOutcome(BaseModel):

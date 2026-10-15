@@ -1,0 +1,182 @@
+{
+  "scenario_id": "s17",
+  "title": "Worried about forecast accuracy",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay"
+  ],
+  "planning": {
+    "interpretation": "The current settings have 0 violations and 80.5% coverage. The robust_quantile strategy has a higher net value vs no battery ($21,500) and vs fixed ($17,100) compared to the ml_forecast strategy. Consider piloting with the current robust_quantile strategy.",
+    "changes": [],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current settings have 0 violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The current settings have 80.5% coverage.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The robust_quantile strategy has a net value vs no battery of $21,500.",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The robust_quantile strategy has a net value vs fixed of $17,100.",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "text": "The robust_quantile strategy has a higher net value vs no battery than the ml_forecast strategy.",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        },
+        "right_value": null
+      },
+      {
+        "text": "The robust_quantile strategy has a higher net value vs fixed than the ml_forecast strategy.",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
+        },
+        "right_value": null
+      }
+    ]
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay"
+      ],
+      "reason": "Operator concerns about load forecasts and evidence of failed forecast error injection stress test"
+    },
+    "findings": [
+      {
+        "text": "The forecast error injection stress test failed",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The heat week replay stress test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Inaccurate load forecasts",
+      "Insufficient reserve capacity"
+    ],
+    "comparisons": []
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "robust_quantile"
+    ],
+    "rationale": "Stress test forecast_error_injection did not pass",
+    "claims": [
+      {
+        "text": "Stress test forecast_error_injection did not pass",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 8.25
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 2.76
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v1",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 2.06
+    }
+  ]
+}

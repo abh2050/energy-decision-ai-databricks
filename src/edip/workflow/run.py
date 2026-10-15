@@ -15,7 +15,7 @@ from edip.agents.fallback import build_packet, business_template
 from edip.agents.llm import CallBudget, ModelClient, call_agent
 from edip.agents.prompting import load_prompt, user_message
 from edip.agents.schemas import AgentOutcome, BusinessResponse, PlanningResponse, RiskResponse
-from edip.workflow.decision import DecisionInputs
+from edip.workflow.decision import DecisionInputs, decide
 
 CELL_FIELDS = ("power_fraction", "duration_hours")
 
@@ -60,7 +60,11 @@ def apply_changes(
 
 
 def agent_path(
-    sc: Scenario, client: ModelClient, allowlist: dict[str, Any], table: str
+    sc: Scenario,
+    client: ModelClient,
+    allowlist: dict[str, Any],
+    table: str,
+    business_prompt: str = "business_v3",
 ) -> WorkflowResult:
     budget = CallBudget()
     steps = ["operator_request"]
@@ -93,6 +97,8 @@ def agent_path(
         budget,
         table,
         seen,
+        prompt=business_prompt,
+        verdict=decide(inputs),  # deterministic verdicts on every persisted stress result
     )
     steps += ["business_recommendation", "operator_decision"]
     return WorkflowResult(
@@ -108,20 +114,28 @@ def agent_path(
 
 
 def numbers_only_path(
-    sc: Scenario, client: ModelClient, allowlist: dict[str, Any], table: str
+    sc: Scenario,
+    client: ModelClient,
+    allowlist: dict[str, Any],
+    table: str,
+    business_prompt: str = "business_v3",
 ) -> WorkflowResult:
     """Baseline: one call that sees the current settings' numbers, all stress results
     included, and the operator's objective, with no planning or risk agent."""
     budget = CallBudget()
     inputs = sc.cells[cell_key(sc.current_settings)]
     packet = build_packet(table, inputs)
-    version, system = load_prompt("business_v2")
-    user = user_message(
-        {
-            "Context": {"settings": sc.current_settings, "objective": sc.operator_objective},
-            "Evidence rows": packet.as_prompt_rows(),
-        }
-    )
+    version, system = load_prompt(business_prompt)
+    verdict = decide(inputs)
+    sections: dict[str, Any] = {
+        "Context": {"settings": sc.current_settings, "objective": sc.operator_objective}
+    }
+    required = None
+    if business_prompt in business.VERDICT_PROMPTS:
+        sections["Deterministic verdicts"] = business.verdict_context(verdict)
+        required = verdict.decision
+    sections["Evidence rows"] = packet.as_prompt_rows()
+    user = user_message(sections)
     rec, out = call_agent(
         agent="business",
         prompt_version=version + "+numbers-only",
@@ -130,8 +144,8 @@ def numbers_only_path(
         model_cls=BusinessResponse,
         client=client,
         budget=budget,
-        validate=lambda r: check_business(r, allowlist, packet),
-        fallback=lambda: business_template(table, inputs),
+        validate=lambda r: check_business(r, allowlist, packet, required_decision=required),
+        fallback=lambda: business_template(table, inputs, verdict if required else None),
     )
     return WorkflowResult(
         scenario_id=sc.id,

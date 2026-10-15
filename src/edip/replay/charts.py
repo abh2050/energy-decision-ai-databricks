@@ -6,6 +6,8 @@ from pathlib import Path
 
 import matplotlib
 
+from edip.core.labels import REVISED
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -63,7 +65,7 @@ def flip_chart(
     fig.suptitle(
         f"Flip boundary on the B-19 spread family (efficiency {efficiency:g}, "
         f"degradation {degradation:g} USD/kWh, demand rate x{demand_multiplier:g}; "
-        "revised strategy, post-hoc)",
+        f"{REVISED})",
         fontsize=10,
     )
     fig.savefig(path, dpi=150, bbox_inches="tight")

@@ -12,6 +12,7 @@ from typing import Any
 
 import pandas as pd
 
+from edip.core.labels import REVISED
 from edip.workflow.decision import STRATEGIES, DecisionInputs, StrategyEvidence, decide
 
 
@@ -48,7 +49,7 @@ def verdict_record(x: DecisionInputs) -> dict[str, Any]:
     r = decide(x)
     return {
         "case": "base",
-        "label": "revised strategy, post-hoc",
+        "label": REVISED,
         "frozen_decision": r.frozen_decision,
         "frozen_reasons": "; ".join(r.frozen_reasons),
         "a1_decision": r.decision,

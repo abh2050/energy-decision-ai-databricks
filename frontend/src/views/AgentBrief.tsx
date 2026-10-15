@@ -3,7 +3,7 @@ import type { DataAdapter, RunDetail } from "../adapters/types";
 import { Badge, Card, DecisionPill, ErrorNote } from "../components/ui";
 import { VerdictBanner } from "../components/VerdictBanner";
 import { num } from "../lib/format";
-import type { AgentOutcome, Claim, Planning, Recommendation } from "./OperatingWorkspace";
+import type { AgentOutcome, Claim, Comparison, Planning, Recommendation } from "./OperatingWorkspace";
 
 function Claims({ claims }: { claims: Claim[] }) {
   return (
@@ -15,6 +15,24 @@ function Claims({ claims }: { claims: Claim[] }) {
             [evidence: <code>{c.evidence_ref.table}</code> row <code>{c.evidence_ref.row_key}</code> column{" "}
             <code>{c.evidence_ref.column}</code>
             {c.value !== null ? ` = ${num(c.value, 2)}` : ""}]
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Comparisons({ items }: { items?: Comparison[] }) {
+  if (!items || items.length === 0) return null;
+  const ref = (r: Comparison["left"]) => `${r.row_key} ${r.column}`;
+  return (
+    <ul className="mt-1 grid gap-1 text-sm" data-testid="comparisons">
+      {items.map((c, i) => (
+        <li key={i}>
+          {c.text}{" "}
+          <span className="text-xs text-slate-500">
+            [checked comparison: <code>{ref(c.left)}</code> {c.operator}{" "}
+            <code>{c.right ? ref(c.right) : String(c.right_value)}</code>]
           </span>
         </li>
       ))}
@@ -39,7 +57,7 @@ export function AgentBrief(props: { api: DataAdapter; runId?: string; setRunId: 
   const step = (n: string) => run?.checkpoints.find((c) => c.step === n)?.payload;
   const plan = step("planning_proposal") as { planning: Planning; agent: AgentOutcome } | undefined;
   const risk = step("risk_challenge") as
-    | { risk: { selection: { tests: string[]; reason: string }; findings: Claim[]; unresolved_risks: string[] }; tests_run: string[]; agent: AgentOutcome }
+    | { risk: { selection: { tests: string[]; reason: string }; findings: Claim[]; unresolved_risks: string[]; comparisons?: Comparison[] }; tests_run: string[]; agent: AgentOutcome }
     | undefined;
   const rec = step("business_recommendation") as Recommendation | undefined;
 
@@ -67,6 +85,7 @@ export function AgentBrief(props: { api: DataAdapter; runId?: string; setRunId: 
                   {plan.planning.interpretation} {plan.agent.used_fallback && <Badge kind="template" />}
                 </p>
                 <Claims claims={plan.planning.claims} />
+                <Comparisons items={plan.planning.comparisons} />
               </>
             ) : (
               <p className="text-sm">Not reached.</p>
@@ -80,6 +99,7 @@ export function AgentBrief(props: { api: DataAdapter; runId?: string; setRunId: 
                   {risk.agent.used_fallback && <Badge kind="template" />}
                 </p>
                 <Claims claims={risk.risk.findings} />
+                <Comparisons items={risk.risk.comparisons} />
                 {risk.risk.unresolved_risks.length > 0 && (
                   <ul className="mt-2 list-disc pl-5 text-sm text-rose-800">
                     {risk.risk.unresolved_risks.map((u) => (
@@ -100,6 +120,7 @@ export function AgentBrief(props: { api: DataAdapter; runId?: string; setRunId: 
                   {rec.agent.used_fallback && <Badge kind="template" />}
                 </p>
                 <Claims claims={rec.business.claims} />
+                <Comparisons items={rec.business.comparisons} />
                 <div className="mt-2">
                   <VerdictBanner v={rec.verdicts} />
                 </div>

@@ -1,5 +1,7 @@
 # Gate 6 report: Live app
 
+> **Superseded numbers (2026-10-15).** Revised-strategy results in this report were produced with the charge guard defect and are now labelled "revised strategy, post-hoc (guard defect)". The corrected results are in [gate6_review.md](gate6_review.md).
+
 ## 1. Gate and date
 
 Gate 6, 2026-10-15. Strategy settings: **revised strategy, post-hoc** (unchanged).

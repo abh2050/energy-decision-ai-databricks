@@ -15,12 +15,13 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
+from edip.core.labels import REVISED
 from edip.core.metrics import coverage
 from edip.replay.grid_job import read_inputs
 from edip.replay.stress import run_all
 from edip.workflow.verdicts import base_inputs, verdict_record
 
-LABEL = "revised strategy, post-hoc"
+LABEL = REVISED
 
 
 def _records(df: pd.DataFrame) -> list[dict]:

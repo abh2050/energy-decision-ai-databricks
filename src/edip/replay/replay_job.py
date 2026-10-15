@@ -19,6 +19,7 @@ from pydantic import BaseModel
 
 from edip.core.battery import BatterySpec
 from edip.core.billing_demand import interval_demand, monthly_demand_all_hours
+from edip.core.labels import PRE_REGISTERED, REVISED
 from edip.core.strategies import STRATEGIES, fixed_rule
 from edip.core.tariff import Tariff, load_tariffs
 from edip.replay.evaluate import check_targets, economics
@@ -205,13 +206,13 @@ def main() -> int:
     iv = spark.table(f"{args.catalog}.curated.load_intervals_15min").toPandas()
     load15 = iv.set_index("interval_end")["kw"].sort_index().astype(float)
     revised = None
-    suffix, label = "", "pre-registered"
+    suffix, label = "", PRE_REGISTERED
     if args.revised:
         settings = yaml.safe_load((cdir / "revised_strategy.yaml").read_text())
         if settings["status"] != "frozen":
             raise RuntimeError("revised strategy settings must be frozen before the rerun")
         revised = RevisedSettings(**settings["settings"])
-        suffix, label = "_revised", settings["label"]
+        suffix, label = "_revised", REVISED
     o = compute(cdir, obs, hourly, load15, revised=revised)
 
     def write(pdf: pd.DataFrame, name: str) -> None:

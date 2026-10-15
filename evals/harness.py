@@ -25,9 +25,10 @@ import pandas as pd
 import yaml
 from pydantic import BaseModel, ValidationError
 
-from edip.agents.evidence import EvidencePacket, check_claims
+from edip.agents.evidence import EvidencePacket, check_claims, check_comparisons
 from edip.agents.fallback import build_packet
 from edip.agents.schemas import BusinessResponse, Claim, PlanningResponse, RiskResponse
+from edip.core.labels import REVISED
 from edip.workflow.run import Scenario, WorkflowResult, agent_path, cell_key, numbers_only_path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -72,11 +73,20 @@ def _parse[M: BaseModel](model: type[M], text: str | None) -> M | None:
         return None
 
 
-def _claim_scores(claims: list[Claim], packet: EvidencePacket) -> tuple[int, int, int]:
-    """(claims, supported claims, claims whose citation exists in the packet)."""
+def _claim_scores(
+    claims: list[Claim], packet: EvidencePacket, comparisons: list[Any] | None = None
+) -> tuple[int, int, int]:
+    """(claims, supported claims, claims whose citation exists in the packet). Typed
+    comparisons count as claims; a comparison is cited when every reference exists."""
+    comparisons = comparisons or []
     supported = sum(not check_claims([c], packet) for c in claims)
+    supported += sum(not check_comparisons([c], packet) for c in comparisons)
     cited = sum(packet.get(c.evidence_ref) is not None for c in claims)
-    return len(claims), supported, cited
+    cited += sum(
+        packet.get(c.left) is not None and (c.right is None or packet.get(c.right) is not None)
+        for c in comparisons
+    )
+    return len(claims) + len(comparisons), supported, cited
 
 
 def _text(*parts: Any) -> str:  # noqa: ANN401
@@ -100,12 +110,13 @@ def score_agent(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
     raw_risk = _parse(RiskResponse, out["risk"].raw_text)
     raw_bus = _parse(BusinessResponse, out["business"].raw_text)
     totals = [0, 0, 0]
-    for agent, claims in (
-        ("planning", raw_plan.claims if raw_plan else []),
-        ("risk", raw_risk.findings if raw_risk else []),
-        ("business", raw_bus.claims if raw_bus else []),
+    for agent, raw, claims in (
+        ("planning", raw_plan, raw_plan.claims if raw_plan else []),
+        ("risk", raw_risk, raw_risk.findings if raw_risk else []),
+        ("business", raw_bus, raw_bus.claims if raw_bus else []),
     ):
-        for i, v in enumerate(_claim_scores(claims, packets[agent])):
+        comps = raw.comparisons if raw else []
+        for i, v in enumerate(_claim_scores(claims, packets[agent], comps)):
             totals[i] += v
     required = set(exp["required_tests"])
     selected = set(raw_risk.selection.tests) if raw_risk else set()
@@ -128,6 +139,7 @@ def score_agent(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
         "path": "agent_assisted",
         "expected_decision": exp["decision"],
         "decision": r.business.decision,
+        "raw_business_decision": raw_bus.decision if raw_bus else None,
         "decision_correct": r.business.decision == exp["decision"],
         "scope_correct": _scope_ok(r.business, exp),
         "claims": totals[0],
@@ -171,7 +183,7 @@ def score_numbers_only(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
     packet = build_packet(TABLE, sc.cells[cell_key(sc.current_settings)])
     o = r.outcomes[0]
     raw = _parse(BusinessResponse, o.raw_text)
-    n, sup, cit = _claim_scores(raw.claims if raw else [], packet)
+    n, sup, cit = _claim_scores(raw.claims if raw else [], packet, raw.comparisons if raw else [])
     text = _text(r.business.model_dump())
     return {
         "scenario_id": sc.id,
@@ -179,6 +191,7 @@ def score_numbers_only(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
         "path": "numbers_only",
         "expected_decision": exp["decision"],
         "decision": r.business.decision,
+        "raw_business_decision": raw.decision if raw else None,
         "decision_correct": r.business.decision == exp["decision"],
         "scope_correct": _scope_ok(r.business, exp),
         "claims": n,
@@ -202,6 +215,7 @@ def sanitized_trace(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
         "scenario_id": sc.id,
         "title": sc.title,
         "label": "recorded from the live system (scripted evaluation scenario)",
+        "result_set": REVISED,
         "operator_objective": sc.operator_objective,
         "steps": r.steps,
         "applied_settings": r.applied_settings,
@@ -230,6 +244,12 @@ def main() -> int:
     parser.add_argument("--endpoint", default="databricks-meta-llama-3-3-70b-instruct")
     parser.add_argument("--timeout", type=float, default=40.0)
     parser.add_argument("--only", nargs="*")
+    parser.add_argument(
+        "--business-prompt",
+        default="business_v3",
+        choices=["business_v1", "business_v2", "business_v3"],
+    )
+    parser.add_argument("--traces", action="store_true", help="export sandbox traces from this run")
     args = parser.parse_args()
     RESULTS.mkdir(parents=True, exist_ok=True)
     scenarios = load_scenarios()
@@ -255,13 +275,22 @@ def main() -> int:
     model = DatabricksModel(args.endpoint, args.timeout, args.profile)
     rows, traces = [], {}
     start = time.time()
-    with mlflow.start_run(run_name="gate5-evaluation"):
-        mlflow.set_tags({"gate": "5", "endpoint": args.endpoint, "scenarios": str(len(scenarios))})
+    bp = args.business_prompt
+    with mlflow.start_run(run_name=f"evaluation-{bp}"):
+        mlflow.set_tags(
+            {
+                "gate": "6-review",
+                "endpoint": args.endpoint,
+                "scenarios": str(len(scenarios)),
+                "business_prompt": bp,
+                "result_set": REVISED,
+            }
+        )
         for sc in scenarios:
             with mlflow.start_span(name=f"scenario.{sc.id}.agent_assisted"):
-                ra = agent_path(sc, model, allow, TABLE)
+                ra = agent_path(sc, model, allow, TABLE, business_prompt=bp)
             with mlflow.start_span(name=f"scenario.{sc.id}.numbers_only"):
-                rn = numbers_only_path(sc, model, allow, TABLE)
+                rn = numbers_only_path(sc, model, allow, TABLE, business_prompt=bp)
             rows += [score_agent(sc, ra), score_numbers_only(sc, rn)]
             traces[sc.id] = sanitized_trace(sc, ra)
             print(
@@ -271,13 +300,16 @@ def main() -> int:
                 sc.expected["decision"],
                 flush=True,
             )
-        df = pd.DataFrame(rows)
-        df.to_parquet(RESULTS / "agent_evaluations.parquet", index=False)
-        mlflow.log_artifact(str(RESULTS / "agent_evaluations.parquet"))
+        df = pd.DataFrame(rows).assign(business_prompt=bp, result_set=REVISED)
+        out = RESULTS / f"agent_evaluations_{bp}.parquet"
+        df.to_parquet(out, index=False)
+        mlflow.log_artifact(str(out))
         mlflow.log_metric("wall_seconds", time.time() - start)
-    TRACES.mkdir(parents=True, exist_ok=True)
-    for sid, t in traces.items():
-        (TRACES / f"{sid}.json").write_text(json.dumps(t, indent=2, default=str) + "\n")
+    kept = RESULTS / f"traces_{bp}"
+    for target in [kept, TRACES] if args.traces else [kept]:
+        target.mkdir(parents=True, exist_ok=True)
+        for sid, t in traces.items():
+            (target / f"{sid}.json").write_text(json.dumps(t, indent=2, default=str) + "\n")
     print(json.dumps({"rows": len(df), "seconds": round(time.time() - start)}))
     return 0
 

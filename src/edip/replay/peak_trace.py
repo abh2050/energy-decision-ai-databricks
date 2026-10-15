@@ -8,8 +8,9 @@ settlement used. Read only: no strategy or guard behaviour changes.
 
 Cause labels (`cause`):
 - "guard limit carried forward from <month>": the guard's limit in that hour came from a
-  running peak set before the previous month and carried into this month by the guard's
-  month start (see the guard note in docs/business_case.md, note 8).
+  peak set before the previous month (only possible with the guard defect recorded in
+  docs/business_case.md, note 8; the corrected guard starts each month at the previous
+  month's billed demand).
 - "guard month-start limit (previous month)": the limit came from the previous month.
 - "guard limit raised earlier this month": set by grid draw earlier in this month.
 - "no charging in the interval": billed demand above no battery without charging (should
@@ -46,8 +47,13 @@ def guard_states(
     ).to_numpy()
     l15 = l15.reshape(4, -1).T
     rows = []
+    month = None
     for i, h in enumerate(hours):
         cap = guard.cap_kw(h)
+        if month is not None and guard.month != month:
+            # A new month starts at last month's billed demand, set during last month.
+            origin = {name: month for name in origin}
+        month = guard.month
         active = guard._active(h)
         bind = min(active, key=lambda d: guard.running[d.name]).name if active else None
         rows.append(

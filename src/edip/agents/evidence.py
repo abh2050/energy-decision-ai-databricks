@@ -15,12 +15,29 @@ from pydantic import BaseModel
 from edip.agents.schemas import (
     BusinessResponse,
     Claim,
+    Comparison,
     EvidenceRef,
     PlanningResponse,
     RiskResponse,
 )
 
 NUMBER = re.compile(r"-?\d[\d,]*\.?\d*")
+# Words that compare values. A plain claim using one is rejected: comparisons must be
+# typed (Comparison) so the validator can check them (Gate 6 review, 2026-10-15).
+COMPARATIVE = re.compile(
+    r"\b(higher|lower|greater|smaller|larger|bigger|more than|less than|fewer than|"
+    r"exceeds?|exceeded|outperforms?|underperforms?|better|worse|cheaper|costlier|"
+    r"beats?|surpass(es)?)\b",
+    re.I,
+)
+OPS = {
+    ">": lambda a, b: a > b,
+    ">=": lambda a, b: a >= b,
+    "<": lambda a, b: a < b,
+    "<=": lambda a, b: a <= b,
+    "==": lambda a, b: _close(a, b),
+    "!=": lambda a, b: not _close(a, b),
+}
 
 
 def key(ref: EvidenceRef) -> str:
@@ -66,6 +83,10 @@ def check_claims(claims: list[Claim], packet: EvidencePacket) -> list[str]:
         if value is None:
             reasons.append(f"cites a row not in the evidence packet: {key(claim.evidence_ref)}")
             continue
+        if COMPARATIVE.search(claim.text):
+            reasons.append(
+                f"untyped comparison in a claim (use a typed comparison): {claim.text[:80]}"
+            )
         if claim.value is not None and (
             not isinstance(value, int | float) or not _close(claim.value, float(value))
         ):
@@ -77,6 +98,35 @@ def check_claims(claims: list[Claim], packet: EvidencePacket) -> list[str]:
                 continue
             if not any(_close(n, v) or _close(abs(n), abs(v)) for v in numeric):
                 reasons.append(f"number {n:g} in claim text is not in the cited evidence")
+    return reasons
+
+
+def check_comparisons(comparisons: list[Comparison], packet: EvidencePacket) -> list[str]:
+    """Reasons a set of typed comparisons is unsupported or false."""
+    reasons = []
+    for c in comparisons:
+        left = packet.get(c.left)
+        if c.right is not None:
+            right = packet.get(c.right)
+            rname = key(c.right)
+        else:
+            right, rname = c.right_value, "constant"
+        if not isinstance(left, int | float):
+            reasons.append(f"comparison cites a row not in the evidence packet: {key(c.left)}")
+            continue
+        if not isinstance(right, int | float):
+            reasons.append(f"comparison has no valid right-hand value ({rname})")
+            continue
+        if not OPS[c.operator](float(left), float(right)):
+            reasons.append(
+                f"false comparison: {key(c.left)} = {float(left):g} is not "
+                f"{c.operator} {rname} = {float(right):g}"
+            )
+        for n in _numbers(c.text):
+            if abs(n) <= 31 or n in (2012, 2013, 2014, 2026):
+                continue
+            if not any(_close(n, v) or _close(abs(n), abs(v)) for v in (left, right)):
+                reasons.append(f"number {n:g} in comparison text is not in the cited evidence")
     return reasons
 
 
@@ -95,21 +145,32 @@ def check_planning(
             str(v) for v in allowed[change.field]
         ]:
             reasons.append(f"value {change.new_value} is not allowed for {change.field}")
-    return reasons + check_claims(resp.claims, packet)
+    return reasons + check_claims(resp.claims, packet) + check_comparisons(resp.comparisons, packet)
 
 
 def check_risk(resp: RiskResponse, allowlist: dict[str, Any], packet: EvidencePacket) -> list[str]:
     allowed = allowlist["risk_agent"]["allowed_stress_tests"]
     reasons = [f"stress test {t} is not allowed" for t in resp.selection.tests if t not in allowed]
-    return reasons + check_claims(resp.findings, packet)
+    return (
+        reasons + check_claims(resp.findings, packet) + check_comparisons(resp.comparisons, packet)
+    )
 
 
 def check_business(
-    resp: BusinessResponse, allowlist: dict[str, Any], packet: EvidencePacket
+    resp: BusinessResponse,
+    allowlist: dict[str, Any],
+    packet: EvidencePacket,
+    required_decision: str | None = None,
 ) -> list[str]:
+    """`required_decision` (business prompt v3): the deterministic A1 verdict; a response
+    that recommends anything else is rejected."""
     reasons = []
+    if required_decision is not None and resp.decision != required_decision:
+        reasons.append(
+            f"recommendation {resp.decision} differs from the A1 verdict {required_decision}"
+        )
     if resp.decision not in allowlist["business_agent"]["allowed_decisions"]:
         reasons.append(f"decision {resp.decision} is not allowed")
     if re.search(r"\b(i|we) (approve|have approved)\b", resp.rationale, re.I):
         reasons.append("the business agent may not approve; only the operator approves")
-    return reasons + check_claims(resp.claims, packet)
+    return reasons + check_claims(resp.claims, packet) + check_comparisons(resp.comparisons, packet)

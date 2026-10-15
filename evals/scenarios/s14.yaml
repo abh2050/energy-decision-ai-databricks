@@ -24,23 +24,23 @@ cells:
     - tariff_id: pge_b19_secondary
       strategy: ml_forecast
       passes_target: true
-      net_vs_no_battery_usd: -10158.0
-      net_vs_fixed_usd: 17759.0
+      net_vs_no_battery_usd: -9000.0
+      net_vs_fixed_usd: 15000.0
     - tariff_id: pge_b19_secondary
       strategy: robust_quantile
       passes_target: true
-      net_vs_no_battery_usd: -3133.0
-      net_vs_fixed_usd: 24784.0
+      net_vs_no_battery_usd: -2500.0
+      net_vs_fixed_usd: 21500.0
     - tariff_id: pgn_sched85_secondary
       strategy: ml_forecast
       passes_target: false
-      net_vs_no_battery_usd: -4184.0
-      net_vs_fixed_usd: -1286.0
+      net_vs_no_battery_usd: -4175.25635367307
+      net_vs_fixed_usd: -1330.0208750953816
     - tariff_id: pgn_sched85_secondary
       strategy: robust_quantile
       passes_target: false
-      net_vs_no_battery_usd: -2076.0
-      net_vs_fixed_usd: 822.0
+      net_vs_no_battery_usd: -2234.8777864146155
+      net_vs_fixed_usd: 610.3576921630734
     anchored_tariff: pge_b19_secondary
   1/4:
     violations: 0
@@ -55,23 +55,23 @@ cells:
     - tariff_id: pge_b19_secondary
       strategy: ml_forecast
       passes_target: true
-      net_vs_no_battery_usd: -1257.0
-      net_vs_fixed_usd: 20687.0
+      net_vs_no_battery_usd: 4476.799870867591
+      net_vs_fixed_usd: 13729.317859013201
     - tariff_id: pge_b19_secondary
       strategy: robust_quantile
       passes_target: true
-      net_vs_no_battery_usd: 29764.0
-      net_vs_fixed_usd: 51708.0
+      net_vs_no_battery_usd: 37362.74910460925
+      net_vs_fixed_usd: 46615.26709275486
     - tariff_id: pgn_sched85_secondary
       strategy: ml_forecast
       passes_target: false
-      net_vs_no_battery_usd: -4740.0
-      net_vs_fixed_usd: 2372.0
+      net_vs_no_battery_usd: -4699.946925532511
+      net_vs_fixed_usd: 2232.1763081734025
     - tariff_id: pgn_sched85_secondary
       strategy: robust_quantile
       passes_target: false
-      net_vs_no_battery_usd: -3011.0
-      net_vs_fixed_usd: 4101.0
+      net_vs_no_battery_usd: -3094.036568010645
+      net_vs_fixed_usd: 3838.0866656952685
     anchored_tariff: pge_b19_secondary
 expected:
   target_cell: 0.5/2

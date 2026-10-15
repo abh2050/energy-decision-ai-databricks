@@ -24,23 +24,23 @@ cells:
     - tariff_id: pge_b19_secondary
       strategy: ml_forecast
       passes_target: false
-      net_vs_no_battery_usd: -15118.0
-      net_vs_fixed_usd: -13735.0
+      net_vs_no_battery_usd: -8473.635029330635
+      net_vs_fixed_usd: -7090.984179213616
     - tariff_id: pge_b19_secondary
       strategy: robust_quantile
       passes_target: false
-      net_vs_no_battery_usd: -1461.0
-      net_vs_fixed_usd: -78.0
+      net_vs_no_battery_usd: 3198.2768137284456
+      net_vs_fixed_usd: 4580.927663845465
     - tariff_id: pgn_sched85_secondary
       strategy: ml_forecast
       passes_target: false
-      net_vs_no_battery_usd: -4062.0
-      net_vs_fixed_usd: -2597.0
+      net_vs_no_battery_usd: -4061.592579720421
+      net_vs_fixed_usd: -2597.0913983332307
     - tariff_id: pgn_sched85_secondary
       strategy: robust_quantile
       passes_target: false
-      net_vs_no_battery_usd: -2460.0
-      net_vs_fixed_usd: -995.0
+      net_vs_no_battery_usd: -2459.8012866365852
+      net_vs_fixed_usd: -995.3001052493951
     anchored_tariff: pge_b19_secondary
   0.25/2:
     violations: 0

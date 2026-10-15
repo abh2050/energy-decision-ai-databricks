@@ -26,9 +26,10 @@ def run(
     budget: CallBudget,
     table: str,
     inputs: DecisionInputs,
+    prompt: str = "risk_v2",
 ) -> tuple[RiskResponse, AgentOutcome]:
     version, system = load_prompt(
-        "risk_v1", allowed_tests=allowlist["risk_agent"]["allowed_stress_tests"]
+        prompt, allowed_tests=allowlist["risk_agent"]["allowed_stress_tests"]
     )
     user = user_message(
         {

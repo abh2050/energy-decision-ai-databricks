@@ -98,13 +98,22 @@ def test_settlement_guard_reduces_charge_only_and_records_clipping():
     assert max(day.grid_kw) <= 700.0 + 1e-9
 
 
-def test_known_limit_month_start_carries_forward_the_higher_peak():
-    """Documents the as-built behaviour behind business_case.md note 8 (known limit; not
-    changed, owner decision 2026-10-15): a month whose own peak stays below its start
-    value hands the start value on, so the limit never falls back to the previous
-    month's actual billed demand."""
-    guard = _guard({MAX: 700.0, PEAK: 650.0, PART: 600.0})
+def test_month_start_is_previous_months_billed_demand_over_three_months():
+    """Specified rule (corrected 2026-10-15): month 2's peak falls below month 1's, and
+    month 3 starts at month 2's billed demand, not at month 1's carried-forward peak."""
+    guard = _guard({MAX: 700.0, PEAK: 650.0, PART: 600.0})  # June billed demand (seed)
     july = T("2014-07-31 03:00")
     guard.cap_kw(july)
-    guard.update(july, np.array([480, 500, 490, 470]))  # July's own billed demand: 500 kW
-    assert guard.cap_kw(T("2014-08-01 03:00")) == 700.0  # not 500
+    guard.update(july, np.array([720, 760, 740, 730]))  # month 1 (July) billed: 760 kW
+    august = T("2014-08-15 03:00")
+    assert guard.cap_kw(august) == 760.0  # month 2 starts at July's billed demand
+    guard.update(august, np.array([480, 500, 490, 470]))  # month 2 (August) peak: 500 kW
+    assert guard.cap_kw(T("2014-08-31 03:00")) == 760.0  # within August the limit holds
+    september = T("2014-09-01 03:00")
+    assert guard.cap_kw(september) == 500.0  # month 3 starts at August's billed demand
+
+
+def test_month_with_no_settled_hours_bills_zero_demand_for_the_next_start():
+    guard = _guard({MAX: 700.0, PEAK: 650.0, PART: 600.0})
+    guard.cap_kw(T("2014-07-31 03:00"))  # July opened, nothing settled
+    assert guard.cap_kw(T("2014-08-01 03:00")) == 0.0

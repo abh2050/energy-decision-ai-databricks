@@ -34,13 +34,13 @@ cells:
     - tariff_id: pgn_sched85_secondary
       strategy: ml_forecast
       passes_target: false
-      net_vs_no_battery_usd: -4184.0
-      net_vs_fixed_usd: -1286.0
+      net_vs_no_battery_usd: -4175.25635367307
+      net_vs_fixed_usd: -1330.0208750953816
     - tariff_id: pgn_sched85_secondary
       strategy: robust_quantile
       passes_target: false
-      net_vs_no_battery_usd: -2076.0
-      net_vs_fixed_usd: 822.0
+      net_vs_no_battery_usd: -2234.8777864146155
+      net_vs_fixed_usd: 610.3576921630734
     anchored_tariff: pge_b19_secondary
 expected:
   target_cell: 0.5/4

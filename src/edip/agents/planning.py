@@ -18,10 +18,11 @@ def run(
     allowlist: dict[str, Any],
     client: ModelClient,
     budget: CallBudget,
+    prompt: str = "planning_v2",
 ) -> tuple[PlanningResponse, AgentOutcome]:
     cfg = allowlist["planning_agent"]
     version, system = load_prompt(
-        "planning_v1",
+        prompt,
         allowed_fields=cfg["allowed_fields"],
         hard_constraints=cfg["hard_constraints"],
     )

@@ -311,6 +311,14 @@ export interface Planning {
   changes: { field: string; new_value: string | number; reason: string }[];
   refused: string[];
   claims: Claim[];
+  comparisons?: Comparison[];
+}
+export interface Comparison {
+  text: string;
+  left: { table: string; row_key: string; column: string };
+  operator: string;
+  right: { table: string; row_key: string; column: string } | null;
+  right_value: number | null;
 }
 export interface Claim {
   text: string;
@@ -326,7 +334,14 @@ export interface AgentOutcome {
   rejection_reasons: string[];
 }
 export interface Recommendation {
-  business: { decision: string; rationale: string; scope_tariffs: string[]; scope_strategies: string[]; claims: Claim[] };
+  business: {
+    decision: string;
+    rationale: string;
+    scope_tariffs: string[];
+    scope_strategies: string[];
+    claims: Claim[];
+    comparisons?: Comparison[];
+  };
   agent: AgentOutcome;
   verdicts: import("../adapters/types").Verdicts;
   rule_on_agent_evidence: { decision: string; reasons: string[] };

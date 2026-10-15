@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import threading
 import uuid
 from collections.abc import Callable
@@ -32,7 +33,19 @@ from edip.workflow.decision import decide
 from edip.workflow.run import apply_changes, cell_key
 
 EVIDENCE_TABLE = "edip.eval.cell_evidence"
-PROMPTS = {"planning": "planning-v1", "risk": "risk-v1", "business": "business-v2"}
+
+
+def business_prompt() -> str:
+    """Live business prompt; v3 goes live only after it meets every frozen agent target."""
+    return os.environ.get("EDIP_BUSINESS_PROMPT", "business_v2")
+
+
+def prompt_versions() -> dict[str, str]:
+    return {
+        "planning": "planning-v2",
+        "risk": "risk-v2",
+        "business": business_prompt().replace("_", "-"),
+    }
 
 
 class WorkflowError(Exception):
@@ -127,7 +140,7 @@ class LiveWorkflow:
                 battery_hash=_hash({"battery": battery, "settings": sc.settings}),
                 optimizer_settings=self.data.config("revised_strategy.yaml")
                 | {"solver": m["solver"]},
-                prompt_versions=PROMPTS,  # type: ignore[arg-type]
+                prompt_versions=prompt_versions(),  # type: ignore[arg-type]
             )
         )
         self._checkpoint(
@@ -216,6 +229,8 @@ class LiveWorkflow:
                 CallBudget(),
                 EVIDENCE_TABLE,
                 seen,
+                prompt=business_prompt(),
+                verdict=decide(inputs),  # every persisted stress result for this cell
             )
             self._record(run_id, b_out)
             rule_seen = decide(seen)

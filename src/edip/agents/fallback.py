@@ -15,7 +15,7 @@ from edip.agents.schemas import (
     RiskResponse,
     RiskTestSelection,
 )
-from edip.workflow.decision import DecisionInputs, decide
+from edip.workflow.decision import DecisionInputs, DecisionResult, decide
 
 STRESS_TESTS = ["forecast_error_injection", "heat_week_replay", "reserve_floor_raise"]
 
@@ -68,8 +68,12 @@ def risk_template(table: str, x: DecisionInputs) -> RiskResponse:
     )
 
 
-def business_template(table: str, x: DecisionInputs) -> BusinessResponse:
-    result = decide(x)
+def business_template(
+    table: str, x: DecisionInputs, verdict: DecisionResult | None = None
+) -> BusinessResponse:
+    """`verdict`: the deterministic verdicts to restate (business prompt v3); otherwise the
+    rule is applied to `x`."""
+    result = verdict or decide(x)
     claims = [
         Claim(
             text="Template: accepted constraint violations.",
