@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
-// Public pages for GitHub Pages (Gate 7): the sandbox and the explainer, served under the
+// Public site for GitHub Pages: the presentation (root page) and the app (browser sandbox), served under the
 // repository path. Data files come from public/ (frozen JSON, ONNX models, traces, media).
 export default defineConfig({
   base: process.env.PAGES_BASE ?? "/energy-decision-ai-databricks/",
@@ -14,9 +14,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(import.meta.dirname, "pages.html"),
-        sandbox: resolve(import.meta.dirname, "sandbox/index.html"),
-        explainer: resolve(import.meta.dirname, "explainer/index.html"),
-        presentation: resolve(import.meta.dirname, "presentation/index.html"),
+        app: resolve(import.meta.dirname, "app/index.html"),
       },
     },
   },

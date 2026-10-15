@@ -17,9 +17,9 @@ async function offline(page: Page, baseURL: string) {
   return blocked;
 }
 
-test("sandbox: banner, live forecast and schedule in the browser, network blocked", async ({ page, baseURL }) => {
+test("app: banner, live forecast and schedule in the browser, network blocked", async ({ page, baseURL }) => {
   const blocked = await offline(page, baseURL!);
-  await page.goto("sandbox/");
+  await page.goto("app/");
   await expect(page.getByTestId("sandbox-banner")).toHaveText(BANNER);
   await expect(page.getByTestId("mode-label")).toContainText("Sandbox");
   await expect(page.getByTestId("schedule-chart")).toContainText("solved in your browser", { timeout: 120_000 });
@@ -36,9 +36,9 @@ test("sandbox: banner, live forecast and schedule in the browser, network blocke
   expect(blocked).toEqual([]);
 });
 
-test("sandbox: recorded agent traces by scenario; template when no recording", async ({ page, baseURL }) => {
+test("app: recorded agent traces by scenario; template when no recording", async ({ page, baseURL }) => {
   await offline(page, baseURL!);
-  await page.goto("sandbox/");
+  await page.goto("app/");
   await page.getByTestId("scenario").selectOption("s09");
   await page.getByTestId("start-run").click();
   await expect(page.getByTestId("interpretation")).not.toBeEmpty();
@@ -54,9 +54,9 @@ test("sandbox: recorded agent traces by scenario; template when no recording", a
   await expect(page.getByTestId("recommendation")).toContainText("template");
 });
 
-test("sandbox: every view shows provenance and labels", async ({ page, baseURL }) => {
+test("app: every view shows provenance and labels", async ({ page, baseURL }) => {
   await offline(page, baseURL!);
-  await page.goto("sandbox/");
+  await page.goto("app/");
   for (const v of ["strategies", "business", "brief", "operating"]) {
     await page.getByTestId(`nav-${v}`).click();
     await expect(page.getByTestId("provenance")).toContainText("Evaluation period");
@@ -68,7 +68,7 @@ test("sandbox: every view shows provenance and labels", async ({ page, baseURL }
 
 test("parity: browser optimizer matches Python on 20 saved cases within 0.5 percent", async ({ page, baseURL }) => {
   await offline(page, baseURL!);
-  await page.goto("sandbox/");
+  await page.goto("app/");
   const { cases } = JSON.parse(readFileSync("public/data/sandbox/parity_cases.json", "utf8"));
   expect(cases.length).toBe(20);
   for (const c of cases) {
@@ -80,7 +80,7 @@ test("parity: browser optimizer matches Python on 20 saved cases within 0.5 perc
 
 test("parity: browser ONNX forecast matches the pinned Python forecast", async ({ page, baseURL }) => {
   await offline(page, baseURL!);
-  await page.goto("sandbox/");
+  await page.goto("app/");
   const slice = JSON.parse(readFileSync("public/data/sandbox/slice.json", "utf8"));
   const got = await page.evaluate(() => window.edipForecastDay1!());
   for (const q of ["point", "p10", "p50", "p90"] as const) {
@@ -90,62 +90,35 @@ test("parity: browser ONNX forecast matches the pinned Python forecast", async (
   }
 });
 
-test("explainer: video, clickable architecture, walkthrough, screenshots, traces, results", async ({ page, baseURL }) => {
+test("main page: the presentation, with the app link, video, diagrams, traces, and redirects", async ({ page, baseURL }) => {
   const blocked = await offline(page, baseURL!);
-  await page.goto("explainer/");
-  await expect(page.getByTestId("video")).toHaveAttribute("src", /demo\.webm$/);
-  const ok = await page.evaluate(async () => {
-    const v = document.querySelector("video")!;
-    return (await fetch(v.src, { method: "HEAD" })).ok;
-  });
-  expect(ok).toBe(true);
-  await page.getByTestId("layer-forecast").click();
-  await expect(page.getByTestId("layer-detail")).toContainText("ONNX");
-  await expect(page.getByTestId("walkthrough")).toContainText("Operator request");
-  await page.getByTestId("step-6").click();
-  await expect(page.getByTestId("step-6")).toContainText("Tests chosen");
-  await expect(page.getByTestId("screenshots").locator("img")).toHaveCount(5);
-  await expect(page.getByTestId("trace-table")).toContainText("agent.business");
-  await expect(page.getByTestId("results-table")).toContainText("robust quantile");
-  await expect(page.getByTestId("sensitivity-map")).toContainText("USD");
-  await expect(page.getByTestId("evaluation-table")).toContainText("Held-out");
-  await expect(page.getByTestId("recommendation-text")).toContainText("Do not buy a battery");
-  expect(blocked).toEqual([]);
-});
-
-test("landing page links both public pages", async ({ page, baseURL }) => {
-  await offline(page, baseURL!);
   await page.goto("./");
-  await expect(page.locator('a[href="./sandbox/"]')).toBeVisible();
-  await expect(page.locator('a[href="./explainer/"]')).toBeVisible();
-  // All six architecture diagrams load from the site itself.
-  const imgs = page.locator("figure img");
-  await expect(imgs).toHaveCount(6);
-  for (let i = 0; i < 6; i++) {
-    await imgs.nth(i).scrollIntoViewIfNeeded();
-    await expect.poll(() => imgs.nth(i).evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
-  }
-});
-
-test("presentation: ten slides, images load, keyboard navigation", async ({ page, baseURL }) => {
-  const blocked = await offline(page, baseURL!);
-  await page.goto("presentation/");
   const slides = page.locator("main section");
-  await expect(slides).toHaveCount(10);
+  await expect(slides).toHaveCount(13);
   await expect(page.locator("h1").first()).toContainText("buy a battery");
+  await expect(page.getByTestId("open-app")).toHaveAttribute("href", "./app/");
+  await expect(page.locator("a.appbtn")).toHaveAttribute("href", "./app/");
   const missing = await page.evaluate(async () => {
     const urls = [...document.querySelectorAll("img")].map((i) => (i as HTMLImageElement).src);
+    urls.push((document.querySelector("video") as HTMLVideoElement).src);
     for (const el of document.querySelectorAll<HTMLElement>(".bg")) {
       const m = el.style.backgroundImage.match(/url\("?(.*?)"?\)/);
       if (m) urls.push(new URL(m[1], location.href).href);
     }
     const bad = [];
-    for (const u of new Set(urls)) if (!(await fetch(u)).ok) bad.push(u);
+    for (const u of new Set(urls)) if (!(await fetch(u, { method: "HEAD" })).ok) bad.push(u);
     return bad;
   });
   expect(missing).toEqual([]);
+  await expect(page.getByTestId("gallery").locator("img")).toHaveCount(6);
+  await expect(page.getByTestId("trace-table").locator("tbody tr").first()).toBeVisible();
   await page.keyboard.press("ArrowDown");
-  await expect(page.locator(".counter")).toContainText("2 / 10", { timeout: 10_000 });
+  await expect(page.locator(".counter")).toContainText("2 / 13", { timeout: 10_000 });
   await expect(page.locator("section").last()).toContainText("Do not buy a battery");
   expect(blocked).toEqual([]);
+  // Old addresses redirect.
+  for (const [old, dest] of [["explainer/", "/energy-decision-ai-databricks/"], ["presentation/", "/energy-decision-ai-databricks/"], ["sandbox/", "/energy-decision-ai-databricks/app/"]]) {
+    await page.goto(old);
+    await expect(page).toHaveURL(new RegExp(`${dest.replace(/\//g, "\\/")}$`));
+  }
 });

@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/ci.yml/badge.svg)](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/ci.yml)
 [![pages](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/pages.yml/badge.svg)](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/pages.yml)
-![tests](https://img.shields.io/badge/tests-147%20pytest%20%7C%2014%20Playwright-brightgreen)
+![tests](https://img.shields.io/badge/tests-147%20pytest%20%7C%2012%20Playwright-brightgreen)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
 **A product evaluation that reached a defensible "no" for a battery purchase and a scoped
@@ -15,9 +15,8 @@
 
 ![Decision run in the live app: planning proposal, both deterministic verdicts, operator controls](docs/media/decision_flow.gif)
 
-- **Presentation** (slide deck of the evaluation and recommendation): <https://abh2050.github.io/energy-decision-ai-databricks/presentation/>
-- **System explainer** (three minute demo video, architecture, walkthrough, results): <https://abh2050.github.io/energy-decision-ai-databricks/explainer/>
-- **Working sandbox** (the forecaster and optimizer in your browser): <https://abh2050.github.io/energy-decision-ai-databricks/sandbox/>
+- **Website** (the evaluation as a presentation: demo video, architecture, results, recommendation): <https://abh2050.github.io/energy-decision-ai-databricks/>
+- **App** (the forecaster and optimizer running in your browser, with recorded agent runs): <https://abh2050.github.io/energy-decision-ai-databricks/app/>
 - **Results export** (every Delta table and the app's operational records): [release `results-2026-10-15`](https://github.com/abh2050/energy-decision-ai-databricks/releases/tag/results-2026-10-15)
 
 ## Headline finding
@@ -46,6 +45,54 @@
    - The decisions themselves come from deterministic rules, not from the agents.
 
 Sources: [docs/business_case.md](docs/business_case.md), [docs/gates/gate6_review.md](docs/gates/gate6_review.md), [docs/gates/](docs/gates/).
+
+## Results
+
+All figures are USD per year before tax, against no battery, for the 2014 test year
+(revised strategy, post-hoc, corrected guard). Sources: Delta `edip.eval.cell_annual`,
+`edip.eval.sensitivity_grid`, `edip.eval.agent_evaluations`, and the
+[results export](https://github.com/abh2050/energy-decision-ai-databricks/releases/tag/results-2026-10-15).
+
+**PG&E B-19, base battery (50 percent of the 751.8 kW training peak, 2 hours)**
+
+| Strategy | Annual bill | Net benefit vs no battery | Battery throughput (kWh) | Constraint violations |
+|---|---:|---:|---:|---:|
+| No battery | 905,027 | 0 | 0 | 0 |
+| Fixed schedule | 913,874 | −14,727 | 196,004 | 0 |
+| Seasonal forecast | 902,414 | −5,726 | 115,696 | 0 |
+| ML forecast | 899,836 | −3,159 | 116,076 | 0 |
+| **Robust quantile** | **890,773** | **+5,645** | 124,737 | 0 |
+| Hindsight (ceiling) | 860,948 | +40,201 | 129,256 | 0 |
+
+**Net benefit by battery size (base costs, before capital)**
+
+| Battery (share of peak / hours) | B-19 fixed | B-19 ML | B-19 robust | B-19 hindsight | PGE robust |
+|---|---:|---:|---:|---:|---:|
+| 25% / 2 h | −1,383 | −8,474 | +3,198 | +23,431 | −2,460 |
+| 25% / 4 h | +6,786 | −3,754 | +5,346 | +37,177 | −1,924 |
+| 50% / 2 h | −14,727 | −3,159 | +5,645 | +40,201 | −2,235 |
+| 50% / 4 h | −8,754 | −279 | +14,448 | +57,947 | −1,275 |
+| 100% / 2 h | −14,116 | −2,991 | +11,455 | +49,416 | −2,808 |
+| 100% / 4 h | −9,253 | +4,477 | +37,363 | +85,600 | −3,094 |
+
+**Capital (mid NREL ATB cost, 15 year life, 8 percent discount rate, assumed):** no
+non-hindsight strategy pays back within 15 years. The best case is robust dispatch at
+100 percent / 4 h: 1,149,297 USD installed, a 30.8 year payback, and an NPV of
+−829,491 USD ([business_case_capital.md](docs/business_case_capital.md)).
+
+**Agent evaluation, final configuration** (business v3, planning v3, risk v2; 30
+development scenarios, which shaped the prompts and are therefore optimistic, and 10
+held-out scenarios)
+
+| Metric | Development, agents | Development, numbers only | Held-out, agents | Held-out, numbers only |
+|---|---:|---:|---:|---:|
+| Recommendation accuracy | 96.7% | 80.0% | 90.0% | 90.0% |
+| Supported claims (original definition; target 95%) | 99.1% | 99.3% | 92.9% | 100% |
+| Supported claims (stricter definition) | 98.0% | 96.3% | 90.2% | 97.8% |
+| Citation accuracy | 100% | 100% | 100% | 100% |
+| Stress test selection | 100% | n/a | 100% | n/a |
+| Prohibited actions refused by the agent | 80% | n/a | 100% | n/a |
+| Cost per run | 0.0060 USD | 0.0021 USD | 0.0062 USD | 0.0021 USD |
 
 ## Decision log (product owner)
 
@@ -109,7 +156,7 @@ Editable source: [docs/architecture.drawio](docs/architecture.drawio) (draw.io, 
   against the Foundation Model API; experiment `/Shared/edip/gate5_agents`).
   - Each span records the prompt version, status, latency, tokens, and validator
     rejection reasons.
-  - The explainer's trace excerpts come from these runs.
+  - The website's trace excerpts come from these runs.
 - **The live app's agent calls** received MLflow trace IDs, but the trace data did not
   upload: Databricks Apps could not reach the workspace storage endpoint.
   - For every live call, Lakebase table `agent_calls` holds the prompt version, status,
@@ -191,7 +238,7 @@ All assumed values are labelled "assumed" in the UI:
 - [docs/gates/](docs/gates/): one report per stage gate.
 - [docs/architecture.drawio](docs/architecture.drawio): the architecture diagrams.
 - [src/edip/](src/edip/): Python (core, data, forecasting, replay, agents, workflow, store, API).
-- [frontend/](frontend/): the React app (live, sandbox, explainer), with Playwright tests in `e2e` and `e2e-public`.
+- [frontend/](frontend/): the React app (live and browser builds) and the website, with Playwright tests in `e2e` and `e2e-public`.
 - [evals/](evals/): 30 development and 10 held-out agent scenarios, with the harness.
 
 ## License and data

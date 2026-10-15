@@ -47,7 +47,7 @@ packages = ["src/edip"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-extend-exclude = ["frontend", "explainer"]
+extend-exclude = ["frontend"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "ANN", "S", "SIM", "RUF"]

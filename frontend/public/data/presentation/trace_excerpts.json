@@ -1,5 +1,5 @@
 {
- "label": "MLflow trace excerpts from the final agent evaluation run (business v3, planning v3; experiment /Shared/edip/gate5_agents), sanitized: span attributes only, no prompts, hosts, or identities. The live app's traces did not upload (Gate 7 report).",
+ "label": "MLflow trace excerpts from the final agent evaluation run (business v3, planning v3; experiment /Shared/edip/gate5_agents), sanitized: span attributes only, no prompts, hosts, or identities. The live app's call records are kept in Lakebase; see the README's observability section.",
  "run": "evaluation-business_v3",
  "spans": [
   {

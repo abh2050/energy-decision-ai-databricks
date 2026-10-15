@@ -52,7 +52,7 @@ jobs:
         run: npx vite build --config vite.pages.config.ts && mv ../site/pages.html ../site/index.html
       - name: Fail if a public bundle contains a workspace URL, token, or email
         run: uv run python scripts/scan_public_bundle.py site
-      - name: Public pages with the network blocked (sandbox, explainer, parity)
+      - name: Website and app with the network blocked (presentation, app, parity)
         working-directory: frontend
         run: npx playwright test --config playwright.public.config.ts
 

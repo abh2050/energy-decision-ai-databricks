@@ -1,6 +1,6 @@
 name: pages
 
-# Gate 7: deploy the two public pages (sandbox and explainer) to GitHub Pages after the
+# Deploy the website (presentation at the root, browser app at /app/) to GitHub Pages after the
 # same scan and tests as CI.
 on:
   push:

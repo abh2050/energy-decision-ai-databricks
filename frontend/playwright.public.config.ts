@@ -13,7 +13,7 @@ export default defineConfig({
     ? undefined
     : {
         command: `npx vite preview --config vite.pages.config.ts --port ${port} --strictPort --host 127.0.0.1`,
-        url: `http://127.0.0.1:${port}/energy-decision-ai-databricks/sandbox/`,
+        url: `http://127.0.0.1:${port}/energy-decision-ai-databricks/app/`,
         reuseExistingServer: false,
         timeout: 60_000,
       },
