@@ -42,8 +42,8 @@ def heat_week(
     return h, l15, (start, end)
 
 
-def raise_floor(cdir: Path, soc_min_fraction: float, work: Path) -> Path:
-    """A config directory copy with a higher battery floor (hard constraints unchanged)."""
+def with_battery(cdir: Path, work: Path, **base_case: Any) -> Path:  # noqa: ANN401
+    """A config directory copy with `battery.yaml#base_case` fields overridden."""
     work.mkdir(parents=True, exist_ok=True)
     for p in cdir.rglob("*"):
         target = work / p.relative_to(cdir)
@@ -52,9 +52,14 @@ def raise_floor(cdir: Path, soc_min_fraction: float, work: Path) -> Path:
         else:
             target.write_bytes(p.read_bytes())
     battery = yaml.safe_load((work / "battery.yaml").read_text())
-    battery["base_case"]["soc_min_fraction"] = soc_min_fraction
+    battery["base_case"].update(base_case)
     (work / "battery.yaml").write_text(yaml.safe_dump(battery, sort_keys=False))
     return work
+
+
+def raise_floor(cdir: Path, soc_min_fraction: float, work: Path) -> Path:
+    """A config directory copy with a higher battery floor (hard constraints unchanged)."""
+    return with_battery(cdir, work, soc_min_fraction=soc_min_fraction)
 
 
 NOT_APPLICABLE = "not applicable, base case already loses money"

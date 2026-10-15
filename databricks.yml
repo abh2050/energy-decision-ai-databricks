@@ -21,6 +21,8 @@ artifacts:
     path: .
 
 sync:
+  include:
+    - src/edip/api/static/**  # built frontend (gitignored build output)
   exclude:
     - frontend/**
     - tests/**

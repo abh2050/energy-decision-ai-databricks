@@ -1,0 +1,3 @@
+# Databricks Apps installs only uv; app.yaml then runs the app with Python 3.12 and the
+# committed uv.lock (the Apps image has an older Python than this project's 3.12 pin).
+uv==0.6.14

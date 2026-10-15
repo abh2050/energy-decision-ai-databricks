@@ -32,8 +32,21 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv sync --frozen --all-extras
       - run: npm ci --no-audit --no-fund
         working-directory: frontend
+      - name: Type check and build the live app
+        run: npx tsc -b && npx vite build
+        working-directory: frontend
+      - name: Playwright (live app on a synthetic snapshot, no cloud, no model calls)
+        working-directory: frontend
+        run: |
+          npx playwright install --with-deps chromium
+          uv run python ../tests/fixture_data.py "$RUNNER_TEMP/fixture_data"
+          EDIP_DATA_DIR="$RUNNER_TEMP/fixture_data" npx playwright test
 
   secret-scan:
     runs-on: ubuntu-latest

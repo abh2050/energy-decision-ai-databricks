@@ -22,9 +22,5 @@ def test_whoami_with_forwarded_identity_does_not_echo_it():
     )
     assert r.status_code == 200
     body = r.json()
-    assert body == {
-        "authenticated": True,
-        "user_header_present": True,
-        "email_header_present": True,
-    }
+    assert body == {"authenticated": True, "role": "viewer"}
     assert "example.com" not in r.text

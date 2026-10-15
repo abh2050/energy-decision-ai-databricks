@@ -1,6 +1,26 @@
+# Gate 6 live app on Databricks Apps (OAuth sign-in by the Apps proxy). Replaces the
+# Gate 0 hello world app. Stop it after use: scripts/stop_all.py.
 resources:
   apps:
-    edip_hello:
-      name: edip-hello
-      description: EDIP Gate 0 hello world (FastAPI behind Databricks Apps OAuth).
-      source_code_path: ../src
+    edip_live:
+      name: edip-live
+      description: EDIP decision workspace (FastAPI + React, Lakebase state, FMAPI agents).
+      source_code_path: ..
+      resources:
+        - name: operator-hashes
+          description: Salted SHA256 hashes of operator identities (no emails in the repo).
+          secret:
+            scope: edip
+            key: operator_hashes
+            permission: READ
+        - name: agents-endpoint
+          description: Foundation Model API endpoint for the three agents.
+          serving_endpoint:
+            name: databricks-meta-llama-3-3-70b-instruct
+            permission: CAN_QUERY
+        - name: lakebase
+          description: Operational state (scenarios, runs, checkpoints, approvals, agent calls).
+          postgres:
+            branch: projects/edip-lakebase/branches/production
+            database: projects/edip-lakebase/branches/production/databases/databricks-postgres
+            permission: CAN_CONNECT_AND_CREATE

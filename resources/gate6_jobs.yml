@@ -1,0 +1,38 @@
+# Gate 6 jobs: load the per-cell decision evidence (computed locally, owner decision
+# 2026-10-14) into Delta, then publish the live app's read-only snapshot from Delta.
+resources:
+  jobs:
+    gate6_load_cells:
+      name: edip-gate6-load-cells
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: load
+          spark_python_task:
+            python_file: ../src/edip/eval/load_job.py
+            parameters: ["--dir", "/Volumes/edip/ml/artifacts/gate6/cells", "--schema", "edip.eval"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4
+    gate6_publish:
+      name: edip-gate6-publish
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: publish
+          spark_python_task:
+            python_file: ../src/edip/eval/publish_job.py
+            parameters: ["--root", "${workspace.file_path}"]
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

@@ -29,3 +29,4 @@ test-results/
 # Local MLflow stores (never commit)
 mlruns/
 mlflow.db
+src/edip/api/static/

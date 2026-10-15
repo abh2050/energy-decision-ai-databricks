@@ -1,0 +1,335 @@
+import { useEffect, useState } from "react";
+import {
+  Area,
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import type { DataAdapter, Meta, Operating, RunDetail, Scenario } from "../adapters/types";
+import { Badge, Card, DecisionPill, ErrorNote, Select, SourceLine } from "../components/ui";
+import { VerdictBanner } from "../components/VerdictBanner";
+import { label, num } from "../lib/format";
+
+const TARIFFS = ["pge_b19_secondary", "pgn_sched85_secondary"];
+const STRATEGIES = ["robust_quantile", "ml_forecast", "fixed_schedule", "seasonal_forecast", "hindsight", "no_battery"];
+
+export function OperatingWorkspace(props: {
+  api: DataAdapter;
+  meta: Meta;
+  cell: string;
+  setCell: (c: string) => void;
+  onRun: (id: string) => void;
+}) {
+  const { api, meta, cell } = props;
+  const [tariff, setTariff] = useState(TARIFFS[0]);
+  const [strategy, setStrategy] = useState(STRATEGIES[0]);
+  const [day, setDay] = useState<string | undefined>();
+  const [op, setOp] = useState<Operating>();
+  const [err, setErr] = useState<unknown>();
+
+  useEffect(() => {
+    api.operating({ cell, tariff_id: tariff, strategy, day }).then(setOp, setErr);
+  }, [api, cell, tariff, strategy, day]);
+
+  const rows =
+    op?.rows.map((r) => ({
+      hour: r.hour_start_utc.slice(11, 16),
+      actual: r.actual,
+      point: r.point,
+      band: r.p10 !== null && r.p90 !== null ? [r.p10, r.p90] : null,
+      soc: r.soc_kwh,
+      planned: r.planned_discharge_kw - r.planned_charge_kw,
+      settled: r.discharge_kw - r.charge_kw,
+      grid: r.grid_kw,
+    })) ?? [];
+
+  return (
+    <div className="grid gap-4">
+      <div className="flex flex-wrap items-end gap-3">
+        <Select label="Battery (power fraction / hours)" value={cell} options={meta.cells} onChange={props.setCell} testId="cell" />
+        <Select label="Tariff" value={tariff} options={TARIFFS} onChange={setTariff} render={label} />
+        <Select label="Strategy" value={strategy} options={STRATEGIES} onChange={setStrategy} render={label} />
+        {op && <Select label="Day (UTC)" value={op.day} options={op.days} onChange={setDay} testId="day" />}
+      </div>
+      <ErrorNote error={err} />
+      {op && (
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Card title="Load forecast with P10 to P90 band (kW)" testId="forecast-chart">
+            <p className="mb-2 text-xs text-slate-500">
+              <Badge kind="measured" /> actual load and the pinned model's day-ahead forecast; hours in UTC.
+            </p>
+            <div className="h-64">
+              <ResponsiveContainer>
+                <ComposedChart data={rows}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="hour" fontSize={11} />
+                  <YAxis fontSize={11} unit=" kW" width={70} />
+                  <Tooltip />
+                  <Legend />
+                  <Area dataKey="band" name="P10 to P90" fill="#bae6fd" stroke="none" />
+                  <Line dataKey="point" name="Forecast (point)" stroke="#0369a1" dot={false} />
+                  <Line dataKey="actual" name="Actual load" stroke="#0f172a" dot={false} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+            <SourceLine source={op.sources.forecasts} />
+          </Card>
+          <Card title="Proposed and settled schedule (kW), state of charge (kWh)" testId="schedule-chart">
+            <p className="mb-2 text-xs text-slate-500">
+              Positive = discharge, negative = charge. <Badge kind="measured" /> settled replay of {op.label};{" "}
+              <Badge kind="assumed" /> battery size.
+            </p>
+            <div className="h-64">
+              <ResponsiveContainer>
+                <ComposedChart data={rows}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="hour" fontSize={11} />
+                  <YAxis yAxisId="kw" fontSize={11} unit=" kW" width={70} />
+                  <YAxis yAxisId="soc" orientation="right" fontSize={11} unit=" kWh" width={80} />
+                  <Tooltip />
+                  <Legend />
+                  <Bar yAxisId="kw" dataKey="planned" name="Planned" fill="#cbd5e1" />
+                  <Bar yAxisId="kw" dataKey="settled" name="Settled" fill="#0ea5e9" />
+                  <Line yAxisId="soc" dataKey="soc" name="State of charge" stroke="#16a34a" dot={false} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+            <SourceLine source={op.sources.schedule} />
+          </Card>
+        </div>
+      )}
+      <DecisionPanel api={api} meta={meta} cell={cell} onRun={props.onRun} />
+    </div>
+  );
+}
+
+function DecisionPanel(props: { api: DataAdapter; meta: Meta; cell: string; onRun: (id: string) => void }) {
+  const { api, meta } = props;
+  const operator = meta.role === "operator";
+  const [scenarios, setScenarios] = useState<Scenario[]>([]);
+  const [scenarioId, setScenarioId] = useState("");
+  const [objective, setObjective] = useState("Reduce demand charges without raising any month's bill.");
+  const [concerns, setConcerns] = useState("");
+  const [run, setRun] = useState<RunDetail>();
+  const [comment, setComment] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<unknown>();
+
+  useEffect(() => {
+    api.scenarios().then((s) => {
+      setScenarios(s);
+      if (s.length) setScenarioId(s[s.length - 1].scenario_id);
+    }, setErr);
+  }, [api]);
+
+  const act = async (fn: () => Promise<RunDetail | void>) => {
+    setBusy(true);
+    setErr(undefined);
+    try {
+      const r = await fn();
+      if (r) {
+        setRun(r);
+        props.onRun(r.run.run_id);
+      }
+    } catch (e) {
+      setErr(e);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const createScenario = () =>
+    act(async () => {
+      const [pf, dur] = props.cell.split("/");
+      const s = await api.createScenario({
+        name: `Battery ${props.cell}`,
+        tariff_id: "pge_b19_secondary",
+        strategy: "robust_quantile",
+        power_fraction: Number(pf),
+        duration_hours: Number(dur),
+      });
+      setScenarios((xs) => [...xs, s]);
+      setScenarioId(s.scenario_id);
+    });
+
+  const step = (name: string) => run?.checkpoints.find((c) => c.step === name)?.payload;
+  const plan = step("planning_proposal") as { planning: Planning; agent: AgentOutcome } | undefined;
+  const rec = step("business_recommendation") as Recommendation | undefined;
+  const status = run?.run.status;
+
+  return (
+    <Card title="Decision run" testId="decision-panel">
+      {!operator && (
+        <p className="mb-2 rounded bg-slate-100 p-2 text-sm" data-testid="viewer-note">
+          Viewer role: you can follow runs but cannot start, confirm, approve, revise, or reject.
+        </p>
+      )}
+      <div className="grid gap-3 md:grid-cols-3">
+        <div className="flex flex-col gap-2">
+          <label className="text-xs text-slate-600">
+            Scenario
+            <select
+              className="mt-1 w-full rounded border border-slate-300 px-2 py-1 text-sm"
+              value={scenarioId}
+              data-testid="scenario"
+              onChange={(e) => setScenarioId(e.target.value)}
+            >
+              <option value="">Select a scenario</option>
+              {scenarios.map((s) => (
+                <option key={s.scenario_id} value={s.scenario_id}>
+                  {s.name} ({String(s.settings.tariff_id)}, {String(s.settings.strategy)})
+                </option>
+              ))}
+            </select>
+          </label>
+          <button className="btn" disabled={!operator || busy} onClick={createScenario} data-testid="new-scenario">
+            New scenario from battery {props.cell}
+          </button>
+        </div>
+        <label className="text-xs text-slate-600 md:col-span-2">
+          Objective (plain language, read by the planning agent)
+          <textarea
+            className="mt-1 w-full rounded border border-slate-300 p-2 text-sm"
+            rows={2}
+            value={objective}
+            data-testid="objective"
+            onChange={(e) => setObjective(e.target.value)}
+          />
+          Concerns for the risk agent (optional)
+          <input
+            className="mt-1 w-full rounded border border-slate-300 p-2 text-sm"
+            value={concerns}
+            data-testid="concerns"
+            onChange={(e) => setConcerns(e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button
+          className="btn-primary"
+          disabled={!operator || busy || !scenarioId || !objective}
+          data-testid="start-run"
+          onClick={() => act(() => api.startRun({ scenario_id: scenarioId, objective, concerns }))}
+        >
+          Ask the planning agent
+        </button>
+        {busy && <span className="text-sm text-slate-500" data-testid="busy">Working: agents take up to a minute…</span>}
+      </div>
+      <ErrorNote error={err} />
+
+      {run && (
+        <div className="mt-4 grid gap-3" data-testid="run">
+          <p className="text-sm">
+            Run <code>{run.run.run_id}</code>: status <strong data-testid="run-status">{status}</strong>
+          </p>
+          {plan && (
+            <div className="rounded border border-slate-200 p-3">
+              <h3 className="text-sm font-semibold">
+                Planning proposal {plan.agent.used_fallback && <Badge kind="template" />}
+              </h3>
+              <p className="text-sm" data-testid="interpretation">{plan.planning.interpretation}</p>
+              <ul className="mt-1 text-sm">
+                {plan.planning.changes.map((c) => (
+                  <li key={c.field}>
+                    Change <code>{c.field}</code> to <strong>{String(c.new_value)}</strong>: {c.reason}
+                  </li>
+                ))}
+                {plan.planning.changes.length === 0 && <li>No change proposed.</li>}
+                {plan.planning.refused.map((r) => (
+                  <li key={r} className="text-rose-700">
+                    Refused: {r}
+                  </li>
+                ))}
+              </ul>
+              {status === "planning_proposed" && (
+                <div className="mt-2 flex gap-2">
+                  <button className="btn-primary" disabled={!operator || busy} data-testid="confirm"
+                    onClick={() => act(() => api.confirm(run.run.run_id, true))}>
+                    Confirm and evaluate
+                  </button>
+                  <button className="btn" disabled={!operator || busy} data-testid="reject-change"
+                    onClick={() => act(() => api.confirm(run.run.run_id, false))}>
+                    Keep current settings and evaluate
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+          {rec && (
+            <div className="rounded border border-slate-200 p-3" data-testid="recommendation">
+              <h3 className="text-sm font-semibold">
+                Business recommendation: <DecisionPill d={rec.business.decision} />{" "}
+                {rec.agent.used_fallback && <Badge kind="template" />}
+              </h3>
+              <p className="text-sm">{rec.business.rationale}</p>
+              <div className="mt-2">
+                <VerdictBanner v={rec.verdicts} />
+              </div>
+              {!rec.agrees_with_live_verdict && (
+                <p className="mt-2 rounded bg-amber-50 p-2 text-sm text-amber-900" data-testid="disagreement">
+                  The agent's recommendation ({rec.business.decision}) differs from the deterministic verdict
+                  for this battery ({rec.verdicts.a1_decision}). The agent saw only the stress tests it chose;
+                  on that evidence the rule gives {rec.rule_on_agent_evidence.decision}.
+                </p>
+              )}
+              {status === "recommended" && (
+                <div className="mt-3 flex flex-wrap items-end gap-2">
+                  <input className="rounded border border-slate-300 p-1 text-sm" placeholder="Comment (optional)"
+                    value={comment} onChange={(e) => setComment(e.target.value)} data-testid="comment" />
+                  {(["approve", "revise", "reject"] as const).map((d) => (
+                    <button key={d} className={d === "approve" ? "btn-primary" : "btn"} disabled={!operator || busy}
+                      data-testid={`decide-${d}`} onClick={() => act(() => api.decide(run.run.run_id, d, comment))}>
+                      {d[0].toUpperCase() + d.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {run.approvals.map((a) => (
+                <p key={a.created_at} className="mt-2 text-sm" data-testid="approval">
+                  Operator decision: <strong>{a.decision}</strong> {a.comment ? `(${a.comment})` : ""} at {a.created_at}
+                </p>
+              ))}
+            </div>
+          )}
+          <p className="text-xs text-slate-500">
+            Agent calls: {run.agent_calls.map((c) => `${c.agent} ${c.status} ${num((c.latency_ms ?? 0) / 1000)} s`).join("; ")}
+          </p>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+export interface Planning {
+  interpretation: string;
+  changes: { field: string; new_value: string | number; reason: string }[];
+  refused: string[];
+  claims: Claim[];
+}
+export interface Claim {
+  text: string;
+  value: number | null;
+  evidence_ref: { table: string; row_key: string; column: string };
+}
+export interface AgentOutcome {
+  agent: string;
+  prompt_version: string;
+  status: string;
+  used_fallback: boolean;
+  latency_s: number | null;
+  rejection_reasons: string[];
+}
+export interface Recommendation {
+  business: { decision: string; rationale: string; scope_tariffs: string[]; scope_strategies: string[]; claims: Claim[] };
+  agent: AgentOutcome;
+  verdicts: import("../adapters/types").Verdicts;
+  rule_on_agent_evidence: { decision: string; reasons: string[] };
+  agrees_with_rule: boolean;
+  agrees_with_live_verdict: boolean;
+}

@@ -12,7 +12,7 @@ from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors import NotFound
 from databricks.sdk.service.sql import State
 
-APPS = ["edip-hello"]
+APPS = ["edip-live", "edip-hello"]
 LAKEBASE = "edip-lakebase"
 
 
