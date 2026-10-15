@@ -117,4 +117,11 @@ test("landing page links both public pages", async ({ page, baseURL }) => {
   await page.goto("./");
   await expect(page.locator('a[href="./sandbox/"]')).toBeVisible();
   await expect(page.locator('a[href="./explainer/"]')).toBeVisible();
+  // All six architecture diagrams load from the site itself.
+  const imgs = page.locator("figure img");
+  await expect(imgs).toHaveCount(6);
+  for (let i = 0; i < 6; i++) {
+    await imgs.nth(i).scrollIntoViewIfNeeded();
+    await expect.poll(() => imgs.nth(i).evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  }
 });

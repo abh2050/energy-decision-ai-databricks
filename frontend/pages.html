@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Energy Decision Intelligence Platform</title>
     <style>
-      body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 4rem auto; padding: 0 1rem; color: #0f172a; }
+      body { font-family: system-ui, sans-serif; max-width: 72rem; margin: 3rem auto; padding: 0 1rem; color: #0f172a; line-height: 1.5; }
       a { color: #0369a1; }
+      h2 { margin-top: 2.5rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; }
+      figure { margin: 1.5rem 0 2rem; }
+      figure img { width: 100%; height: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
+      figcaption { font-weight: 600; margin-bottom: 0.5rem; }
+      nav ul { padding-left: 1.2rem; }
     </style>
   </head>
   <body>
@@ -16,5 +21,41 @@
       <li><a href="./sandbox/">Working sandbox</a>: the real forecaster and optimizer in your browser.</li>
       <li><a href="./explainer/">System explainer</a>: video, architecture, walkthrough, and results.</li>
     </ul>
+
+    <h2 id="architecture">Architecture</h2>
+    <nav aria-label="Diagrams">
+      <ul>
+        <li><a href="#platform">Platform architecture</a></li>
+        <li><a href="#workflow">Decision workflow</a></li>
+        <li><a href="#guardrails">Agent guardrails</a></li>
+        <li><a href="#lineage">Data lineage</a></li>
+        <li><a href="#cicd">CI/CD and environments</a></li>
+        <li><a href="#security">Security and governance</a></li>
+      </ul>
+    </nav>
+    <figure id="platform">
+      <figcaption>Platform architecture</figcaption>
+      <img src="./media/diagrams/1-platform_architecture.png" alt="Platform architecture diagram" loading="lazy" />
+    </figure>
+    <figure id="workflow">
+      <figcaption>Decision workflow</figcaption>
+      <img src="./media/diagrams/2-decision_workflow.png" alt="Decision workflow diagram" loading="lazy" />
+    </figure>
+    <figure id="guardrails">
+      <figcaption>Agent guardrails</figcaption>
+      <img src="./media/diagrams/3-agent_guardrails.png" alt="Agent guardrails diagram" loading="lazy" />
+    </figure>
+    <figure id="lineage">
+      <figcaption>Data lineage</figcaption>
+      <img src="./media/diagrams/4-data_lineage.png" alt="Data lineage diagram" loading="lazy" />
+    </figure>
+    <figure id="cicd">
+      <figcaption>CI/CD and environments</figcaption>
+      <img src="./media/diagrams/5-cicd_environments.png" alt="CI/CD and environments diagram" loading="lazy" />
+    </figure>
+    <figure id="security">
+      <figcaption>Security and governance</figcaption>
+      <img src="./media/diagrams/6-security_governance.png" alt="Security and governance diagram" loading="lazy" />
+    </figure>
   </body>
 </html>
