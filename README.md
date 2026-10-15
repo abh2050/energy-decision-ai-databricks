@@ -19,6 +19,19 @@
 - **App** (the forecaster and optimizer running in your browser, with recorded agent runs): <https://abh2050.github.io/energy-decision-ai-databricks/app/>
 - **Results export** (every Delta table and the app's operational records): [release `results-2026-10-15`](https://github.com/abh2050/energy-decision-ai-databricks/releases/tag/results-2026-10-15)
 
+## Project summary
+
+**Energy Decision Intelligence Platform | AI Product Strategy, Databricks & MLOps**
+
+Architected and evaluated an end-to-end AI decision intelligence platform for battery storage investment and operational scheduling, integrating Databricks, Unity Catalog, MLflow, optimization, and governed LLM agents.
+
+- Evaluated six scheduling strategies across 540 sensitivity configurations using real metered load and utility tariffs.
+- Built an auditable ML and agentic decision workflow with deterministic business rules, evidence validation, human approvals, and persistent execution records.
+- Demonstrated that an agentic approach did not outperform a numbers-only baseline on held-out recommendation accuracy, informing a more cost-conscious product strategy.
+- Produced an investment recommendation supported by financial modeling, stress testing, model evaluation, and documented acceptance criteria.
+
+**Key outcome:** Identified a financially unfavorable battery investment despite positive modeled operating savings, demonstrating evidence-led AI product decision-making.
+
 ## Headline finding
 
 1. **Do not buy a battery for this load profile.**
