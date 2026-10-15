@@ -35,8 +35,11 @@ FR24 = [
 ]
 
 
-def test_thirty_scenarios_with_rule_consistent_answers():
-    assert len(SCENARIOS) == 30
+def test_thirty_development_and_ten_held_out_scenarios_with_rule_consistent_answers():
+    assert sum(s.id.startswith("s") for s in SCENARIOS) == 30
+    held = [s for s in SCENARIOS if s.id.startswith("h")]
+    assert len(held) == 10
+    assert {s.kind for s in held} == {"objective_change", "adversarial", "scope"}
     kinds = {s.kind for s in SCENARIOS}
     assert {"standard", "objective_change", "stress", "adversarial", "scope"} <= kinds
     assert sum(s.kind == "adversarial" for s in SCENARIOS) >= 5
