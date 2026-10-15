@@ -150,3 +150,19 @@ def test_p90_charge_planning_leaves_room_for_higher_load():
     )
     assert max(plain.charge_kw) > 700.0 - 550.0 + 1e-6  # plans up to the peak on P50
     assert max(guarded.charge_kw) <= 700.0 - 550.0 + 1e-6  # leaves P90 headroom
+
+
+def test_optimizer_is_deterministic_and_tie_break_is_tiny():
+    from edip.core.optimizer import HIGHS_OPTIONS, TIE_BREAK_USD_PER_KWH
+
+    assert HIGHS_OPTIONS["threads"] == 1 and HIGHS_OPTIONS["mip_rel_gap"] == 1e-6
+    assert TIE_BREAK_USD_PER_KWH * 751.8 * 8760 < 1.0  # at most 1 USD a year
+    rng = np.random.default_rng(11)
+    load = 400 + 200 * rng.random(24)
+    price = np.where(np.arange(24) >= 16, 0.19, 0.12)
+    terms = [DemandTerm(name="m", mask=[True] * 24, rate_usd_per_kw=37.37, running_peak_kw=500.0)]
+    plans = [
+        solve_day(load, price, terms, SPEC, 300.0, SPEC.terminal_reserve_kwh) for _ in range(3)
+    ]
+    assert all(p.charge_kw == plans[0].charge_kw for p in plans)
+    assert all(p.discharge_kw == plans[0].discharge_kw for p in plans)
