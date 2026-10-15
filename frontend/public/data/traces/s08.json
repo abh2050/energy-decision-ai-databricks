@@ -16,7 +16,7 @@
   ],
   "applied_settings": {
     "tariff_id": "pge_b19_secondary",
-    "strategy": "ml_forecast",
+    "strategy": "robust_quantile",
     "power_fraction": 1.0,
     "duration_hours": 4
   },
@@ -26,31 +26,43 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "The current strategy is robust_quantile. Based on the evidence, ml_forecast has a higher net value compared to robust_quantile for the pge_b19_secondary tariff.",
-    "changes": [
-      {
-        "field": "strategy",
-        "new_value": "ml_forecast",
-        "reason": "ml_forecast has a higher net value for the pge_b19_secondary tariff, with a net_vs_fixed_usd value of 20687.0 (economics/pge_b19_secondary/ml_forecast, net_vs_fixed_usd) compared to 51708.0 for robust_quantile (economics/pge_b19_secondary/robust_quantile, net_vs_fixed_usd)."
-      }
-    ],
+    "interpretation": "The current strategy 'robust_quantile' is performing well with 0 violations and 80.5% coverage. The 'ml_forecast' strategy has a higher net value vs no battery and fixed schedule for the 'pge_b19_secondary' tariff.",
+    "changes": [],
     "refused": [],
     "claims": [
       {
-        "text": "The ml_forecast strategy has a higher net value for the pge_b19_secondary tariff.",
+        "text": "The current strategy has 0 violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The current strategy has 80.5% coverage.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The 'ml_forecast' strategy has a net value vs no battery of -1257.0 USD for the 'pge_b19_secondary' tariff.",
+        "value": -1257.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The 'ml_forecast' strategy has a net value vs fixed schedule of 20687.0 USD for the 'pge_b19_secondary' tariff.",
         "value": 20687.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "economics/pge_b19_secondary/ml_forecast",
-          "column": "net_vs_fixed_usd"
-        }
-      },
-      {
-        "text": "The robust_quantile strategy has a net value for the pge_b19_secondary tariff.",
-        "value": 51708.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
           "column": "net_vs_fixed_usd"
         }
       }
@@ -76,16 +88,7 @@
         }
       },
       {
-        "text": "Coverage percentage is 80.5%",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      },
-      {
-        "text": "No violations found",
+        "text": "Violations are 0",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -94,7 +97,82 @@
         }
       },
       {
-        "text": "Net vs no battery USD is -1257.0",
+        "text": "Coverage percentage is 80.5",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Net vs no battery USD is 29764.0",
+        "value": 29764.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net vs fixed USD is 51708.0",
+        "value": 51708.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Insufficient data",
+      "Unforeseen events",
+      "Market volatility",
+      "Regulatory changes",
+      "Technical failures",
+      "Human error"
+    ]
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "robust_quantile",
+      "ml_forecast"
+    ],
+    "rationale": "No constraint violations and both strategies pass target",
+    "claims": [
+      {
+        "text": "No constraint violations",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "ml_forecast passes target",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "robust_quantile passes target",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "ml_forecast net vs no battery USD is -1257",
         "value": -1257.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -103,34 +181,30 @@
         }
       },
       {
-        "text": "Net vs fixed USD is 20687.0",
+        "text": "ml_forecast net vs fixed USD is 20687",
         "value": 20687.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "economics/pge_b19_secondary/ml_forecast",
           "column": "net_vs_fixed_usd"
         }
-      }
-    ],
-    "unresolved_risks": [
-      "Forecast error",
-      "Heat week",
-      "Reserve floor"
-    ]
-  },
-  "business": {
-    "decision": "withhold",
-    "scope_tariffs": [],
-    "scope_strategies": [],
-    "rationale": "Neither ml_forecast nor robust_quantile passes the target on pge_b19_secondary with net_vs_no_battery_usd > 0.",
-    "claims": [
+      },
       {
-        "text": "No strategy passes the target on pge_b19_secondary with net_vs_no_battery_usd > 0 and net_vs_fixed_usd > 0.",
-        "value": null,
+        "text": "robust_quantile net vs no battery USD is 29764",
+        "value": 29764.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
           "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "robust_quantile net vs fixed USD is 51708",
+        "value": 51708.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
         }
       }
     ]
@@ -141,21 +215,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.72
+      "latency_s": 5.45
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.72
+      "latency_s": 5.07
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 2.1
+      "latency_s": 7.07
     }
   ]
 }

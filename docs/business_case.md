@@ -48,18 +48,64 @@ must carry into it:
    percent of peak, 4 hours) earns 28,281 USD per year against 1,149,297 USD installed: a
    40.6 year payback and an NPV of −907,229 USD. Full table:
    [business_case_capital.md](business_case_capital.md).
-8. **Known limit: months billed above no battery (Gate 5, recorded 2026-10-14; frozen
-   strategy settings unchanged).** The frozen stress rule caps every month at 1 percent
-   above the no-battery bill. On B-19 at the base battery, months that exceed it do so
-   **entirely through the all-hours maximum demand charge**: across all 77 such months in
-   the base case and the three stress tests, maximum demand adds 219,018 USD, while energy
-   saves 44,511 USD and peak and part-peak period demand save 4,353 USD. Base case
-   (unstressed): ML exceeds the limit in 2 months (2014-03 +1.5 percent, 2014-05 +3.8
-   percent; 2,981 USD excess) and robust in 3 (2014-02 +1.4, 2014-03 +1.7, 2014-12 +3.6
-   percent; 3,823 USD); the fixed schedule in 8 (worst +14.1 percent; 21,522 USD). The
-   settlement guard's month-start limit (the previous month's billed demand less 2 percent)
-   caused **1 of these 5 ML and robust base-case months** (ML, 2014-05) and 19 of the 77
-   months overall; in the other months the billed maximum demand was set by something other
-   than that limit. PGE Schedule 85 has no month above the limit (worst +0.2 percent). The
-   result is reported as a known limit of the revised strategy, not tuned away. Source: `edip.eval.stress_excess_months`,
+8. **Known limit: months billed above no battery (Gate 5, recorded 2026-10-14 and
+   2026-10-15; no strategy changed, owner decision).** The frozen stress rule caps every
+   month at 1 percent above the no-battery bill. On B-19 at the base battery, months that
+   exceed it do so **entirely through the all-hours maximum demand charge**: across all 77
+   such months in the base case and the three stress tests, maximum demand adds 219,018
+   USD, while energy saves 44,511 USD and peak and part-peak period demand save 4,353 USD.
+   Base case (unstressed): ML exceeds the limit in 2 months (2014-03 +1.5 percent, 2014-05
+   +3.8 percent; 2,981 USD excess) and robust in 3 (2014-02 +1.4, 2014-03 +1.7, 2014-12
+   +3.6 percent; 3,823 USD); the fixed schedule in 8 (worst +14.1 percent; 21,522 USD).
+   PGE Schedule 85 has no month above the limit (worst +0.2 percent).
+
+   **Cause.** For every excess month the 15 minute interval that set the billed maximum
+   demand was traced, with the battery action, the guard's limit for that hour, and actual
+   load (`edip.eval.stress_peak_moments`). In all 77 months the battery was **charging**
+   (83 to 376 kW; never discharging) on top of actual load, and billed demand stayed at or
+   below the guard's limit; in 47 of the 58 months below it equals the limit to 0.1 kW.
+   The guard did what it was built to do; the limit itself was too high, because **as built
+   the guard's month-start limit carries forward the highest running peak since the replay
+   began**, not the previous month's billed demand as its specification and the Gate 3
+   report state. A month whose own peak stays below its start value hands that start value
+   on (pinned by `test_known_limit_month_start_carries_forward_the_higher_peak`).
+
+   | Source of the guard limit at the billed interval | Months not flagged at first (58) | Months flagged as month-start (19) |
+   |---|---|---|
+   | Carried forward from 2013-12 (the seed month, 615.1 kW billed) | 25 | 0 |
+   | Carried forward from 2014-04 (no-battery maximum 747.6 kW) | 23 | 5 |
+   | Carried forward from 2014-06 (heat-week case only) | 10 | 1 |
+   | The previous month (the limit as specified) | 0 | 13 |
+
+   So 64 of the 77 months come from the carried-forward limit and 13 from the
+   previous-month limit as specified. The first-pass check (19 months) compared billed
+   demand with the previous month's *actual* billed demand, so it missed the carry-forward.
+   Base case ML and robust: ML 2014-03 (limit from 2013-12), robust 2014-02 and 2014-03
+   (2013-12) and 2014-12 (2014-04; 117.3 kW charge on a 537.1 kW interval billed 654.3 kW
+   against 591.5 kW without a battery). The frozen strategy settings were tuned with this
+   same guard code, so reported results are internally consistent; they understate what a
+   guard built to its specification might achieve, which is untested. Sources:
+   `edip.eval.stress_excess_months`, `edip.eval.stress_peak_moments`,
    [gates/gate5_stress_results.json](gates/gate5_stress_results.json).
+
+## Decision verdicts (base case, revised strategy, post-hoc)
+
+**Frozen rule: revise. With amendment A1 (dated, stricter): withhold.**
+([A1 and its reason](#amendment-a1-2026-10-15-owner-decision))
+
+Both verdicts are computed independently from the same persisted inputs
+(`edip.eval.decision_verdicts`): no violations, coverage 80.5 percent, ML and robust pass
+the frozen B-19 target (measured against a fixed schedule that loses 27,917 USD), all three
+stress tests breached; under A1 no strategy beats both no battery and the fixed schedule.
+A1 is stricter, so it is the live recommendation; the frozen verdict is always shown next
+to it.
+
+## Future work
+
+1. **A maximum demand aware guard.** Reset the month-start limit to the previous month's
+   actual billed demand (the specified rule), and limit charging against the facility's
+   running maximum demand for the current month, so charging cannot set a new all-hours
+   maximum. Any such change is a new post-hoc variant: tune on 2013, run 2014 once, and
+   report it next to the pre-registered and current revised results.
+2. Monthly retraining of the forecaster on a rolling window (note 1).
+3. Re-evaluate the agents whenever a prompt changes, before it goes live.

@@ -76,16 +76,7 @@
         }
       },
       {
-        "text": "Coverage percentage is 80.5%",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      },
-      {
-        "text": "No violations found",
+        "text": "Violations are 0",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -94,52 +85,78 @@
         }
       },
       {
-        "text": "Net vs no battery USD is -3133.0",
-        "value": -3133.0,
+        "text": "Coverage percentage is 80.5",
+        "value": 80.5,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
+          "row_key": "summary",
+          "column": "coverage_pct"
         }
       },
       {
-        "text": "Net vs fixed USD is 24784.0",
-        "value": 24784.0,
+        "text": "Heat week replay test passed",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_fixed_usd"
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Reserve floor raise test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
         }
       }
     ],
     "unresolved_risks": [
-      "Forecast error",
-      "Heat week",
-      "Reserve floor"
+      "Insufficient data",
+      "Unforeseen events",
+      "Market volatility",
+      "Regulatory changes",
+      "Technical failures",
+      "Cybersecurity threats"
     ]
   },
   "business": {
-    "decision": "withhold",
-    "scope_tariffs": [],
-    "scope_strategies": [],
-    "rationale": "Neither ml_forecast nor robust_quantile passes the target on pge_b19_secondary for net_vs_no_battery_usd > 0.",
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "No constraint violations and both strategies pass the target.",
     "claims": [
       {
-        "text": "No strategy passes the target on pge_b19_secondary for net_vs_no_battery_usd > 0 for ml_forecast.",
-        "value": -10158.0,
+        "text": "No constraint violations.",
+        "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/ml_forecast",
-          "column": "net_vs_no_battery_usd"
+          "row_key": "summary",
+          "column": "violations"
         }
       },
       {
-        "text": "No strategy passes the target on pge_b19_secondary for net_vs_no_battery_usd > 0 for robust_quantile.",
-        "value": -3133.0,
+        "text": "Both ml_forecast and robust_quantile pass the target for pge_b19_secondary.",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Both ml_forecast and robust_quantile have positive net_vs_fixed_usd for pge_b19_secondary.",
+        "value": 17759.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
         }
       }
     ]
@@ -150,21 +167,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 2.65
+      "latency_s": 3.06
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.7
+      "latency_s": 4.84
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.17
+      "latency_s": 3.88
     }
   ]
 }

@@ -82,10 +82,10 @@
     "decision": "revise",
     "scope_tariffs": [],
     "scope_strategies": [],
-    "rationale": "Coverage percentage is outside 80 +/- 5 range",
+    "rationale": "Forecast coverage is outside 80 +/- 5 range",
     "claims": [
       {
-        "text": "Coverage percentage is 72.9",
+        "text": "Forecast coverage is 72.9%",
         "value": 72.9,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -101,21 +101,21 @@
       "prompt_version": "planning-v1",
       "status": "fallback",
       "used_fallback": true,
-      "latency_s": 4.52
+      "latency_s": 3.74
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.68
+      "latency_s": 2.93
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 1.62
+      "latency_s": 1.48
     }
   ]
 }

@@ -199,3 +199,37 @@ def test_decision_rule_with_amendment():
     assert (
         decide(losing).decision == "withhold"
     )  # A1: passes the frozen target, loses to no battery
+
+
+def test_both_verdicts_computed_independently():
+    # Base-case shape: passes the frozen target, loses to no battery, stress fails.
+    losing_stressed = _inputs(
+        stress_passed={
+            "forecast_error_injection": False,
+            "heat_week_replay": False,
+            "reserve_floor_raise": True,
+        },
+        strategies=[
+            StrategyEvidence(
+                tariff_id="pge_b19_secondary",
+                strategy="robust_quantile",
+                passes_target=True,
+                net_vs_no_battery_usd=-3133.0,
+                net_vs_fixed_usd=24784.0,
+            )
+        ],
+    )
+    r = decide(losing_stressed)
+    assert r.frozen_decision == "revise" and r.decision == "withhold"
+    assert r.display == "Frozen rule: revise. With amendment A1 (dated, stricter): withhold."
+    # A1 does not short-circuit the stress check: the breach is still reported.
+    assert any("forecast_error_injection, heat_week_replay" in x for x in r.reasons)
+    assert any("amendment A1" in x for x in r.reasons)
+    assert r.a1_ref.endswith("#amendment-a1-2026-10-15-owner-decision")
+    ok = decide(_inputs())
+    assert ok.frozen_decision == ok.decision == "proceed"
+    assert ok.frozen_scope == [
+        ("pge_b19_secondary", "ml_forecast"),
+        ("pge_b19_secondary", "robust_quantile"),
+    ]  # frozen scope uses the target only
+    assert ok.scope == [("pge_b19_secondary", "ml_forecast")]  # A1 scope

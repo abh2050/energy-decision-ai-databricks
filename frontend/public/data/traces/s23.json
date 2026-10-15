@@ -51,7 +51,16 @@
         }
       },
       {
-        "text": "Coverage percentage is 80.5%",
+        "text": "Violations are 0",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage percentage is 80.5",
         "value": 80.5,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -60,38 +69,43 @@
         }
       },
       {
-        "text": "No violations found",
-        "value": 0.0,
+        "text": "Heat week replay test passed",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "violations"
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Reserve floor raise test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
         }
       }
     ],
     "unresolved_risks": [
-      "Insufficient data",
-      "Unforeseen events",
-      "Market volatility",
-      "Regulatory changes",
-      "Technical failures",
-      "Cybersecurity threats"
+      "Unknown future tariff changes",
+      "Potential battery degradation",
+      "Inaccurate forecast models"
     ]
   },
   "business": {
     "decision": "proceed",
     "scope_tariffs": [
-      "pge_b19_secondary",
-      "pgn_sched85_secondary"
+      "pge_b19_secondary"
     ],
     "scope_strategies": [
       "ml_forecast",
       "robust_quantile"
     ],
-    "rationale": "Template: all criteria met",
+    "rationale": "All stress tests passed and coverage is within range.",
     "claims": [
       {
-        "text": "Template: accepted constraint violations.",
+        "text": "No constraint violations.",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -100,7 +114,34 @@
         }
       },
       {
-        "text": "Template: ml_forecast on pge_b19_secondary, net benefit over no battery (USD per year).",
+        "text": "Forecast coverage is 80.5%.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "All stress tests passed.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Robust quantile passes target.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Net vs no battery USD is $14200 for ml_forecast.",
         "value": 14200.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -109,30 +150,12 @@
         }
       },
       {
-        "text": "Template: robust_quantile on pge_b19_secondary, net benefit over no battery (USD per year).",
-        "value": 21500.0,
+        "text": "Net vs fixed USD is $9800 for ml_forecast.",
+        "value": 9800.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "Template: ml_forecast on pgn_sched85_secondary, net benefit over no battery (USD per year).",
-        "value": 3100.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pgn_sched85_secondary/ml_forecast",
-          "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "Template: robust_quantile on pgn_sched85_secondary, net benefit over no battery (USD per year).",
-        "value": 4600.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pgn_sched85_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
         }
       }
     ]
@@ -143,21 +166,21 @@
       "prompt_version": "planning-v1",
       "status": "fallback",
       "used_fallback": true,
-      "latency_s": 3.34
+      "latency_s": 2.82
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.06
+      "latency_s": 5.06
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
-      "status": "fallback",
-      "used_fallback": true,
-      "latency_s": 9.29
+      "prompt_version": "business-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 5.85
     }
   ]
 }

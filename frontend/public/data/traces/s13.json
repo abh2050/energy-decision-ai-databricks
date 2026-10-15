@@ -17,8 +17,8 @@
   "applied_settings": {
     "tariff_id": "pge_b19_secondary",
     "strategy": "robust_quantile",
-    "power_fraction": 1.0,
-    "duration_hours": 4
+    "power_fraction": 0.5,
+    "duration_hours": 2
   },
   "tests_run": [
     "forecast_error_injection",
@@ -26,49 +26,10 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "Size the battery to the full peak with 4 hours and assess pilot feasibility",
-    "changes": [
-      {
-        "field": "power_fraction",
-        "new_value": 1.0,
-        "reason": "To size the battery to the full peak"
-      },
-      {
-        "field": "duration_hours",
-        "new_value": 4,
-        "reason": "To match the requested duration"
-      }
-    ],
+    "interpretation": "Template: no scenario change proposed; the operator's settings stand.",
+    "changes": [],
     "refused": [],
-    "claims": [
-      {
-        "text": "The current settings have zero violations",
-        "value": 0.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "violations"
-        }
-      },
-      {
-        "text": "The current settings have a coverage percentage of 80.5%",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      },
-      {
-        "text": "The robust quantile strategy passes the target with a net value of $21,500 vs no battery",
-        "value": 21500.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
-        }
-      }
-    ]
+    "claims": []
   },
   "risk": {
     "selection": {
@@ -77,11 +38,20 @@
         "heat_week_replay",
         "reserve_floor_raise"
       ],
-      "reason": "All tests bear on the plan and operator concerns"
+      "reason": "All tests passed"
     },
     "findings": [
       {
-        "text": "Violations are 0.0",
+        "text": "All stress tests passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Violations are 0",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -99,7 +69,61 @@
         }
       },
       {
-        "text": "Forecast error injection test passed",
+        "text": "Net vs no battery USD is 21500",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net vs fixed USD is 17100",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Insufficient data",
+      "Inaccurate forecasts",
+      "Unforeseen events"
+    ]
+  },
+  "business": {
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "All stress tests passed and coverage is within range.",
+    "claims": [
+      {
+        "text": "No constraint violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Coverage is 80.5%.",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Forecast error injection stress test passed.",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -108,8 +132,8 @@
         }
       },
       {
-        "text": "Heat week replay test failed",
-        "value": 0.0,
+        "text": "Heat week replay stress test passed.",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "stress/heat_week_replay",
@@ -117,37 +141,39 @@
         }
       },
       {
-        "text": "Reserve floor raise test passed",
+        "text": "Reserve floor raise stress test passed.",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "stress/reserve_floor_raise",
           "column": "passed"
         }
-      }
-    ],
-    "unresolved_risks": [
-      "Heat week replay risk",
-      "Insufficient reserve risk",
-      "Inaccurate forecast risk",
-      "Inadequate coverage risk",
-      "Unforeseen economic risks",
-      "Unmitigated stress test risks"
-    ]
-  },
-  "business": {
-    "decision": "revise",
-    "scope_tariffs": [],
-    "scope_strategies": [],
-    "rationale": "Stress test heat_week_replay did not pass",
-    "claims": [
+      },
       {
-        "text": "Stress test heat_week_replay did not pass",
-        "value": 0.0,
+        "text": "ML forecast passes target for pge_b19_secondary.",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "stress/heat_week_replay",
-          "column": "passed"
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Robust quantile passes target for pge_b19_secondary.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Net vs no battery USD for ml_forecast is $14200.",
+        "value": 14200.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
         }
       }
     ]
@@ -156,23 +182,23 @@
     {
       "agent": "planning",
       "prompt_version": "planning-v1",
-      "status": "valid",
-      "used_fallback": false,
-      "latency_s": 3.64
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 7.2
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.64
+      "latency_s": 5.38
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 1.53
+      "latency_s": 6.94
     }
   ]
 }

@@ -26,7 +26,7 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "Pilot is recommended because the current strategy 'robust_quantile' passes the target with a high net value of $15,800 vs no battery and $12,400 vs fixed schedule.",
+    "interpretation": "Pilot is recommended because the current strategy 'robust_quantile' passes the target with a high net value vs no battery.",
     "changes": [],
     "refused": [],
     "claims": [
@@ -40,21 +40,12 @@
         }
       },
       {
-        "text": "The net value vs no battery is $15,800.",
+        "text": "The current strategy 'robust_quantile' has a high net value vs no battery.",
         "value": 15800.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "economics/pge_b19_secondary/robust_quantile",
           "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "The net value vs fixed schedule is $12,400.",
-        "value": 12400.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_fixed_usd"
         }
       }
     ]
@@ -117,8 +108,11 @@
     ],
     "unresolved_risks": [
       "Reserve floor raise test failure",
-      "Potential forecast errors",
-      "Unanticipated heat weeks"
+      "Forecast error",
+      "Heat week replay",
+      "Insufficient coverage",
+      "Violations",
+      "Economic risks"
     ]
   },
   "business": {
@@ -144,21 +138,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.8
+      "latency_s": 2.83
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.58
+      "latency_s": 4.9
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 1.63
+      "latency_s": 1.96
     }
   ]
 }

@@ -169,21 +169,12 @@
         }
       },
       {
-        "text": "ml_forecast has a net value of $7200 vs fixed.",
-        "value": 7200.0,
+        "text": "All stress tests passed.",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/ml_forecast",
-          "column": "net_vs_fixed_usd"
-        }
-      },
-      {
-        "text": "robust_quantile has a net value of $12400 vs fixed.",
-        "value": 12400.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_fixed_usd"
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
         }
       }
     ]
@@ -194,21 +185,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.38
+      "latency_s": 3.65
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.49
+      "latency_s": 4.74
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 5.8
+      "latency_s": 5.22
     }
   ]
 }

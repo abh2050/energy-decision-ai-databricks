@@ -93,6 +93,6 @@ def business_template(table: str, x: DecisionInputs) -> BusinessResponse:
         decision=result.decision,
         scope_tariffs=sorted({t for t, _ in result.scope}),
         scope_strategies=sorted({s for _, s in result.scope}),
-        rationale="Template: " + "; ".join(result.reasons),
+        rationale=f"Template: {result.display} " + "; ".join(result.reasons),
         claims=claims[:8],
     )

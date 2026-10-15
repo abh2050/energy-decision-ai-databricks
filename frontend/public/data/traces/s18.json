@@ -135,9 +135,9 @@
     ],
     "unresolved_risks": [
       "Heat wave impact",
-      "High-load week risk",
-      "Reserve floor raise risk",
-      "Forecast error risk",
+      "High-load week impact",
+      "Reserve floor raise impact",
+      "Forecast error impact",
       "Strategy risk",
       "Economic risk"
     ]
@@ -165,21 +165,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.38
+      "latency_s": 3.49
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 7.36
+      "latency_s": 7.45
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 1.48
+      "latency_s": 1.38
     }
   ]
 }

@@ -58,16 +58,7 @@
         }
       },
       {
-        "text": "The current strategy has a positive net value compared to no battery and fixed schedule.",
-        "value": -3133.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "The current strategy has a higher net value compared to a fixed schedule.",
+        "text": "The current strategy is economically viable with a positive net value compared to the fixed schedule.",
         "value": 24784.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -115,7 +106,16 @@
         }
       },
       {
-        "text": "Net vs no battery USD is -3133.0",
+        "text": "Robust quantile strategy passes target",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "Net value vs no battery is -$3133",
         "value": -3133.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -124,7 +124,7 @@
         }
       },
       {
-        "text": "Net vs fixed USD is 24784.0",
+        "text": "Net value vs fixed is $24784",
         "value": 24784.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -135,21 +135,26 @@
     ],
     "unresolved_risks": [
       "Insufficient data",
-      "Unforeseen events",
       "Market volatility",
+      "Equipment failure",
       "Regulatory changes",
-      "Technical failures",
-      "Human error"
+      "Environmental factors",
+      "Unknown variables"
     ]
   },
   "business": {
-    "decision": "withhold",
-    "scope_tariffs": [],
-    "scope_strategies": [],
-    "rationale": "Template: amendment A1: no strategy beats both no battery and the fixed schedule",
+    "decision": "proceed",
+    "scope_tariffs": [
+      "pge_b19_secondary"
+    ],
+    "scope_strategies": [
+      "ml_forecast",
+      "robust_quantile"
+    ],
+    "rationale": "No constraint violations and both strategies pass the target.",
     "claims": [
       {
-        "text": "Template: accepted constraint violations.",
+        "text": "No constraint violations.",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -158,7 +163,25 @@
         }
       },
       {
-        "text": "Template: ml_forecast on pge_b19_secondary, net benefit over no battery (USD per year).",
+        "text": "ml_forecast passes the target.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "robust_quantile passes the target.",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "passes_target"
+        }
+      },
+      {
+        "text": "ml_forecast has net_vs_no_battery_usd of -10158 USD.",
         "value": -10158.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -167,7 +190,16 @@
         }
       },
       {
-        "text": "Template: robust_quantile on pge_b19_secondary, net benefit over no battery (USD per year).",
+        "text": "ml_forecast has net_vs_fixed_usd of 17759 USD.",
+        "value": 17759.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_fixed_usd"
+        }
+      },
+      {
+        "text": "robust_quantile has net_vs_no_battery_usd of -3133 USD.",
         "value": -3133.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -176,21 +208,12 @@
         }
       },
       {
-        "text": "Template: ml_forecast on pgn_sched85_secondary, net benefit over no battery (USD per year).",
-        "value": -4184.0,
+        "text": "robust_quantile has net_vs_fixed_usd of 24784 USD.",
+        "value": 24784.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pgn_sched85_secondary/ml_forecast",
-          "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "Template: robust_quantile on pgn_sched85_secondary, net benefit over no battery (USD per year).",
-        "value": -2076.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pgn_sched85_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
         }
       }
     ]
@@ -201,21 +224,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 5.37
+      "latency_s": 3.5
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 5.15
+      "latency_s": 5.45
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
-      "status": "fallback",
-      "used_fallback": true,
-      "latency_s": 3.62
+      "prompt_version": "business-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 6.91
     }
   ]
 }

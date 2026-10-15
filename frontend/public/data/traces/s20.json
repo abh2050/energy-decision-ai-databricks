@@ -26,26 +26,53 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "Pilot is recommended because the current strategy 'robust_quantile' has zero violations (evidence_ref: {\"table\": \"edip.eval.scenario_evidence\", \"row_key\": \"summary\", \"column\": \"violations\"}, value: 0.0) and high coverage (evidence_ref: {\"table\": \"edip.eval.scenario_evidence\", \"row_key\": \"summary\", \"column\": \"coverage_pct\"}, value: 80.5).",
+    "interpretation": "Pilot is recommended because the current strategy 'robust_quantile' has passed all stress tests and achieved high coverage and net savings.",
     "changes": [],
     "refused": [],
     "claims": [
       {
-        "text": "The current strategy has zero violations.",
-        "value": 0.0,
+        "text": "The current strategy 'robust_quantile' has passed all stress tests.",
+        "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "violations"
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
         }
       },
       {
-        "text": "The current strategy has high coverage.",
+        "text": "The current strategy 'robust_quantile' has achieved high coverage.",
         "value": 80.5,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "summary",
           "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The current strategy 'robust_quantile' has achieved high net savings compared to no battery.",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The current strategy 'robust_quantile' has achieved high net savings compared to fixed schedule.",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      },
+      {
+        "text": "The current strategy 'robust_quantile' has no violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
         }
       }
     ]
@@ -61,25 +88,7 @@
     },
     "findings": [
       {
-        "text": "Violations are 0.0",
-        "value": 0.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "violations"
-        }
-      },
-      {
-        "text": "Coverage percentage is 80.5",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      },
-      {
-        "text": "Forecast error injection stress test passed",
+        "text": "Forecast error injection test passed",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -88,7 +97,7 @@
         }
       },
       {
-        "text": "Heat week replay stress test passed",
+        "text": "Heat week replay test passed",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -97,19 +106,40 @@
         }
       },
       {
-        "text": "Reserve floor raise stress test passed",
+        "text": "Reserve floor raise test passed",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "stress/reserve_floor_raise",
           "column": "passed"
         }
+      },
+      {
+        "text": "Coverage percentage is 80.5%",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "Violations are 0.0",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
       }
     ],
     "unresolved_risks": [
-      "Forecast inaccuracy",
-      "Unanticipated high-load weeks",
-      "Insufficient reserve capacity"
+      "Inaccurate forecasts",
+      "Unforeseen events",
+      "Insufficient reserve",
+      "Inadequate coverage",
+      "Unreliable testing",
+      "Inadequate testing scope"
     ]
   },
   "business": {
@@ -118,8 +148,8 @@
       "pge_b19_secondary"
     ],
     "scope_strategies": [
-      "ml_forecast",
-      "robust_quantile"
+      "robust_quantile",
+      "ml_forecast"
     ],
     "rationale": "All stress tests passed and coverage is within range.",
     "claims": [
@@ -194,21 +224,21 @@
       "prompt_version": "planning-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.66
+      "latency_s": 6.13
     },
     {
       "agent": "risk",
       "prompt_version": "risk-v1",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 4.3
+      "latency_s": 4.67
     },
     {
       "agent": "business",
-      "prompt_version": "business-v1",
+      "prompt_version": "business-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 5.65
+      "latency_s": 6.0
     }
   ]
 }

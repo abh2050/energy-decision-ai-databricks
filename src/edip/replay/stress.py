@@ -5,13 +5,14 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 import pandas as pd
 import yaml
 
 from edip.core.charge_guard import start_peaks_from_load
 from edip.core.tariff import Tariff, load_tariffs
+from edip.replay.peak_trace import billed_max_moments
 from edip.replay.replay import RevisedSettings
 from edip.replay.replay_job import compute
 
@@ -183,10 +184,18 @@ def excess_months(
     return out
 
 
+class StressRun(NamedTuple):
+    results: pd.DataFrame
+    excess: pd.DataFrame
+    moments: pd.DataFrame
+    base: Any  # replay_job.Outputs for the unstressed base case
+
+
 def run_all(
     cdir: Path, obs: pd.DataFrame, hourly: pd.DataFrame, load15: pd.Series, work: Path
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Stress results and the excess-month breakdown (base case and every test)."""
+) -> StressRun:
+    """Stress results, the excess-month breakdown, and the interval that set each excess
+    billed demand (base case and every test)."""
     cfg = yaml.safe_load((cdir / "stress_tests.yaml").read_text())
     limits = yaml.safe_load((cdir / "acceptance_targets.yaml").read_text())["stress"]
     settings = RevisedSettings(
@@ -201,9 +210,9 @@ def run_all(
     }
     monthly_limit = limits["max_monthly_bill_increase_vs_no_battery_pct"]
     base = compute(cdir, obs, hourly, load15, tariffs, settings)
-    excess = excess_months(
-        "base", base.monthly, tariff_objs, load15, settings.guard_margin_fraction, monthly_limit
-    )
+    margin = settings.guard_margin_fraction
+    excess = excess_months("base", base.monthly, tariff_objs, load15, margin, monthly_limit)
+    moments = _moments("base", excess, base, tariff_objs, load15, margin)
     rows = []
     t = cfg["tests"]
     variants = {
@@ -230,9 +239,29 @@ def run_all(
         # Monthly bills compare with no battery under the same stress (heat week: scaled load).
         for row in evaluate(base.annual, out.annual, out.monthly, limits):
             rows.append({"test": name, **row})
-        excess += excess_months(
-            name, out.monthly, tariff_objs, vl, settings.guard_margin_fraction, monthly_limit
-        )
+        ex = excess_months(name, out.monthly, tariff_objs, vl, margin, monthly_limit)
+        excess += ex
+        moments += _moments(name, ex, out, tariff_objs, vl, margin)
     frame = pd.DataFrame(rows)
     frame.attrs["heat_week_window"] = [w.isoformat() for w in window]
-    return frame, pd.DataFrame(excess)
+    return StressRun(frame, pd.DataFrame(excess), pd.DataFrame(moments), base)
+
+
+def _moments(
+    case: str,
+    excess: list[dict[str, Any]],
+    out: Any,  # noqa: ANN401  (replay_job.Outputs)
+    tariffs: dict[str, Tariff],
+    load15: pd.Series,
+    margin: float,
+) -> list[dict[str, Any]]:
+    return billed_max_moments(
+        case,
+        pd.DataFrame(excess),
+        out.settlements,
+        out.schedules,
+        out.monthly,
+        tariffs,
+        load15,
+        margin,
+    )
