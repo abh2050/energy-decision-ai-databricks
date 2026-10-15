@@ -22,3 +22,8 @@ must carry into it:
    no battery is ML −10,624 and robust −3,006 USD per year (hindsight +38,512). ML and
    robust pass the frozen target because it is measured against a fixed schedule that
    loses 27,917 USD; every pass must be shown next to net benefit against no battery.
+6. **Sensitivity (Gate 4, revised strategy).** At B-19 published rates the guarded robust
+   strategy beats no battery only with larger batteries (+3,602 USD per year at 50 percent
+   of peak for 4 hours, +29,764 at 100 percent for 4 hours); nothing forecast-driven beats
+   no battery on PGE. Net benefit excludes battery capital cost, which favours the largest
+   battery; the pilot case must set annual savings against installed cost.
