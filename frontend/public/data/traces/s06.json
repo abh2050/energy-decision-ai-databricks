@@ -2,6 +2,7 @@
   "scenario_id": "s06",
   "title": "Forecast error stress fails",
   "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
   "operator_objective": "Recommend whether to pilot.",
   "steps": [
     "operator_request",
@@ -26,12 +27,12 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "Pilot is recommended because the current strategy 'robust_quantile' has zero violations (evidence_ref: {\"table\": \"edip.eval.scenario_evidence\", \"row_key\": \"summary\", \"column\": \"violations\"}, value: 0.0) and high coverage (evidence_ref: {\"table\": \"edip.eval.scenario_evidence\", \"row_key\": \"summary\", \"column\": \"coverage_pct\"}, value: 80.5).",
+    "interpretation": "The operator is asking whether to pilot the current settings. The current settings are using the pge_b19_secondary tariff, robust_quantile strategy, 0.5 power fraction, and 2 hours duration. The evidence rows show that the current settings have 0 violations, 80.5% coverage, and have passed the heat week replay and reserve floor raise stress tests. The economics of the current settings show a net benefit of $21,500 vs no battery and $17,100 vs fixed. ",
     "changes": [],
     "refused": [],
     "claims": [
       {
-        "text": "The current strategy has zero violations.",
+        "text": "The current settings have 0 violations.",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -40,37 +41,16 @@
         }
       },
       {
-        "text": "The current strategy has high coverage.",
+        "text": "The current settings have 80.5% coverage.",
         "value": 80.5,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "summary",
           "column": "coverage_pct"
         }
-      }
-    ]
-  },
-  "risk": {
-    "selection": {
-      "tests": [
-        "forecast_error_injection",
-        "heat_week_replay",
-        "reserve_floor_raise"
-      ],
-      "reason": "All tests bear on the plan and operator concerns"
-    },
-    "findings": [
-      {
-        "text": "Forecast error injection test failed",
-        "value": 0.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "stress/forecast_error_injection",
-          "column": "passed"
-        }
       },
       {
-        "text": "Heat week replay test passed",
+        "text": "The current settings have passed the heat week replay stress test.",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -79,7 +59,7 @@
         }
       },
       {
-        "text": "Reserve floor raise test passed",
+        "text": "The current settings have passed the reserve floor raise stress test.",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -88,25 +68,7 @@
         }
       },
       {
-        "text": "Violations are 0.0",
-        "value": 0.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "violations"
-        }
-      },
-      {
-        "text": "Coverage percentage is 80.5",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      },
-      {
-        "text": "Net vs no battery USD is 21500.0",
+        "text": "The current settings have a net benefit of $21,500 vs no battery.",
         "value": 21500.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -115,7 +77,83 @@
         }
       },
       {
-        "text": "Net vs fixed USD is 17100.0",
+        "text": "The current settings have a net benefit of $17,100 vs fixed.",
+        "value": 17100.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All tests bear on the plan and operator's concerns"
+    },
+    "findings": [
+      {
+        "text": "The forecast error injection test failed",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The heat week replay test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/heat_week_replay",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The reserve floor raise test passed",
+        "value": 1.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The coverage percentage is 80.5%",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The number of violations is 0",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "The net vs no battery USD is 21500.0",
+        "value": 21500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The net vs fixed USD is 17100.0",
         "value": 17100.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -125,52 +163,49 @@
       }
     ],
     "unresolved_risks": [
-      "Forecast error",
-      "Insufficient reserve",
-      "Unpredicted high load",
-      "Inaccurate forecasts",
-      "Inadequate coverage",
-      "Unforeseen economic changes"
-    ]
+      "forecast_error_injection"
+    ],
+    "comparisons": []
   },
   "business": {
     "decision": "revise",
     "scope_tariffs": [],
     "scope_strategies": [],
-    "rationale": "Stress test forecast_error_injection did not pass",
+    "rationale": "The rule reached the verdicts because stress limits were breached: forecast_error_injection. The frozen rule and amendment A1 have the same decision.",
     "claims": [
       {
-        "text": "Stress test forecast_error_injection did not pass",
-        "value": 0.0,
+        "text": "The stress test forecast_error_injection was not passed with a value of 0.0",
+        "value": null,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "stress/forecast_error_injection",
           "column": "passed"
         }
       }
-    ]
+    ],
+    "comparisons": []
   },
   "agents": [
     {
       "agent": "planning",
-      "prompt_version": "planning-v1",
+      "prompt_version": "planning-v3",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 3.41
+      "latency_s": 8.03
     },
     {
       "agent": "risk",
-      "prompt_version": "risk-v1",
+      "prompt_version": "risk-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 6.55
+      "latency_s": 7.61
     },
     {
       "agent": "business",
-      "prompt_version": "business-v2",
+      "prompt_version": "business-v3",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 1.64
+      "latency_s": 2.14
     }
   ]
 }

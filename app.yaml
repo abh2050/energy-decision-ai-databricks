@@ -19,6 +19,8 @@ env:
     value: lakebase
   - name: EDIP_MODEL
     value: fmapi
+  - name: EDIP_BUSINESS_PROMPT
+    value: business_v3
   - name: EDIP_DATA_VOLUME
     value: /Volumes/edip/ml/artifacts/app
   - name: EDIP_OPERATOR_HASHES

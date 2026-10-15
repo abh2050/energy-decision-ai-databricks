@@ -1,5 +1,23 @@
 # Pilot business case (working notes)
 
+## Recommendation
+
+**Do not buy a battery for this load profile.** At published PG&E B-19 rates no battery
+size recovers its installed cost within 15 years under any non-hindsight strategy (best
+case: robust dispatch, 100 percent of peak for 4 hours, 30.8 year payback, NPV −829,491
+USD at the mid ATB cost; note 8), and on PGE Schedule 85 nothing forecast-driven beats no
+battery at base costs (note 7). Every battery size fails at least one stress limit
+(decision verdicts below).
+
+**If a battery already exists, run robust dispatch and fix the maximum demand guard before
+a pilot.** Robust dispatch is the only non-hindsight strategy that beats no battery at every B-19
+battery size (+3,198 to +37,363 USD per year before capital cost; note 7). The guard still
+lets charging set a new monthly maximum demand under its month-start limit (note 10;
+future work 1), and the frozen strategy settings (charge guard margin 0.02, robust P90
+charge planning k 1.0) were tuned under the guard defect (note 5) and have not been
+retuned with the corrected guard.
+
+
 ## Amendment A1, 2026-10-15 (owner decision)
 
 **A pilot recommendation requires positive net benefit over no battery and over the fixed

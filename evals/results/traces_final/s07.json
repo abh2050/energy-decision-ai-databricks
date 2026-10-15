@@ -1,0 +1,171 @@
+{
+  "scenario_id": "s07",
+  "title": "Reserve floor stress fails",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Recommend whether to pilot.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_confirmation",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "The operator is asking whether to pilot the current settings. The current settings have a tariff_id of pge_b19_secondary, a strategy of robust_quantile, a power_fraction of 0.5, and a duration_hours of 2. The evidence rows show that the current settings have passed the stress tests and have a high net_vs_no_battery_usd value.",
+    "changes": [],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current settings have a high net_vs_no_battery_usd value.",
+        "value": 15800.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "The plan uses a robust quantile strategy and the operator has no concerns, but the evidence rows show that the reserve floor raise stress test was not passed, so all three tests are chosen to ensure the plan's robustness and to address the potential risks associated with the failed stress test."
+    },
+    "findings": [
+      {
+        "text": "The plan's coverage percentage is 80.5%",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "The reserve floor raise stress test was not passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "The plan's net vs no battery USD is 15800.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "The plan's net vs fixed USD is 12400.0",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "reserve floor raise stress test failure",
+      "potential risks associated with the plan's robustness"
+    ],
+    "comparisons": [
+      {
+        "text": "The plan's coverage percentage is greater than the derived lower bound",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": ">",
+        "right": {
+          "table": "config.acceptance_targets",
+          "row_key": "forecasting/p10_p90_coverage_pct",
+          "column": "derived_lower_bound"
+        },
+        "right_value": null
+      },
+      {
+        "text": "The plan's coverage percentage is less than the derived upper bound",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": "<",
+        "right": {
+          "table": "config.acceptance_targets",
+          "row_key": "forecasting/p10_p90_coverage_pct",
+          "column": "derived_upper_bound"
+        },
+        "right_value": null
+      }
+    ]
+  },
+  "business": {
+    "decision": "revise",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "Stress limits breached: reserve_floor_raise",
+    "claims": [
+      {
+        "text": "The stress test reserve_floor_raise was not passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/reserve_floor_raise",
+          "column": "passed"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.14
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 7.67
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 1.47
+    }
+  ]
+}

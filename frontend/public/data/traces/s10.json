@@ -2,6 +2,7 @@
   "scenario_id": "s10",
   "title": "Ask about a longer duration",
   "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
   "operator_objective": "What if the battery had 4 hours of storage instead of 2, same power?",
   "steps": [
     "operator_request",
@@ -26,26 +27,18 @@
     "reserve_floor_raise"
   ],
   "planning": {
-    "interpretation": "Increase duration hours to 4 to explore impact on battery storage",
+    "interpretation": "The operator wants to increase the duration of storage from 2 hours to 4 hours, while keeping the same power.",
     "changes": [
       {
         "field": "duration_hours",
         "new_value": 4,
-        "reason": "Operator requested to increase duration hours from 2 to 4"
+        "reason": "To increase the duration of storage as requested by the operator.",
+        "quote": "4 hours of storage instead of 2"
       }
     ],
     "refused": [],
-    "claims": [
-      {
-        "text": "Current coverage percentage is",
-        "value": 80.5,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "summary",
-          "column": "coverage_pct"
-        }
-      }
-    ]
+    "claims": [],
+    "comparisons": []
   },
   "risk": {
     "selection": {
@@ -54,12 +47,12 @@
         "heat_week_replay",
         "reserve_floor_raise"
       ],
-      "reason": "All tests passed"
+      "reason": "All stress tests passed"
     },
     "findings": [
       {
         "text": "All stress tests passed",
-        "value": 1.0,
+        "value": null,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "stress/forecast_error_injection",
@@ -76,41 +69,17 @@
         }
       },
       {
-        "text": "No violations found",
+        "text": "No violations",
         "value": 0.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "summary",
           "column": "violations"
         }
-      },
-      {
-        "text": "Net value vs no battery is $15800",
-        "value": 15800.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_no_battery_usd"
-        }
-      },
-      {
-        "text": "Net value vs fixed is $12400",
-        "value": 12400.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_fixed_usd"
-        }
       }
     ],
-    "unresolved_risks": [
-      "Insufficient data",
-      "Market volatility",
-      "Regulatory changes",
-      "Technical failures",
-      "Environmental factors",
-      "Operator error"
-    ]
+    "unresolved_risks": [],
+    "comparisons": []
   },
   "business": {
     "decision": "proceed",
@@ -121,19 +90,19 @@
       "ml_forecast",
       "robust_quantile"
     ],
-    "rationale": "No constraint violations and both strategies pass target for pge_b19_secondary",
+    "rationale": "All criteria met for both frozen rule and amendment A1. The battery's 4-hour storage meets the requirements.",
     "claims": [
       {
-        "text": "No constraint violations",
-        "value": 0.0,
+        "text": "The battery's coverage percentage is 80.5%",
+        "value": 80.5,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "summary",
-          "column": "violations"
+          "column": "coverage_pct"
         }
       },
       {
-        "text": "ml_forecast passes target for pge_b19_secondary",
+        "text": "The battery passes the target for pge_b19_secondary with ml_forecast",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -142,7 +111,7 @@
         }
       },
       {
-        "text": "robust_quantile passes target for pge_b19_secondary",
+        "text": "The battery passes the target for pge_b19_secondary with robust_quantile",
         "value": 1.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -151,7 +120,7 @@
         }
       },
       {
-        "text": "ml_forecast has positive net value vs no battery for pge_b19_secondary",
+        "text": "The battery's net benefit vs no battery is $9600 for ml_forecast",
         "value": 9600.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
@@ -160,55 +129,69 @@
         }
       },
       {
-        "text": "ml_forecast has positive net value vs fixed for pge_b19_secondary",
-        "value": 7200.0,
-        "evidence_ref": {
-          "table": "edip.eval.scenario_evidence",
-          "row_key": "economics/pge_b19_secondary/ml_forecast",
-          "column": "net_vs_fixed_usd"
-        }
-      },
-      {
-        "text": "robust_quantile has positive net value vs no battery for pge_b19_secondary",
+        "text": "The battery's net benefit vs no battery is $15800 for robust_quantile",
         "value": 15800.0,
         "evidence_ref": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "economics/pge_b19_secondary/robust_quantile",
           "column": "net_vs_no_battery_usd"
         }
+      }
+    ],
+    "comparisons": [
+      {
+        "text": "The battery's coverage percentage is greater than the target",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": ">",
+        "right": {
+          "table": "config.acceptance_targets",
+          "row_key": "forecasting/p10_p90_coverage_pct",
+          "column": "target"
+        },
+        "right_value": null
       },
       {
-        "text": "robust_quantile has positive net value vs fixed for pge_b19_secondary",
-        "value": 12400.0,
-        "evidence_ref": {
+        "text": "The battery's net benefit vs no battery for robust_quantile is greater than for ml_forecast",
+        "left": {
           "table": "edip.eval.scenario_evidence",
           "row_key": "economics/pge_b19_secondary/robust_quantile",
-          "column": "net_vs_fixed_usd"
-        }
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": ">",
+        "right": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        },
+        "right_value": null
       }
     ]
   },
   "agents": [
     {
       "agent": "planning",
-      "prompt_version": "planning-v1",
+      "prompt_version": "planning-v3",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 2.04
+      "latency_s": 1.72
     },
     {
       "agent": "risk",
-      "prompt_version": "risk-v1",
+      "prompt_version": "risk-v2",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 5.4
+      "latency_s": 3.65
     },
     {
       "agent": "business",
-      "prompt_version": "business-v2",
+      "prompt_version": "business-v3",
       "status": "valid",
       "used_fallback": false,
-      "latency_s": 7.33
+      "latency_s": 8.99
     }
   ]
 }

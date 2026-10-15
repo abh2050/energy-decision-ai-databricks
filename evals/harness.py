@@ -277,6 +277,7 @@ def main() -> int:
         choices=["business_v1", "business_v2", "business_v3"],
     )
     parser.add_argument("--traces", action="store_true", help="export sandbox traces from this run")
+    parser.add_argument("--name", help="results file suffix (default: the business prompt)")
     args = parser.parse_args()
     RESULTS.mkdir(parents=True, exist_ok=True)
     scenarios = load_scenarios()
@@ -328,11 +329,11 @@ def main() -> int:
                 flush=True,
             )
         df = pd.DataFrame(rows).assign(business_prompt=bp, result_set=REVISED)
-        out = RESULTS / f"agent_evaluations_{bp}.parquet"
+        out = RESULTS / f"agent_evaluations_{args.name or bp}.parquet"
         df.to_parquet(out, index=False)
         mlflow.log_artifact(str(out))
         mlflow.log_metric("wall_seconds", time.time() - start)
-    kept = RESULTS / f"traces_{bp}"
+    kept = RESULTS / f"traces_{args.name or bp}"
     for target in [kept, TRACES] if args.traces else [kept]:
         target.mkdir(parents=True, exist_ok=True)
         for sid, t in traces.items():

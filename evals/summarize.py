@@ -138,7 +138,13 @@ def main() -> int:
         frames.append(df)
         paths = summarize(df, args.usd_per_million_tokens)
         checks = agent_target_checks(paths, targets)
+        splits = {}
+        if "split" in df and df["split"].nunique() > 1:
+            for name, part in df.groupby("split"):
+                sp = summarize(part, args.usd_per_million_tokens)
+                splits[name] = {"paths": sp, "agent_targets": agent_target_checks(sp, targets)}
         runs[bp] = {
+            "splits": splits,
             "business_prompt": business_prompt(df),
             "result_set": str(df["result_set"].iloc[0]) if "result_set" in df else None,
             "paths": paths,

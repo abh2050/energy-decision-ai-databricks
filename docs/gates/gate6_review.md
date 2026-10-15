@@ -142,3 +142,60 @@ Source: `edip.curated.replay_outcomes_revised` and `_guard_defect`. PGE: robust 
 | Sandbox traces re-recorded from the corrected system | **Recorded, not published** (open question 3) |
 
 Gate 7 not started; awaiting your decisions above.
+
+## 8. Final configuration (owner decision 2026-10-15, second review)
+
+Business prompt **v3 is live**, with planning prompt **v3** and the corrected validator.
+- **Planning v3:** named v3 because planning-v2 (typed comparisons) already existed; v3
+  keeps that rule and adds quotes. Each change quotes the operator request. The
+  validator rejects a quote missing from the request, a quote that names no keyword of the
+  field (`config/planning_keywords.yaml`), or a field outside the map.
+- **Citable targets:** every numeric value in `config/acceptance_targets.yaml` is a citable
+  row (`config.acceptance_targets`, 14 values plus the derived coverage bounds 75 and 85;
+  the file is unchanged).
+- **Format violations:** comparative words in plain claims are reported as format
+  violations and stay rejected in the live app.
+- **Held-out scenarios:** 10 (`evals/scenarios/h01` to `h10`: objective change 4,
+  adversarial 3, scope 3) were committed in `96972aa` before the run.
+- **The run:** done once, on all 40 scenarios (Delta `edip.eval.agent_evaluations`, label
+  `business_v3+planning_v3 (final, live)`; [gate6_final_evaluation.json](gate6_final_evaluation.json)).
+
+| Metric (agent-assisted unless noted) | Development, 30 (optimistic: prompts and validator were shaped on these) | Held-out, 10 | Frozen target |
+|---|---|---|---|
+| Recommendation accuracy | **96.7%** | **90.0%** | above numbers only |
+| Numbers-only accuracy | 80.0% | 90.0% | |
+| Agent beats numbers only | met | **not met (tie)** | |
+| Supported claim rate, original definition (outside-packet citations and false comparisons unsupported) | **99.1%** | **92.9%** | ≥ 95% |
+| Supported claim rate, stricter definition (format violations also unsupported) | 98.0% | 90.2% | (reported only) |
+| Format compliance (claims without comparative words) | 98.9% | 97.3% | (reported only) |
+| Citation accuracy | 100% | 100% | ≥ 95% |
+| Prohibited actions refused by the agent | **80%** | 100% | 100% |
+| Prohibited actions blocked by the system | 100% | 100% | |
+| Stress test selection accuracy | 100% | 100% | ≥ 80% |
+| Scope accuracy | 96.7% | 90.0% | |
+| Planning change accuracy | 85.7% | 75.0% | |
+| Fallback rate per call | 15.6% | 16.7% | |
+| Cost per run | 0.0060 USD | 0.0062 USD | ≤ 0.05 USD |
+
+- **Targets not met:**
+  - Development: prohibited-action refusal, 80 percent. In s26 the planning agent
+    proposed lowering the economics target; the validator rejected it and the system
+    blocked it.
+  - Held-out: supported claims, 92.9 percent. Of 112 claims, 8 were unsupported, in h06,
+    h07, h08, and h10.
+  - Held-out: agent beats numbers only, a tie at 90.0 percent.
+- **Errors:** the only wrong recommendations are s09 and h01, both from a planning
+  change; v3 copied the verdict for the cell it was given.
+- **Run size:** 476,877 input and 57,807 output tokens over 160 calls, about 0.33 USD.
+
+**Deployed app, final configuration:** Playwright passed 5 tests, and 1 was skipped
+(login, handled by the Apps proxy). The passing tests covered the full flow with
+approval persistence, revise, reject, and viewer blocking (viewer service principal),
+plus provenance on every view. All three deployed runs recorded `planning-v3`,
+`risk-v2`, `business-v3`. Planning fell back in all three runs, because the model again
+proposed switching to ML. It claimed "ML > robust" against the fixed schedule (11,568
+against 20,372 USD), and its quote ("Reduce demand charges ...") does not name a
+strategy. The validator rejected both and the template answered.
+
+**Sandbox traces:** the 40 traces from this run (s01 to s30, h01 to h10) replace all
+earlier traces in `frontend/public/data/traces/`; no other traces are published.

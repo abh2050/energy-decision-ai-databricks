@@ -1,0 +1,226 @@
+{
+  "scenario_id": "s14",
+  "title": "Operator rejects the proposed change",
+  "label": "recorded from the live system (scripted evaluation scenario)",
+  "result_set": "revised strategy, post-hoc (corrected guard)",
+  "operator_objective": "Evaluate the full-size 4 hour battery.",
+  "steps": [
+    "operator_request",
+    "planning_proposal",
+    "operator_rejected",
+    "forecast",
+    "optimization",
+    "settlement_and_validation",
+    "risk_challenge",
+    "business_recommendation",
+    "operator_decision"
+  ],
+  "applied_settings": {
+    "tariff_id": "pge_b19_secondary",
+    "strategy": "robust_quantile",
+    "power_fraction": 0.5,
+    "duration_hours": 2
+  },
+  "tests_run": [
+    "forecast_error_injection",
+    "heat_week_replay",
+    "reserve_floor_raise"
+  ],
+  "planning": {
+    "interpretation": "The operator wants to evaluate the full-size 4 hour battery. The current settings are tariff_id = pge_b19_secondary, strategy = robust_quantile, power_fraction = 0.5, and duration_hours = 2. To evaluate the full-size 4 hour battery, we need to change the power_fraction to 1.0 and duration_hours to 4.",
+    "changes": [
+      {
+        "field": "power_fraction",
+        "new_value": 1.0,
+        "reason": "The operator wants to evaluate the full-size battery.",
+        "quote": "full-size"
+      },
+      {
+        "field": "duration_hours",
+        "new_value": 4,
+        "reason": "The operator wants to evaluate the 4 hour battery.",
+        "quote": "4 hour"
+      }
+    ],
+    "refused": [],
+    "claims": [
+      {
+        "text": "The current coverage percentage is 80.5%",
+        "value": 80.5,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "risk": {
+    "selection": {
+      "tests": [
+        "forecast_error_injection",
+        "heat_week_replay",
+        "reserve_floor_raise"
+      ],
+      "reason": "All stress tests passed"
+    },
+    "findings": [
+      {
+        "text": "All stress tests passed",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "stress/forecast_error_injection",
+          "column": "passed"
+        }
+      },
+      {
+        "text": "Coverage percentage is within target range",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        }
+      },
+      {
+        "text": "No violations found",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Net benefit vs no battery is negative",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Net benefit vs fixed is positive",
+        "value": null,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_fixed_usd"
+        }
+      }
+    ],
+    "unresolved_risks": [
+      "Battery capacity",
+      "Power quality",
+      "Grid stability"
+    ],
+    "comparisons": [
+      {
+        "text": "Coverage percentage is greater than or equal to target",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "coverage_pct"
+        },
+        "operator": ">=",
+        "right": {
+          "table": "config.acceptance_targets",
+          "row_key": "forecasting/p10_p90_coverage_pct",
+          "column": "target"
+        },
+        "right_value": null
+      },
+      {
+        "text": "Net benefit vs no battery is less than zero",
+        "left": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        },
+        "operator": "<",
+        "right": null,
+        "right_value": 0.0
+      }
+    ]
+  },
+  "business": {
+    "decision": "withhold",
+    "scope_tariffs": [],
+    "scope_strategies": [],
+    "rationale": "Template: Frozen rule: proceed. With amendment A1 (dated, stricter): withhold. amendment A1: no strategy beats both no battery and the fixed schedule",
+    "claims": [
+      {
+        "text": "Template: accepted constraint violations.",
+        "value": 0.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "summary",
+          "column": "violations"
+        }
+      },
+      {
+        "text": "Template: ml_forecast on pge_b19_secondary, net benefit over no battery (USD per year).",
+        "value": -9000.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Template: robust_quantile on pge_b19_secondary, net benefit over no battery (USD per year).",
+        "value": -2500.0,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pge_b19_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Template: ml_forecast on pgn_sched85_secondary, net benefit over no battery (USD per year).",
+        "value": -4175.25635367307,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pgn_sched85_secondary/ml_forecast",
+          "column": "net_vs_no_battery_usd"
+        }
+      },
+      {
+        "text": "Template: robust_quantile on pgn_sched85_secondary, net benefit over no battery (USD per year).",
+        "value": -2234.8777864146155,
+        "evidence_ref": {
+          "table": "edip.eval.scenario_evidence",
+          "row_key": "economics/pgn_sched85_secondary/robust_quantile",
+          "column": "net_vs_no_battery_usd"
+        }
+      }
+    ],
+    "comparisons": []
+  },
+  "agents": [
+    {
+      "agent": "planning",
+      "prompt_version": "planning-v3",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 3.96
+    },
+    {
+      "agent": "risk",
+      "prompt_version": "risk-v2",
+      "status": "valid",
+      "used_fallback": false,
+      "latency_s": 7.63
+    },
+    {
+      "agent": "business",
+      "prompt_version": "business-v3",
+      "status": "fallback",
+      "used_fallback": true,
+      "latency_s": 6.49
+    }
+  ]
+}
