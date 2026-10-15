@@ -34,6 +34,11 @@ class Repo(Protocol):
     def approvals(self, run_id: str) -> list[Approval]: ...
 
 
+def _jsonb(obj: dict[str, Any]) -> dict[str, Any]:
+    """Round trip through JSON as Lakebase JSONB columns do (dates become strings)."""
+    return json.loads(json.dumps(obj, default=str))
+
+
 def _now() -> datetime:
     return datetime.now(UTC)
 
@@ -58,6 +63,7 @@ class MemoryRepo:
         return sorted(self.scenarios.values(), key=lambda s: s.created_at or _now())
 
     def create_run(self, r: DecisionRun) -> None:
+        r = DecisionRun.model_validate(_jsonb(r.model_dump()))
         with self._lock:
             now = _now()
             self.runs[r.run_id] = r.model_copy(update={"created_at": now, "updated_at": now})
@@ -78,6 +84,7 @@ class MemoryRepo:
         return runs[:limit]
 
     def add_checkpoint(self, c: Checkpoint) -> None:
+        c = Checkpoint.model_validate(_jsonb(c.model_dump()))
         with self._lock:
             self._checkpoints.append(c.model_copy(update={"created_at": _now()}))
 
@@ -117,40 +124,55 @@ class LakebaseRepo:
         self.project = project or lakebase.PROJECT
         self._endpoint, self._host = lakebase.primary_endpoint(self.ws, self.project)
         self._user = self.ws.current_user.me().user_name
-        self._token: str | None = None
+        self._conn: Any = None
         self._token_at = 0.0
         self._lock = threading.Lock()
 
     def _connect(self) -> Any:  # noqa: ANN401
+        """One autocommit connection, reopened when the credential is due for refresh or
+        the connection has dropped (Lakebase suspends after idle minutes)."""
         import psycopg
         from psycopg.rows import dict_row
 
         from edip.store.lakebase import DATABASE
 
-        with self._lock:
-            if self._token is None or time.monotonic() - self._token_at > self.TOKEN_TTL_S:
-                cred = self.ws.postgres.generate_database_credential(endpoint=self._endpoint)
-                self._token, self._token_at = cred.token, time.monotonic()
-            token = self._token
-        return psycopg.connect(
+        stale = time.monotonic() - self._token_at > self.TOKEN_TTL_S
+        if self._conn is not None and not self._conn.closed and not stale:
+            return self._conn
+        if self._conn is not None:
+            self._conn.close()
+        cred = self.ws.postgres.generate_database_credential(endpoint=self._endpoint)
+        self._token_at = time.monotonic()
+        self._conn = psycopg.connect(
             host=self._host,
             dbname=DATABASE,
             user=self._user,
-            password=token,
+            password=cred.token,
             sslmode="require",
             row_factory=dict_row,
             connect_timeout=30,
+            autocommit=True,
         )
+        return self._conn
 
     def _exec(self, sql: str, params: tuple = ()) -> list[dict[str, Any]]:
         import psycopg
 
-        with self._connect() as conn, conn.cursor() as cur:
-            try:
-                cur.execute(sql, params)
-            except psycopg.errors.UniqueViolation as e:
-                raise DuplicateAgentCall(str(e)) from e
-            return cur.fetchall() if cur.description else []
+        with self._lock:
+            for attempt in (1, 2):
+                conn = self._connect()
+                try:
+                    with conn.cursor() as cur:
+                        cur.execute(sql, params)
+                        return cur.fetchall() if cur.description else []
+                except psycopg.errors.UniqueViolation as e:
+                    raise DuplicateAgentCall(str(e)) from e
+                except psycopg.OperationalError:
+                    # A dropped connection (not a failed statement): reconnect once.
+                    conn.close()
+                    if attempt == 2:
+                        raise
+        return []
 
     def put_scenario(self, s: Scenario) -> None:
         self._exec(
@@ -160,7 +182,7 @@ class LakebaseRepo:
                 s.scenario_id,
                 s.name,
                 s.description,
-                json.dumps(s.settings),
+                json.dumps(s.settings, default=str),
                 s.settings_hash,
                 s.created_by_role,
             ),
@@ -187,10 +209,10 @@ class LakebaseRepo:
                 r.model_version,
                 r.tariff_hash,
                 r.battery_hash,
-                json.dumps(r.optimizer_settings),
-                json.dumps(r.prompt_versions),
+                json.dumps(r.optimizer_settings, default=str),
+                json.dumps(r.prompt_versions, default=str),
                 r.mlflow_run_id,
-                json.dumps(r.mlflow_trace_ids),
+                json.dumps(r.mlflow_trace_ids, default=str),
             ),
         )
 
@@ -200,7 +222,7 @@ class LakebaseRepo:
         self._exec(
             "UPDATE edip.decision_runs SET status = %s, mlflow_trace_ids = %s,"
             " updated_at = now() WHERE run_id = %s",
-            (status, json.dumps(ids), run_id),
+            (status, json.dumps(ids, default=str), run_id),
         )
 
     def get_run(self, run_id: str) -> DecisionRun | None:

@@ -9,7 +9,9 @@ can create scenarios, start runs, confirm plans, and approve, revise, or reject.
 from __future__ import annotations
 
 import os
-from collections.abc import Callable
+import threading
+from collections.abc import AsyncIterator, Callable
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Literal
 
@@ -97,16 +99,28 @@ def create_app(
     repo: Repo | None = None,
     client_factory: Callable[[], ModelClient] | None = None,
 ) -> FastAPI:
-    app = FastAPI(title="EDIP", version="1.0.0")
     state: dict[str, Any] = {}
+    init_lock = threading.Lock()
 
     def wf() -> LiveWorkflow:
-        if "wf" not in state:
-            d = data or AppData.from_env()
-            state["wf"] = LiveWorkflow(
-                d, repo or default_repo(), client_factory or default_client_factory(), ENDPOINT
-            )
-        return state["wf"]
+        with init_lock:
+            if "wf" not in state:
+                d = data or AppData.from_env()
+                state["wf"] = LiveWorkflow(
+                    d,
+                    repo or default_repo(),
+                    client_factory or default_client_factory(),
+                    ENDPOINT,
+                )
+            return state["wf"]
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        if data is None:  # deployed: load the snapshot and connect before the first user
+            threading.Thread(target=wf, daemon=True).start()
+        yield
+
+    app = FastAPI(title="EDIP", version="1.0.0", lifespan=lifespan)
 
     def conflict(fn: Callable[[], Any]) -> Any:  # noqa: ANN401
         try:
@@ -186,8 +200,11 @@ def create_app(
         if s.empty:
             raise HTTPException(404, "no schedule for that cell, tariff and strategy")
         hours = pd.to_datetime(s.hour_start)
-        days = sorted({h.strftime("%Y-%m-%d") for h in hours})
-        day = day or days[-1]
+        day_of = hours.dt.strftime("%Y-%m-%d")
+        days = sorted(set(day_of))
+        # Default: the day the battery discharged most (shows the schedule at work).
+        busiest = s.discharge_kw.groupby(day_of.to_numpy()).sum().idxmax()
+        day = day or str(busiest)
         if day not in days:
             raise HTTPException(404, f"day {day} not in the evaluation period")
         sday = s[hours.dt.strftime("%Y-%m-%d") == day].copy()
@@ -217,6 +234,7 @@ def create_app(
             "tariff_id": tariff_id,
             "strategy": strategy,
             "day": day,
+            "default_day": str(busiest),
             "days": days,
             "rows": rows,
             "sources": {

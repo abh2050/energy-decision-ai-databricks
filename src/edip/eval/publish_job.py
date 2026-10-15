@@ -65,9 +65,11 @@ def main() -> int:
     for name, source in sources.items():
         version = spark.sql(f"DESCRIBE HISTORY {source} LIMIT 1").collect()[0]["version"]
         df = spark.table(source).toPandas()
+        df.attrs = {}  # Spark Connect plan metrics are not parquet metadata
         if name == "forecasts":
             df = df[(df.split == "test") & (df.model_version == pinned["version"])]
-            df = df[["target_hour", "actual", "point", "seasonal", "p10", "p50", "p90"]]
+            df = df[["target_hour", "actual", "point", "seasonal", "p10", "p50", "p90"]].copy()
+            df.attrs = {}
         path = out / f"{name}.parquet"
         df.to_parquet(path, index=False)
         tables[name] = {

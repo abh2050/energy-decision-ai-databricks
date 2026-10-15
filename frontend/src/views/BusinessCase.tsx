@@ -13,7 +13,8 @@ function colour(v: number) {
 }
 
 function SensitivityMap({ s, strategy }: { s: Sensitivity; strategy: string }) {
-  const cells = s.base_cost_cells.filter((r) => r.strategy === strategy && r.tariff_id === "pge_b19_secondary");
+  // B-19 (x1.0) and its synthetic spread family (x1.5, x2, x3); PGE is reported separately.
+  const cells = s.base_cost_cells.filter((r) => r.strategy === strategy && r.tariff_id !== "pgn_sched85_secondary");
   const at = (pf: number, d: number, m: number) =>
     cells.find((r) => r.power_fraction === pf && r.duration_hours === d && r.spread_multiplier === m);
   return (

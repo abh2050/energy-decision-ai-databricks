@@ -5,7 +5,7 @@ const remote = !!process.env.E2E_BASE_URL;
 
 async function runToRecommendation(page: Page) {
   await page.goto("/");
-  await expect(page.getByTestId("role")).toContainText("operator");
+  await expect(page.getByTestId("role")).toContainText("operator", { timeout: 60_000 });
   await page.getByTestId("new-scenario").click();
   await expect(page.getByTestId("scenario")).not.toHaveValue("");
   await page.getByTestId("start-run").click();
@@ -25,7 +25,7 @@ test("login: no forwarded identity is rejected; a signed-in user gets a role", a
   const op = await signedIn(browser, "operator");
   const page = await op.newPage();
   await page.goto("/");
-  await expect(page.getByTestId("mode-label")).toContainText("Live");
+  await expect(page.getByTestId("mode-label")).toContainText("Live", { timeout: 60_000 }); // first load reads the snapshot
   await expect(page.getByTestId("role")).toContainText("operator");
 });
 
@@ -62,7 +62,7 @@ test("viewer is blocked from approving, in the UI and on the server", async ({ b
   const viewer = await signedIn(browser, "viewer");
   const page = await viewer.newPage();
   await page.goto("/");
-  await expect(page.getByTestId("role")).toContainText("viewer");
+  await expect(page.getByTestId("role")).toContainText("viewer", { timeout: 60_000 });
   await expect(page.getByTestId("viewer-note")).toBeVisible();
   await expect(page.getByTestId("start-run")).toBeDisabled();
   await expect(page.getByTestId("new-scenario")).toBeDisabled();
