@@ -9,6 +9,8 @@
     "dev": "vite"
   },
   "dependencies": {
+    "highs": "1.15.3",
+    "onnxruntime-web": "1.30.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "recharts": "3.10.1"

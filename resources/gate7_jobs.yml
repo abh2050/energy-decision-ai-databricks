@@ -1,0 +1,19 @@
+# Gate 7: export every table before teardown.
+resources:
+  jobs:
+    gate7_export:
+      name: edip-gate7-export
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: export
+          spark_python_task:
+            python_file: ../src/edip/eval/export_job.py
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "4"
+            dependencies:
+              - ../dist/*.whl
+              - mlflow-skinny==2.22.0  # runtime version, config/runtime.yaml
+              - protobuf==5.29.4

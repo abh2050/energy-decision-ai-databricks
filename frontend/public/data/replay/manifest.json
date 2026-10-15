@@ -1,0 +1,70 @@
+{
+ "published_at": "2026-10-15T16:54:43+00:00",
+ "result_label": "revised strategy, post-hoc (corrected guard)",
+ "dataset_sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+ "model_version": "edip.ml.load_forecaster v2",
+ "evaluation_period": "2014-01-01 to 2014-12-31 UTC (test partition)",
+ "client": "MT_189",
+ "solver": {
+  "library": "scipy.optimize.milp (HiGHS)",
+  "threads": 1,
+  "random_seed": 0,
+  "mip_rel_gap": 1e-06,
+  "throughput_tie_break_usd_per_kwh": 1e-07
+ },
+ "config_hashes": {
+  "tariffs": "394013a350ce46bc",
+  "battery": "a5406322053e742f",
+  "revised_strategy": "d998542c59905b04"
+ },
+ "tables": {
+  "cell_annual": {
+   "source": "edip.eval.cell_annual",
+   "delta_version": 3,
+   "rows": 72,
+   "sha256": "7e11fd5d86be2453eb754b14286e9d316240f1a819d92db2a8f20632cb99e883"
+  },
+  "cell_stress_results": {
+   "source": "edip.eval.cell_stress_results",
+   "delta_version": 3,
+   "rows": 216,
+   "sha256": "d65b74b2490d048e83d9977424960f97492b31f99efe07ffa026c2fd07798e3e"
+  },
+  "cell_verdicts": {
+   "source": "edip.eval.cell_verdicts",
+   "delta_version": 3,
+   "rows": 6,
+   "sha256": "9d19f70cf69d3f7b5fc51d5c83727dc5a2e4bcd6573d6fedc829328620ca7054"
+  },
+  "cell_evidence": {
+   "source": "edip.eval.cell_evidence",
+   "delta_version": 3,
+   "rows": 102,
+   "sha256": "40fd9a6609d87409457c1cd841f036ab6463db79f60e941f084dba0b813ba7d4"
+  },
+  "cell_schedules": {
+   "source": "edip.eval.cell_schedules",
+   "delta_version": 3,
+   "rows": 630720,
+   "sha256": "c9d8cc05dc1b2494ec1c8fb05d4c3f755d8bcea724148677bbc4910f82986e61"
+  },
+  "cell_excess_months": {
+   "source": "edip.eval.cell_excess_months",
+   "delta_version": 3,
+   "rows": 189,
+   "sha256": "bef4d2da18fef898ea1552b5fa5befb7349d683049687306fb30b8536b6c1a8d"
+  },
+  "sensitivity_grid": {
+   "source": "edip.eval.sensitivity_grid",
+   "delta_version": 2,
+   "rows": 3240,
+   "sha256": "56403bf59e1ec48f00636d10b4845fb0b41111b2211265c1bdbfd4324c708a22"
+  },
+  "forecasts": {
+   "source": "edip.curated.forecast_predictions",
+   "delta_version": 1,
+   "rows": 8760,
+   "sha256": "d02986607817e30f4df4dffec08c126e7d0366a3ff59a35ab3218f57d3365938"
+  }
+ }
+}

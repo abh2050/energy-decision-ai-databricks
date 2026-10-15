@@ -1,0 +1,169 @@
+{
+ "label": "MLflow trace excerpts from the final agent evaluation run (business v3, planning v3; experiment /Shared/edip/gate5_agents), sanitized: span attributes only, no prompts, hosts, or identities. The live app's traces did not upload (Gate 7 report).",
+ "run": "evaluation-business_v3",
+ "spans": [
+  {
+   "trace_id": "tr-a07a910598a76c68cd9a25368705ae67",
+   "span": "scenario.h07.agent_assisted",
+   "duration_ms": 10034,
+   "attributes": {}
+  },
+  {
+   "trace_id": "tr-a07a910598a76c68cd9a25368705ae67",
+   "span": "agent.planning",
+   "duration_ms": 1398,
+   "attributes": {
+    "agent": "planning",
+    "prompt_version": "planning-v3",
+    "status": "valid",
+    "used_fallback": false,
+    "latency_s": 1.3974455829593353,
+    "prompt_tokens": 3171,
+    "completion_tokens": 49,
+    "rejection_reasons": []
+   }
+  },
+  {
+   "trace_id": "tr-a07a910598a76c68cd9a25368705ae67",
+   "span": "agent.risk",
+   "duration_ms": 3586,
+   "attributes": {
+    "agent": "risk",
+    "prompt_version": "risk-v2",
+    "status": "valid",
+    "used_fallback": false,
+    "latency_s": 3.585664917016402,
+    "prompt_tokens": 2898,
+    "completion_tokens": 179,
+    "rejection_reasons": []
+   }
+  },
+  {
+   "trace_id": "tr-a07a910598a76c68cd9a25368705ae67",
+   "span": "agent.business",
+   "duration_ms": 5035,
+   "attributes": {
+    "agent": "business",
+    "prompt_version": "business-v3",
+    "status": "invalid",
+    "used_fallback": true,
+    "latency_s": 5.042363542015664,
+    "prompt_tokens": 3091,
+    "completion_tokens": 330,
+    "rejection_reasons": [
+     "format: untyped comparison in a claim (use a typed comparison): Amendment A1 does not beat both no battery and fixed schedule.",
+     "false comparison: edip.eval.scenario_evidence|summary|violations = 0 is not < config.acceptance_targets|physical|accepted_constraint_violations = 0"
+    ]
+   }
+  },
+  {
+   "trace_id": "tr-d96ebb6f0ca0dbda162a72e086530189",
+   "span": "scenario.s26.agent_assisted",
+   "duration_ms": 15288,
+   "attributes": {}
+  },
+  {
+   "trace_id": "tr-d96ebb6f0ca0dbda162a72e086530189",
+   "span": "agent.planning",
+   "duration_ms": 2867,
+   "attributes": {
+    "agent": "planning",
+    "prompt_version": "planning-v3",
+    "status": "invalid",
+    "used_fallback": true,
+    "latency_s": 2.86642654199386,
+    "prompt_tokens": 3172,
+    "completion_tokens": 101,
+    "rejection_reasons": [
+     "proposes a change to hard constraint acceptance_targets",
+     "field acceptance_targets is outside the keyword map"
+    ]
+   }
+  },
+  {
+   "trace_id": "tr-d96ebb6f0ca0dbda162a72e086530189",
+   "span": "agent.risk",
+   "duration_ms": 3718,
+   "attributes": {
+    "agent": "risk",
+    "prompt_version": "risk-v2",
+    "status": "valid",
+    "used_fallback": false,
+    "latency_s": 3.7179953329614364,
+    "prompt_tokens": 2898,
+    "completion_tokens": 195,
+    "rejection_reasons": []
+   }
+  },
+  {
+   "trace_id": "tr-d96ebb6f0ca0dbda162a72e086530189",
+   "span": "agent.business",
+   "duration_ms": 8694,
+   "attributes": {
+    "agent": "business",
+    "prompt_version": "business-v3",
+    "status": "invalid",
+    "used_fallback": true,
+    "latency_s": 8.693665791011881,
+    "prompt_tokens": 3091,
+    "completion_tokens": 431,
+    "rejection_reasons": [
+     "format: untyped comparison in a claim (use a typed comparison): The amendment A1 verdict is withhold because no strategy beats both no battery a"
+    ]
+   }
+  },
+  {
+   "trace_id": "tr-dcd144497e633768b9036c4405f3ee65",
+   "span": "scenario.s09.agent_assisted",
+   "duration_ms": 13852,
+   "attributes": {}
+  },
+  {
+   "trace_id": "tr-dcd144497e633768b9036c4405f3ee65",
+   "span": "agent.planning",
+   "duration_ms": 1874,
+   "attributes": {
+    "agent": "planning",
+    "prompt_version": "planning-v3",
+    "status": "valid",
+    "used_fallback": false,
+    "latency_s": 1.8733859169878997,
+    "prompt_tokens": 3172,
+    "completion_tokens": 118,
+    "rejection_reasons": []
+   }
+  },
+  {
+   "trace_id": "tr-dcd144497e633768b9036c4405f3ee65",
+   "span": "agent.risk",
+   "duration_ms": 6983,
+   "attributes": {
+    "agent": "risk",
+    "prompt_version": "risk-v2",
+    "status": "valid",
+    "used_fallback": false,
+    "latency_s": 6.982526667008642,
+    "prompt_tokens": 2898,
+    "completion_tokens": 491,
+    "rejection_reasons": []
+   }
+  },
+  {
+   "trace_id": "tr-dcd144497e633768b9036c4405f3ee65",
+   "span": "agent.business",
+   "duration_ms": 4988,
+   "attributes": {
+    "agent": "business",
+    "prompt_version": "business-v3",
+    "status": "invalid",
+    "used_fallback": true,
+    "latency_s": 4.987557624990586,
+    "prompt_tokens": 3091,
+    "completion_tokens": 332,
+    "rejection_reasons": [
+     "format: untyped comparison in a claim (use a typed comparison): The amendment A1 verdict is withhold because no strategy beats both no battery a"
+    ]
+   }
+  }
+ ]
+}

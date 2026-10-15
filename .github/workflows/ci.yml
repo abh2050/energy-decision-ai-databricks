@@ -47,6 +47,14 @@ jobs:
           npx playwright install --with-deps chromium
           uv run python ../tests/fixture_data.py "$RUNNER_TEMP/fixture_data"
           EDIP_DATA_DIR="$RUNNER_TEMP/fixture_data" npx playwright test
+      - name: Build the public pages
+        working-directory: frontend
+        run: npx vite build --config vite.pages.config.ts && mv ../site/pages.html ../site/index.html
+      - name: Fail if a public bundle contains a workspace URL, token, or email
+        run: uv run python scripts/scan_public_bundle.py site
+      - name: Public pages with the network blocked (sandbox, explainer, parity)
+        working-directory: frontend
+        run: npx playwright test --config playwright.public.config.ts
 
   secret-scan:
     runs-on: ubuntu-latest

@@ -1,7 +1,7 @@
 // One React tree, three data adapters (PRD section 4): live (this gate), replay and
 // sandbox (Gate 7). Every payload carries its provenance.
 
-export type Role = "operator" | "viewer";
+export type Role = "operator" | "viewer" | "sandbox";
 
 export interface TableRef {
   source: string;
@@ -76,8 +76,10 @@ export interface Operating {
   day: string;
   days: string[];
   rows: OperatingRow[];
-  sources: { forecasts: TableRef; schedule: TableRef };
+  sources: { forecasts: TableRef | string; schedule: TableRef | string };
   label: string;
+  synthetic?: boolean;
+  reserve?: number;
 }
 
 export interface Verdicts {
@@ -116,6 +118,7 @@ export interface Scenario {
   name: string;
   settings: Record<string, string | number>;
   created_at: string;
+  objective?: string; // sandbox: the recorded scenario's objective
 }
 
 export interface Checkpoint {
@@ -155,7 +158,7 @@ export interface DataAdapter {
   mode: "live" | "replay" | "sandbox";
   meta(): Promise<Meta>;
   strategies(cell: string): Promise<Strategies>;
-  operating(q: { cell: string; tariff_id: string; strategy: string; day?: string }): Promise<Operating>;
+  operating(q: { cell: string; tariff_id: string; strategy: string; day?: string; reserve?: number }): Promise<Operating>;
   sensitivity(): Promise<Sensitivity>;
   businessCase(cell: string): Promise<BusinessCase>;
   scenarios(): Promise<Scenario[]>;

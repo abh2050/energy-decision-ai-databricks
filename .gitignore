@@ -31,3 +31,5 @@ mlruns/
 mlflow.db
 src/edip/api/static/
 *.tsbuildinfo
+frontend/media-output/
+site/

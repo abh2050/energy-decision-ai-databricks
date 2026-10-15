@@ -12,7 +12,7 @@ function colour(v: number) {
   return v < -20000 ? "bg-rose-500 text-white" : "bg-rose-200";
 }
 
-function SensitivityMap({ s, strategy }: { s: Sensitivity; strategy: string }) {
+export function SensitivityMap({ s, strategy }: { s: Sensitivity; strategy: string }) {
   // B-19 (x1.0) and its synthetic spread family (x1.5, x2, x3); PGE is reported separately.
   const cells = s.base_cost_cells.filter((r) => r.strategy === strategy && r.tariff_id !== "pgn_sched85_secondary");
   const at = (pf: number, d: number, m: number) =>

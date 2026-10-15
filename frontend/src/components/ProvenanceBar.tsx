@@ -10,7 +10,7 @@ export function ProvenanceBar({ meta }: { meta: Meta }) {
     <div className="border-b border-slate-200 bg-slate-100 px-6 py-2 text-xs text-slate-700" data-testid="provenance">
       <div className="flex flex-wrap gap-x-5 gap-y-1">
         <span>
-          Mode: <strong data-testid="mode-label">{p.mode === "live" ? "Live (Databricks)" : p.mode}</strong>
+          Mode: <strong data-testid="mode-label">{p.mode === "live" ? "Live (Databricks)" : p.mode === "sandbox" ? "Sandbox (in your browser)" : p.mode}</strong>
         </span>
         <span>
           Results: <strong>{p.result_label}</strong>
@@ -21,7 +21,11 @@ export function ProvenanceBar({ meta }: { meta: Meta }) {
         <span>Dataset SHA256: {short(p.dataset_sha256)}</span>
         <span>Published from Delta: {p.published_at}</span>
         <span data-testid="role">
-          Signed in as: <strong>{meta.role}</strong>
+          {meta.role === "sandbox" ? (
+            <>Public sandbox: <strong>no sign-in, nothing is saved</strong></>
+          ) : (
+            <>Signed in as: <strong>{meta.role}</strong></>
+          )}
         </span>
       </div>
       <details className="mt-1">

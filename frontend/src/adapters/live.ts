@@ -35,7 +35,7 @@ export const live: DataAdapter = {
   mode: "live",
   meta: () => call("/api/meta"),
   strategies: (cell) => call(`/api/strategies?${q({ cell })}`),
-  operating: (o) => call(`/api/operating?${q(o)}`),
+  operating: ({ reserve: _reserve, ...o }) => call(`/api/operating?${q(o)}`), // reserve: sandbox only
   sensitivity: () => call("/api/sensitivity"),
   businessCase: (cell) => call(`/api/business-case?${q({ cell })}`),
   scenarios: () => call("/api/scenarios"),
