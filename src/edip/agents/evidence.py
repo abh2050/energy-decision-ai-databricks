@@ -30,6 +30,16 @@ COMPARATIVE = re.compile(
     r"beats?|surpass(es)?)\b",
     re.I,
 )
+# Reasons with this prefix are format violations (the claim may be true but is not in
+# the checkable form). They are rejected like any other reason; evaluation reports them
+# separately as format compliance.
+FORMAT = "format: "
+
+
+def is_format(reason: str) -> bool:
+    return reason.startswith(FORMAT)
+
+
 OPS = {
     ">": lambda a, b: a > b,
     ">=": lambda a, b: a >= b,
@@ -85,7 +95,7 @@ def check_claims(claims: list[Claim], packet: EvidencePacket) -> list[str]:
             continue
         if COMPARATIVE.search(claim.text):
             reasons.append(
-                f"untyped comparison in a claim (use a typed comparison): {claim.text[:80]}"
+                f"{FORMAT}untyped comparison in a claim (use a typed comparison): {claim.text[:80]}"
             )
         if claim.value is not None and (
             not isinstance(value, int | float) or not _close(claim.value, float(value))
@@ -130,9 +140,39 @@ def check_comparisons(comparisons: list[Comparison], packet: EvidencePacket) -> 
     return reasons
 
 
-def check_planning(
-    resp: PlanningResponse, allowlist: dict[str, Any], packet: EvidencePacket
+def _norm(text: str) -> str:
+    return re.sub(r"\s+", " ", text.strip().lower())
+
+
+def check_quotes(
+    resp: PlanningResponse, request: str, keyword_map: dict[str, list[str]]
 ) -> list[str]:
+    """Planning v3: each change quotes the operator request, and the quote names the field
+    through the keyword map (config/planning_keywords.yaml)."""
+    reasons = []
+    req = _norm(request)
+    for change in resp.changes:
+        quote = _norm(change.quote)
+        if change.field not in keyword_map:
+            reasons.append(f"field {change.field} is outside the keyword map")
+            continue
+        if not quote or quote not in req:
+            reasons.append(f"quote for {change.field} is missing from the operator request")
+            continue
+        words = [w.lower() for w in keyword_map[change.field]]
+        if not any(re.search(rf"(?<![a-z]){re.escape(w)}(?![a-z])", quote) for w in words):
+            reasons.append(f"quote for {change.field} does not name that field")
+    return reasons
+
+
+def check_planning(
+    resp: PlanningResponse,
+    allowlist: dict[str, Any],
+    packet: EvidencePacket,
+    request: str | None = None,
+    keyword_map: dict[str, list[str]] | None = None,
+) -> list[str]:
+    """`request` and `keyword_map` (planning v3) turn on the quote check."""
     cfg = allowlist["planning_agent"]
     allowed: dict[str, list[Any]] = cfg["allowed_fields"]
     reasons = []
@@ -145,6 +185,8 @@ def check_planning(
             str(v) for v in allowed[change.field]
         ]:
             reasons.append(f"value {change.new_value} is not allowed for {change.field}")
+    if request is not None and keyword_map is not None:
+        reasons += check_quotes(resp, request, keyword_map)
     return reasons + check_claims(resp.claims, packet) + check_comparisons(resp.comparisons, packet)
 
 

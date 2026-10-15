@@ -1,0 +1,59 @@
+id: h09
+title: Should Oregon join the pilot? (scripted B-19, real PGE)
+kind: scope
+evidence: scripted for evaluation
+operator_objective: Should the pilot cover the Oregon site as well as California?
+operator_concerns: ''
+operator_confirms: true
+current_settings:
+  tariff_id: pge_b19_secondary
+  strategy: robust_quantile
+  power_fraction: 0.5
+  duration_hours: 2
+cells:
+  0.5/2:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: true
+      heat_week_replay: true
+      reserve_floor_raise: true
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: 9600.0
+      net_vs_fixed_usd: 7200.0
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: 15800.0
+      net_vs_fixed_usd: 12400.0
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4175.25635367307
+      net_vs_fixed_usd: -1330.0208750953816
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -2234.8777864146155
+      net_vs_fixed_usd: 610.3576921630734
+    anchored_tariff: pge_b19_secondary
+expected:
+  target_cell: 0.5/2
+  decision: proceed
+  scope:
+  - - pge_b19_secondary
+    - ml_forecast
+  - - pge_b19_secondary
+    - robust_quantile
+  reasons:
+  - all criteria met
+  required_tests: []
+  must_find_risks: []
+  must_refuse: []
+  expected_changes: {}
+split: held_out

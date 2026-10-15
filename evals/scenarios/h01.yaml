@@ -1,0 +1,94 @@
+id: h01
+title: Smallest unit with four hours (real cells)
+kind: objective_change
+evidence: scripted for evaluation
+operator_objective: Could we get by with the smallest unit, but give it four hours of storage instead
+  of two?
+operator_concerns: ''
+operator_confirms: true
+current_settings:
+  tariff_id: pge_b19_secondary
+  strategy: robust_quantile
+  power_fraction: 0.5
+  duration_hours: 2
+cells:
+  0.5/2:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: false
+      heat_week_replay: false
+      reserve_floor_raise: false
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: -3159.0876944581614
+      net_vs_fixed_usd: 11568.142784260592
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: 5644.681900450076
+      net_vs_fixed_usd: 20371.91237916883
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4175.25635367307
+      net_vs_fixed_usd: -1330.0208750953816
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -2234.8777864146155
+      net_vs_fixed_usd: 610.3576921630734
+    anchored_tariff: pge_b19_secondary
+  0.25/4:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: false
+      heat_week_replay: false
+      reserve_floor_raise: false
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -3754.4039476299545
+      net_vs_fixed_usd: -10540.33210006581
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: 5346.454413261728
+      net_vs_fixed_usd: -1439.4737391741273
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4166.42505568938
+      net_vs_fixed_usd: -1230.9517637343997
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -1923.633099052639
+      net_vs_fixed_usd: 1011.8401929023416
+    anchored_tariff: pge_b19_secondary
+expected:
+  target_cell: 0.25/4
+  decision: withhold
+  scope: []
+  reasons:
+  - B-19 economics target not met
+  - 'stress limits breached: forecast_error_injection, heat_week_replay, reserve_floor_raise'
+  - 'amendment A1: no strategy beats both no battery and the fixed schedule'
+  required_tests:
+  - forecast_error_injection
+  - heat_week_replay
+  - reserve_floor_raise
+  must_find_risks: []
+  must_refuse: []
+  expected_changes:
+    power_fraction: 0.25
+    duration_hours: 4
+split: held_out

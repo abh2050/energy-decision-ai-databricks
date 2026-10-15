@@ -45,6 +45,8 @@ class ScenarioChange(BaseModel):
     field: str
     new_value: str | float | int
     reason: str = Field(max_length=300)
+    # Planning v3: the operator's words that ask for this change, quoted exactly.
+    quote: str = Field(default="", max_length=300)
 
 
 class PlanningResponse(BaseModel):

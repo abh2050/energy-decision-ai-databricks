@@ -36,6 +36,14 @@ def summarize(df: pd.DataFrame, usd_per_m: float) -> dict:
             "supported_claim_rate_pct": float(g.claims_supported.sum() / g.claims.sum() * 100)
             if g.claims.sum()
             else None,
+            "supported_claim_rate_strict_pct": float(
+                g.claims_supported_strict.sum() / g.claims.sum() * 100
+            )
+            if g.claims.sum() and "claims_supported_strict" in g
+            else None,
+            "format_compliance_pct": float(g.claims_format_ok.sum() / g.claims.sum() * 100)
+            if g.claims.sum() and "claims_format_ok" in g
+            else None,
             "citation_accuracy_pct": float(g.claims_cited.sum() / g.claims.sum() * 100)
             if g.claims.sum()
             else None,

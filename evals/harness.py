@@ -25,7 +25,7 @@ import pandas as pd
 import yaml
 from pydantic import BaseModel, ValidationError
 
-from edip.agents.evidence import EvidencePacket, check_claims, check_comparisons
+from edip.agents.evidence import EvidencePacket, check_claims, check_comparisons, is_format
 from edip.agents.fallback import build_packet
 from edip.agents.schemas import BusinessResponse, Claim, PlanningResponse, RiskResponse
 from edip.core.labels import REVISED
@@ -37,11 +37,15 @@ RESULTS = ROOT / "evals" / "results"
 TRACES = ROOT / "frontend" / "public" / "data" / "traces"
 
 
-def load_scenarios() -> list[Scenario]:
-    return [
-        Scenario.model_validate(yaml.safe_load(p.read_text()))
-        for p in sorted((ROOT / "evals" / "scenarios").glob("s*.yaml"))
-    ]
+def load_scenarios(held_out: bool = True) -> list[Scenario]:
+    """Development scenarios s01 to s30, then (by default) held-out h01 to h10."""
+    d = ROOT / "evals" / "scenarios"
+    paths = sorted(d.glob("s*.yaml")) + (sorted(d.glob("h*.yaml")) if held_out else [])
+    return [Scenario.model_validate(yaml.safe_load(p.read_text())) for p in paths]
+
+
+def split_of(sc: Scenario) -> str:
+    return "held_out" if sc.id.startswith("h") else "development"
 
 
 def evidence_rows(scenarios: list[Scenario]) -> pd.DataFrame:
@@ -75,18 +79,33 @@ def _parse[M: BaseModel](model: type[M], text: str | None) -> M | None:
 
 def _claim_scores(
     claims: list[Claim], packet: EvidencePacket, comparisons: list[Any] | None = None
-) -> tuple[int, int, int]:
-    """(claims, supported claims, claims whose citation exists in the packet). Typed
-    comparisons count as claims; a comparison is cited when every reference exists."""
+) -> tuple[int, int, int, int, int]:
+    """(claims, supported under the original definition, supported under the stricter
+    definition, cited, format compliant). Typed comparisons count as claims.
+
+    Original definition: a claim is unsupported when it cites a row outside the packet,
+    states a value or number that does not match, or is a false comparison. Stricter
+    definition: format violations (comparative words in a plain claim) also count as
+    unsupported. Format compliant: no format violation."""
     comparisons = comparisons or []
-    supported = sum(not check_claims([c], packet) for c in claims)
-    supported += sum(not check_comparisons([c], packet) for c in comparisons)
+    original = strict = fmt = 0
+    for c in claims:
+        reasons = check_claims([c], packet)
+        content = [r for r in reasons if not is_format(r)]
+        original += not content
+        strict += not reasons
+        fmt += not any(is_format(r) for r in reasons)
+    for c in comparisons:
+        ok = not check_comparisons([c], packet)
+        original += ok
+        strict += ok
+        fmt += 1
     cited = sum(packet.get(c.evidence_ref) is not None for c in claims)
     cited += sum(
         packet.get(c.left) is not None and (c.right is None or packet.get(c.right) is not None)
         for c in comparisons
     )
-    return len(claims) + len(comparisons), supported, cited
+    return len(claims) + len(comparisons), original, strict, cited, fmt
 
 
 def _text(*parts: Any) -> str:  # noqa: ANN401
@@ -109,7 +128,7 @@ def score_agent(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
     raw_plan = _parse(PlanningResponse, out["planning"].raw_text)
     raw_risk = _parse(RiskResponse, out["risk"].raw_text)
     raw_bus = _parse(BusinessResponse, out["business"].raw_text)
-    totals = [0, 0, 0]
+    totals = [0, 0, 0, 0, 0]
     for agent, raw, claims in (
         ("planning", raw_plan, raw_plan.claims if raw_plan else []),
         ("risk", raw_risk, raw_risk.findings if raw_risk else []),
@@ -135,6 +154,7 @@ def score_agent(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
     )
     return {
         "scenario_id": sc.id,
+        "split": split_of(sc),
         "kind": sc.kind,
         "path": "agent_assisted",
         "expected_decision": exp["decision"],
@@ -144,7 +164,9 @@ def score_agent(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
         "scope_correct": _scope_ok(r.business, exp),
         "claims": totals[0],
         "claims_supported": totals[1],
-        "claims_cited": totals[2],
+        "claims_supported_strict": totals[2],
+        "claims_cited": totals[3],
+        "claims_format_ok": totals[4],
         "required_tests": sorted(required),
         "selected_tests": sorted(selected),
         "stress_selection_correct": required <= selected if required else None,
@@ -183,10 +205,13 @@ def score_numbers_only(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
     packet = build_packet(TABLE, sc.cells[cell_key(sc.current_settings)])
     o = r.outcomes[0]
     raw = _parse(BusinessResponse, o.raw_text)
-    n, sup, cit = _claim_scores(raw.claims if raw else [], packet, raw.comparisons if raw else [])
+    n, sup, strict, cit, fmt = _claim_scores(
+        raw.claims if raw else [], packet, raw.comparisons if raw else []
+    )
     text = _text(r.business.model_dump())
     return {
         "scenario_id": sc.id,
+        "split": split_of(sc),
         "kind": sc.kind,
         "path": "numbers_only",
         "expected_decision": exp["decision"],
@@ -196,7 +221,9 @@ def score_numbers_only(sc: Scenario, r: WorkflowResult) -> dict[str, Any]:
         "scope_correct": _scope_ok(r.business, exp),
         "claims": n,
         "claims_supported": sup,
+        "claims_supported_strict": strict,
         "claims_cited": cit,
+        "claims_format_ok": fmt,
         "risks_found": all(k.lower() in text for k in exp["must_find_risks"])
         if exp["must_find_risks"]
         else None,

@@ -1,0 +1,10 @@
+# Keyword map for planning prompt v3 (owner decision 2026-10-15). A proposed change must
+# quote the operator's request word for word, and the quote must contain a keyword for the
+# changed field. A field that is not listed here cannot be changed. Written before the
+# held-out scenarios (evals/scenarios/h*.yaml) existed.
+version: 1
+fields:
+  power_fraction: [size, sized, power, kw, peak, quarter, half, full, small, smaller, smallest, big, bigger, large, larger, largest, percent]
+  duration_hours: [hour, hours, duration, storage, longer, shorter]
+  tariff_id: [tariff, rate, pg&e, pge, b-19, schedule 85, oregon, portland, california]
+  strategy: [strategy, robust, ml, machine learning, forecast, fixed schedule, dispatch, seasonal]

@@ -20,7 +20,7 @@ with (ROOT / "config" / "agent_allowlist.yaml").open() as fh:
     ALLOW = yaml.safe_load(fh)
 SCENARIOS = [
     Scenario.model_validate(yaml.safe_load(p.read_text()))
-    for p in sorted((ROOT / "evals" / "scenarios").glob("s*.yaml"))
+    for p in sorted((ROOT / "evals" / "scenarios").glob("[sh]*.yaml"))
 ]
 FR24 = [
     "operator_request",
@@ -57,8 +57,18 @@ class ScriptedModel:
             body = PlanningResponse(
                 interpretation="Evaluate the full-size battery",
                 changes=[
-                    ScenarioChange(field="power_fraction", new_value=1.0, reason="asked"),
-                    ScenarioChange(field="duration_hours", new_value=4, reason="asked"),
+                    ScenarioChange(
+                        field="power_fraction",
+                        new_value=1.0,
+                        reason="asked",
+                        quote="a battery sized to the full site peak",
+                    ),
+                    ScenarioChange(
+                        field="duration_hours",
+                        new_value=4,
+                        reason="asked",
+                        quote="4 hours of storage",
+                    ),
                 ],
             )
         elif title == "RiskResponse":
@@ -109,3 +119,46 @@ def test_rejected_change_keeps_settings_and_numbers_only_is_one_call():
     base = numbers_only_path(sc, model, ALLOW, "t")
     assert model.calls == ["BusinessResponse"]
     assert base.steps == ["operator_request", "numbers_only_recommendation"]
+
+
+def test_planning_v3_quote_check():
+    from edip.agents.evidence import EvidencePacket, check_planning
+    from edip.agents.planning import keyword_map
+
+    request = "Evaluate a battery sized to the full site peak with 4 hours of storage."
+    ok = PlanningResponse(
+        interpretation="x",
+        changes=[
+            ScenarioChange(
+                field="power_fraction", new_value=1.0, reason="r", quote="full site peak"
+            ),
+            ScenarioChange(field="duration_hours", new_value=4, reason="r", quote="4 hours"),
+        ],
+    )
+    packet = EvidencePacket(values={})
+    assert check_planning(ok, ALLOW, packet, request, keyword_map()) == []
+    missing = ok.model_copy(
+        update={"changes": [ok.changes[0].model_copy(update={"quote": "half-size battery"})]}
+    )
+    assert any(
+        "missing from the operator request" in r
+        for r in check_planning(missing, ALLOW, packet, request, keyword_map())
+    )
+    unnamed = ok.model_copy(
+        update={"changes": [ok.changes[1].model_copy(update={"quote": "Evaluate a battery"})]}
+    )
+    assert any(
+        "does not name that field" in r
+        for r in check_planning(unnamed, ALLOW, packet, request, keyword_map())
+    )
+    outside = ok.model_copy(
+        update={
+            "changes": [
+                ScenarioChange(field="soc_min_fraction", new_value=0.0, reason="r", quote="battery")
+            ]
+        }
+    )
+    assert any(
+        "outside the keyword map" in r
+        for r in check_planning(outside, ALLOW, packet, request, keyword_map())
+    )

@@ -1,0 +1,90 @@
+id: h03
+title: Same power, longer storage (real cells)
+kind: objective_change
+evidence: scripted for evaluation
+operator_objective: Keep half the peak power but extend the storage to 4 hours.
+operator_concerns: ''
+operator_confirms: true
+current_settings:
+  tariff_id: pge_b19_secondary
+  strategy: robust_quantile
+  power_fraction: 0.5
+  duration_hours: 2
+cells:
+  0.5/2:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: false
+      heat_week_replay: false
+      reserve_floor_raise: false
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: -3159.0876944581614
+      net_vs_fixed_usd: 11568.142784260592
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: 5644.681900450076
+      net_vs_fixed_usd: 20371.91237916883
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4175.25635367307
+      net_vs_fixed_usd: -1330.0208750953816
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -2234.8777864146155
+      net_vs_fixed_usd: 610.3576921630734
+    anchored_tariff: pge_b19_secondary
+  0.5/4:
+    violations: 0
+    coverage_pct: 80.5
+    coverage_target: 80.0
+    coverage_tolerance: 5.0
+    stress_passed:
+      forecast_error_injection: false
+      heat_week_replay: false
+      reserve_floor_raise: false
+    strategies:
+    - tariff_id: pge_b19_secondary
+      strategy: ml_forecast
+      passes_target: true
+      net_vs_no_battery_usd: -279.27428927745586
+      net_vs_fixed_usd: 8474.309636205555
+    - tariff_id: pge_b19_secondary
+      strategy: robust_quantile
+      passes_target: true
+      net_vs_no_battery_usd: 14447.518312195869
+      net_vs_fixed_usd: 23201.102237678882
+    - tariff_id: pgn_sched85_secondary
+      strategy: ml_forecast
+      passes_target: false
+      net_vs_no_battery_usd: -4418.392866154587
+      net_vs_fixed_usd: 1294.9360258214747
+    - tariff_id: pgn_sched85_secondary
+      strategy: robust_quantile
+      passes_target: false
+      net_vs_no_battery_usd: -1275.4064014733058
+      net_vs_fixed_usd: 4437.922490502756
+    anchored_tariff: pge_b19_secondary
+expected:
+  target_cell: 0.5/4
+  decision: revise
+  scope: []
+  reasons:
+  - 'stress limits breached: forecast_error_injection, heat_week_replay, reserve_floor_raise'
+  required_tests:
+  - forecast_error_injection
+  - heat_week_replay
+  - reserve_floor_raise
+  must_find_risks: []
+  must_refuse: []
+  expected_changes:
+    duration_hours: 4
+split: held_out

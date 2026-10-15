@@ -15,15 +15,20 @@ from edip.agents.schemas import (
     RiskResponse,
     RiskTestSelection,
 )
+from edip.agents.targets import default_target_values
 from edip.workflow.decision import DecisionInputs, DecisionResult, decide
 
 STRESS_TESTS = ["forecast_error_injection", "heat_week_replay", "reserve_floor_raise"]
 
 
 def build_packet(
-    table: str, x: DecisionInputs, extra: dict[str, float | str] | None = None
+    table: str,
+    x: DecisionInputs,
+    extra: dict[str, float | str] | None = None,
+    targets: dict[str, float] | None = None,
 ) -> EvidencePacket:
-    """Standard evidence rows: table|row_key|column -> value."""
+    """Standard evidence rows: table|row_key|column -> value, plus the frozen acceptance
+    targets as citable rows (`targets`, default: config/acceptance_targets.yaml)."""
     values: dict[str, float | str] = {
         f"{table}|summary|violations": float(x.violations),
         f"{table}|summary|coverage_pct": x.coverage_pct,
@@ -36,6 +41,7 @@ def build_packet(
         values[f"{table}|{row}|net_vs_no_battery_usd"] = s.net_vs_no_battery_usd
         values[f"{table}|{row}|net_vs_fixed_usd"] = s.net_vs_fixed_usd
     values.update(extra or {})
+    values.update(default_target_values() if targets is None else targets)
     return EvidencePacket(values=values)
 
 

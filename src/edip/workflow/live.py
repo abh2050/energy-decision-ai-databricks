@@ -26,6 +26,7 @@ from edip.agents import business, planning, risk
 from edip.agents.evidence import EvidencePacket
 from edip.agents.llm import CallBudget, ModelClient
 from edip.agents.schemas import AgentOutcome, PlanningResponse
+from edip.agents.targets import target_values
 from edip.api.data import AppData
 from edip.store.models import AgentCall, Approval, Checkpoint, DecisionRun, Scenario
 from edip.store.repo import Repo
@@ -36,13 +37,13 @@ EVIDENCE_TABLE = "edip.eval.cell_evidence"
 
 
 def business_prompt() -> str:
-    """Live business prompt; v3 goes live only after it meets every frozen agent target."""
-    return os.environ.get("EDIP_BUSINESS_PROMPT", "business_v2")
+    """Live business prompt: v3 (owner decision 2026-10-15)."""
+    return os.environ.get("EDIP_BUSINESS_PROMPT", "business_v3")
 
 
 def prompt_versions() -> dict[str, str]:
     return {
-        "planning": "planning-v2",
+        "planning": "planning-v3",
         "risk": "risk-v2",
         "business": business_prompt().replace("_", "-"),
     }
@@ -77,7 +78,8 @@ class LiveWorkflow:
             return self._locks.setdefault(run_id, threading.Lock())
 
     def _packet(self, cell: str) -> EvidencePacket:
-        return EvidencePacket(values=self.data.evidence_values(cell, EVIDENCE_TABLE))
+        targets = target_values(self.data.config("acceptance_targets.yaml"))
+        return EvidencePacket(values={**self.data.evidence_values(cell, EVIDENCE_TABLE), **targets})
 
     def _checkpoint(self, run_id: str, step: str, payload: dict[str, Any]) -> None:
         self.repo.add_checkpoint(
