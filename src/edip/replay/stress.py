@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -117,6 +118,11 @@ def _charges(row: Any) -> tuple[dict[str, float], dict[str, float]]:  # noqa: AN
     return json.loads(row.demand_usd_by_charge), json.loads(row.billing_demand_kw_by_charge)
 
 
+def _column(charge: str) -> str:
+    """Delta-safe column: 'Maximum peak demand' -> maximum_peak_demand_usd."""
+    return re.sub(r"[^a-z0-9]+", "_", charge.lower()).strip("_") + "_usd"
+
+
 def excess_months(
     case: str,
     monthly: pd.DataFrame,
@@ -149,7 +155,7 @@ def excess_months(
                     split = {"energy_usd": row.energy_usd - base.energy_usd}
                     caused = []
                     for name in usd:
-                        split[f"{name} usd"] = usd[name] - base_usd.get(name, 0.0)
+                        split[_column(name)] = usd[name] - base_usd.get(name, 0.0)
                         start_cap = prev_kw.get(name, 0.0) * (1 - margin)
                         if (
                             kw[name] > base_kw.get(name, 0.0) + 0.5

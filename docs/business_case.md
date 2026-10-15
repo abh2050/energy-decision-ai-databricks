@@ -48,3 +48,18 @@ must carry into it:
    percent of peak, 4 hours) earns 28,281 USD per year against 1,149,297 USD installed: a
    40.6 year payback and an NPV of −907,229 USD. Full table:
    [business_case_capital.md](business_case_capital.md).
+8. **Known limit: months billed above no battery (Gate 5, recorded 2026-10-14; frozen
+   strategy settings unchanged).** The frozen stress rule caps every month at 1 percent
+   above the no-battery bill. On B-19 at the base battery, months that exceed it do so
+   **entirely through the all-hours maximum demand charge**: across all 77 such months in
+   the base case and the three stress tests, maximum demand adds 219,018 USD, while energy
+   saves 44,511 USD and peak and part-peak period demand save 4,353 USD. Base case
+   (unstressed): ML exceeds the limit in 2 months (2014-03 +1.5 percent, 2014-05 +3.8
+   percent; 2,981 USD excess) and robust in 3 (2014-02 +1.4, 2014-03 +1.7, 2014-12 +3.6
+   percent; 3,823 USD); the fixed schedule in 8 (worst +14.1 percent; 21,522 USD). The
+   settlement guard's month-start limit (the previous month's billed demand less 2 percent)
+   caused **1 of these 5 ML and robust base-case months** (ML, 2014-05) and 19 of the 77
+   months overall; in the other months the billed maximum demand was set by something other
+   than that limit. PGE Schedule 85 has no month above the limit (worst +0.2 percent). The
+   result is reported as a known limit of the revised strategy, not tuned away. Source: `edip.eval.stress_excess_months`,
+   [gates/gate5_stress_results.json](gates/gate5_stress_results.json).

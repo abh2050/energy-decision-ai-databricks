@@ -169,9 +169,9 @@ def test_excess_month_split_and_guard_month_start_cause():
     feb = rows[0]
     parts = (
         feb["energy_usd"]
-        + feb["Maximum demand usd"]
-        + feb["Maximum peak demand usd"]
-        + feb["Maximum part-peak demand usd"]
+        + feb["maximum_demand_usd"]
+        + feb["maximum_peak_demand_usd"]
+        + feb["maximum_part_peak_demand_usd"]
         + feb["facility_capacity_usd"]
     )
     assert parts == pytest.approx(feb["excess_usd"])
