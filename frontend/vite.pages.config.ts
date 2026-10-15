@@ -16,6 +16,7 @@ export default defineConfig({
         index: resolve(import.meta.dirname, "pages.html"),
         sandbox: resolve(import.meta.dirname, "sandbox/index.html"),
         explainer: resolve(import.meta.dirname, "explainer/index.html"),
+        presentation: resolve(import.meta.dirname, "presentation/index.html"),
       },
     },
   },

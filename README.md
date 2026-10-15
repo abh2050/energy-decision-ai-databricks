@@ -2,7 +2,7 @@
 
 [![ci](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/ci.yml/badge.svg)](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/ci.yml)
 [![pages](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/pages.yml/badge.svg)](https://github.com/abh2050/energy-decision-ai-databricks/actions/workflows/pages.yml)
-![tests](https://img.shields.io/badge/tests-147%20pytest%20%7C%2013%20Playwright-brightgreen)
+![tests](https://img.shields.io/badge/tests-147%20pytest%20%7C%2014%20Playwright-brightgreen)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
 **A product evaluation that reached a defensible "no" for a battery purchase and a scoped
@@ -15,6 +15,7 @@
 
 ![Decision run in the live app: planning proposal, both deterministic verdicts, operator controls](docs/media/decision_flow.gif)
 
+- **Presentation** (slide deck of the evaluation and recommendation): <https://abh2050.github.io/energy-decision-ai-databricks/presentation/>
 - **System explainer** (three minute demo video, architecture, walkthrough, results): <https://abh2050.github.io/energy-decision-ai-databricks/explainer/>
 - **Working sandbox** (the forecaster and optimizer in your browser): <https://abh2050.github.io/energy-decision-ai-databricks/sandbox/>
 - **Results export** (every Delta table and the app's operational records): [release `results-2026-10-15`](https://github.com/abh2050/energy-decision-ai-databricks/releases/tag/results-2026-10-15)

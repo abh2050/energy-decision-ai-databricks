@@ -126,3 +126,26 @@ test("landing page links both public pages", async ({ page, baseURL }) => {
     await expect.poll(() => imgs.nth(i).evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
   }
 });
+
+test("presentation: ten slides, images load, keyboard navigation", async ({ page, baseURL }) => {
+  const blocked = await offline(page, baseURL!);
+  await page.goto("presentation/");
+  const slides = page.locator("main section");
+  await expect(slides).toHaveCount(10);
+  await expect(page.locator("h1").first()).toContainText("buy a battery");
+  const missing = await page.evaluate(async () => {
+    const urls = [...document.querySelectorAll("img")].map((i) => (i as HTMLImageElement).src);
+    for (const el of document.querySelectorAll<HTMLElement>(".bg")) {
+      const m = el.style.backgroundImage.match(/url\("?(.*?)"?\)/);
+      if (m) urls.push(new URL(m[1], location.href).href);
+    }
+    const bad = [];
+    for (const u of new Set(urls)) if (!(await fetch(u)).ok) bad.push(u);
+    return bad;
+  });
+  expect(missing).toEqual([]);
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator(".counter")).toContainText("2 / 10", { timeout: 10_000 });
+  await expect(page.locator("section").last()).toContainText("Do not buy a battery");
+  expect(blocked).toEqual([]);
+});
