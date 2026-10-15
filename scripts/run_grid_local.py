@@ -66,7 +66,7 @@ def main() -> int:
     os.environ["DATABRICKS_CONFIG_PROFILE"] = args.profile
     mlflow.set_tracking_uri("databricks")
     mlflow.set_experiment("/Shared/edip/gate4_sensitivity")
-    commit = subprocess.run(
+    commit = subprocess.run(  # noqa: S603 - fixed arguments, no user input
         [shutil.which("git") or "git", "rev-parse", "HEAD"], capture_output=True, text=True
     ).stdout.strip()
     with mlflow.start_run(run_name="gate4-grid-local-slices"):
