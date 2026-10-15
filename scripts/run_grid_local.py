@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import time
 from concurrent.futures import ProcessPoolExecutor
@@ -66,7 +67,7 @@ def main() -> int:
     mlflow.set_tracking_uri("databricks")
     mlflow.set_experiment("/Shared/edip/gate4_sensitivity")
     commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True
+        [shutil.which("git") or "git", "rev-parse", "HEAD"], capture_output=True, text=True
     ).stdout.strip()
     with mlflow.start_run(run_name="gate4-grid-local-slices"):
         mlflow.set_tags({"gate": "4", "execution": "local processes", "git_commit": commit})
