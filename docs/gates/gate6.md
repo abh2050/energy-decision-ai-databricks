@@ -1,5 +1,7 @@
 # Gate 6 report: Live app
 
+> **Correction (Gate 7).** The live app's agent calls received MLflow trace IDs, but the trace data never uploaded: Databricks Apps could not reach the workspace storage endpoint (connection refused in the app logs). Call records (status, latency, tokens, rejection reasons) were kept in Lakebase. Traces from the evaluation harness were stored.
+>
 > **Superseded numbers (2026-10-15).** Revised-strategy results in this report were produced with the charge guard defect and are now labelled "revised strategy, post-hoc (guard defect)". The corrected results are in [gate6_review.md](gate6_review.md).
 
 ## 1. Gate and date
