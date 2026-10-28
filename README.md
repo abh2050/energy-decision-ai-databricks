@@ -25,7 +25,9 @@ At 7:04 a.m., operator Lena Ortiz asked the app whether the battery should move 
 
 **Energy Decision Intelligence Platform | AI Product Strategy, Databricks & MLOps**
 
-Architected and evaluated an end-to-end AI decision intelligence platform for battery storage investment and operational scheduling, integrating Databricks, Unity Catalog, MLflow, optimization, an[...]
+Architected and evaluated an end-to-end AI decision intelligence platform for battery
+storage investment and operational scheduling, integrating Databricks, Unity Catalog,
+MLflow, optimization, and agent governance into a single evaluation workflow.
 
 - Evaluated six scheduling strategies across 540 sensitivity configurations using real metered load and utility tariffs.
 - Built an auditable ML and agentic decision workflow with deterministic business rules, evidence validation, human approvals, and persistent execution records.
@@ -73,12 +75,12 @@ All figures are USD per year before tax, against no battery, for the 2014 test y
 
 | Strategy | Annual bill | Net benefit vs no battery | Battery throughput (kWh) | Constraint violations |
 |---|---:|---:|---:|---:|
-| | No battery | 905,027 | 0 | 0 | 0 |
-| | Fixed schedule | 913,874 | −14,727 | 196,004 | 0 |
-| | Seasonal forecast | 902,414 | −5,726 | 115,696 | 0 |
-| | ML forecast | 899,836 | −3,159 | 116,076 | 0 |
-| | **Robust quantile** | **890,773** | **+5,645** | 124,737 | 0 |
-| | Hindsight (ceiling) | 860,948 | +40,201 | 129,256 | 0 |
+| No battery | 905,027 | 0 | 0 | 0 |
+| Fixed schedule | 913,874 | −14,727 | 196,004 | 0 |
+| Seasonal forecast | 902,414 | −5,726 | 115,696 | 0 |
+| ML forecast | 899,836 | −3,159 | 116,076 | 0 |
+| **Robust quantile** | **890,773** | **+5,645** | 124,737 | 0 |
+| Hindsight (ceiling) | 860,948 | +40,201 | 129,256 | 0 |
 
 **Net benefit by battery size (base costs, before capital)**
 
