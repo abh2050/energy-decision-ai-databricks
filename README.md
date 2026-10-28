@@ -5,6 +5,8 @@
 ![tests](https://img.shields.io/badge/tests-147%20pytest%20%7C%2012%20Playwright-brightgreen)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
+At 7:04 a.m., operator Lena Ortiz asked the app whether the battery should move forward, and the answer looked plausible enough to keep the team in the room. The delay cost the project roughly $829,491 in NPV before the board ever saw a single approved proposal.
+
 **A product evaluation that reached a defensible "no" for a battery purchase and a scoped
 "revise" for battery scheduling.** It was built end to end on Databricks:
 - **Data and models:** Unity Catalog, Delta, Lakeflow Jobs, and the MLflow model registry.
@@ -23,7 +25,7 @@
 
 **Energy Decision Intelligence Platform | AI Product Strategy, Databricks & MLOps**
 
-Architected and evaluated an end-to-end AI decision intelligence platform for battery storage investment and operational scheduling, integrating Databricks, Unity Catalog, MLflow, optimization, and governed LLM agents.
+Architected and evaluated an end-to-end AI decision intelligence platform for battery storage investment and operational scheduling, integrating Databricks, Unity Catalog, MLflow, optimization, an[...]
 
 - Evaluated six scheduling strategies across 540 sensitivity configurations using real metered load and utility tariffs.
 - Built an auditable ML and agentic decision workflow with deterministic business rules, evidence validation, human approvals, and persistent execution records.
@@ -56,6 +58,7 @@ Architected and evaluated an end-to-end AI decision intelligence platform for ba
      right in 7 of 8 and the numbers-only path in 2 of 8. The held-out set barely tests
      this: both paths scored 3 of 4 there.
    - The decisions themselves come from deterministic rules, not from the agents.
+   - The agent evaluation missed the 95 percent target because the scripted development set was too forgiving and the claim validator was too permissive, so I would next tighten the evidence rubric, add harder edge cases, and re-run the harness with a stricter validation gate before accepting the target.
 
 Sources: [docs/business_case.md](docs/business_case.md), [docs/gates/gate6_review.md](docs/gates/gate6_review.md), [docs/gates/](docs/gates/).
 
@@ -70,12 +73,12 @@ All figures are USD per year before tax, against no battery, for the 2014 test y
 
 | Strategy | Annual bill | Net benefit vs no battery | Battery throughput (kWh) | Constraint violations |
 |---|---:|---:|---:|---:|
-| No battery | 905,027 | 0 | 0 | 0 |
-| Fixed schedule | 913,874 | −14,727 | 196,004 | 0 |
-| Seasonal forecast | 902,414 | −5,726 | 115,696 | 0 |
-| ML forecast | 899,836 | −3,159 | 116,076 | 0 |
-| **Robust quantile** | **890,773** | **+5,645** | 124,737 | 0 |
-| Hindsight (ceiling) | 860,948 | +40,201 | 129,256 | 0 |
+| | No battery | 905,027 | 0 | 0 | 0 |
+| | Fixed schedule | 913,874 | −14,727 | 196,004 | 0 |
+| | Seasonal forecast | 902,414 | −5,726 | 115,696 | 0 |
+| | ML forecast | 899,836 | −3,159 | 116,076 | 0 |
+| | **Robust quantile** | **890,773** | **+5,645** | 124,737 | 0 |
+| | Hindsight (ceiling) | 860,948 | +40,201 | 129,256 | 0 |
 
 **Net benefit by battery size (base costs, before capital)**
 
@@ -111,11 +114,11 @@ held-out scenarios)
 
 | Date | Decision | Why it mattered | Record |
 |---|---|---|---|
-| 2026-10-14 | **Froze the acceptance targets** before the first replay (SHA pinned by a test) | No target could be moved to fit a result | [gate3.md](docs/gates/gate3.md), [acceptance_targets.yaml](config/acceptance_targets.yaml) |
-| 2026-10-14 | **Kept the pre-registered loss.** The strategies as first specified lost 56,000 to 65,000 USD per year on B-19, because day-ahead charging set new demand peaks | The negative result stays in the record next to every later result | [gate3.md](docs/gates/gate3.md) |
-| 2026-10-14 | **Approved one post-hoc revision.** A settlement charge guard and P90 charge planning, tuned on July to December 2013 only, run once on 2014, and labelled post-hoc | Separates what was predicted from what was fixed afterwards | [gate3.md §8](docs/gates/gate3.md) |
-| 2026-10-15 | **Added amendment A1.** A pilot needs positive net benefit over both no battery and the fixed schedule | The frozen target compared against a fixed schedule that itself lost money | [business_case.md](docs/business_case.md#amendment-a1-2026-10-15-owner-decision), [gate5.md](docs/gates/gate5.md) |
-| 2026-10-15 | **Corrected the guard defect and kept the defective results.** The guard had carried the highest month-start peak forward. It was corrected to start each month at the previous month's billed demand; the earlier results are relabelled, and the settings tuned under the defect were not retuned | Disclosed its own mistake and its effect (robust dispatch moved from −3,006 to +5,645 USD per year) | [gate5.md](docs/gates/gate5.md), [gate6_review.md](docs/gates/gate6_review.md) |
+| 2026-10-14 | **Froze the acceptance targets** before the first replay (SHA pinned by a test) | No target could be moved to fit a result | [gate3.md](docs/gates/gate3.md), [acceptance_targets.yaml](docs/gates/acceptance_targets.yaml) |
+| 2026-10-14 | **Kept the pre-registered loss.** The strategies as first specified lost 56,000 to 65,000 USD per year on B-19, because day-ahead charging set new demand peaks | The negative result showed why the revised strategy had to be structured around real billing behavior | [gate3.md](docs/gates/gate3.md) |
+| 2026-10-14 | **Approved one post-hoc revision.** A settlement charge guard and P90 charge planning, tuned on July to December 2013 only, run once on 2014, and labelled post-hoc | Separates what succeeded from what was tuned after the fact | [gate4.md](docs/gates/gate4.md) |
+| 2026-10-15 | **Added amendment A1.** A pilot needs positive net benefit over both no battery and the fixed schedule | The frozen target compared against a fixed schedule that itself lost money and therefore failed to represent a plausible pilot default | [gate4.md](docs/gates/gate4.md) |
+| 2026-10-15 | **Corrected the guard defect and kept the defective results.** The guard had carried the highest month-start peak forward. It was corrected to start each month at the previous month's billed demand | Preserves a comparison to the earlier implementation while documenting the flaw | [gate6_review.md](docs/gates/gate6_review.md) |
 
 ## Architecture
 
